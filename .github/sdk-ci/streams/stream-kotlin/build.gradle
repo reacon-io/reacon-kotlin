@@ -1,0 +1,6 @@
+plugins { id 'org.jetbrains.kotlin.jvm' version '2.4.0'; id 'application' }
+repositories { mavenCentral() }
+dependencies {
+    implementation "io.reacon:reacon-kotlin:${System.getenv('REACON_SDK_PACKAGE_VERSION')}"
+}
+application { mainClass = 'ConsumerKt' }

@@ -1,0 +1,5 @@
+pluginManagement { repositories { gradlePluginPortal(); mavenCentral() } }
+rootProject.name = 'reacon-stream-conformance'
+includeBuild('/work') {
+    dependencySubstitution { substitute module('io.reacon:reacon-kotlin') using project(':') }
+}
