@@ -1,0 +1,11 @@
+// Dokka HTML retains Kotlin declarations inside the Maven documentation JAR.
+apply plugin: 'org.jetbrains.dokka'
+
+def reaconDocumentationJar = tasks.register('reaconDocumentationJar', Jar) {
+    dependsOn tasks.named('dokkaGeneratePublicationHtml')
+    from(tasks.named('dokkaGeneratePublicationHtml').flatMap { it.outputDirectory })
+    archiveClassifier = 'javadoc'
+}
+publishing.publications.named('maven') {
+    artifact reaconDocumentationJar
+}
