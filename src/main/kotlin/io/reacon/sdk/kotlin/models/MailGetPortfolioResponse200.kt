@@ -44,7 +44,7 @@ data class MailGetPortfolioResponse200 (
 
     @param:JsonProperty(value = "portfolio", required = true)
     @get:JsonProperty("portfolio")
-    val portfolio: MailMailPortfolio,
+    val portfolio: MailMailPortfolio?,
 
     @param:JsonProperty(value = "suppressions", required = true)
     @get:JsonProperty("suppressions")
@@ -62,7 +62,7 @@ data class MailGetPortfolioResponse200 (
     override val reaconKnownFields: Set<String> get() = setOf("portfolio", "suppressions", "teams")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("portfolio", "suppressions", "teams")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (portfolio == null) "portfolio" else null)
 
 
 

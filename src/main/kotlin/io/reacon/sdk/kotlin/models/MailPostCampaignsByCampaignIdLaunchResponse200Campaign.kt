@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 
-data class MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign (
+data class MailPostCampaignsByCampaignIdLaunchResponse200Campaign (
 
     @param:JsonProperty(value = "createdAt", required = true)
     @get:JsonProperty("createdAt")

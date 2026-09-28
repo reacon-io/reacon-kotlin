@@ -26,7 +26,7 @@ package io.reacon.sdk.kotlin.models
 import io.reacon.sdk.kotlin.models.MailCampaignDraftRecord
 import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOf
 import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOf1
-import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign
+import io.reacon.sdk.kotlin.models.MailCampaignProgress
 import io.reacon.sdk.kotlin.models.MailSequenceRunRecord
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -44,7 +44,7 @@ data class MailPostCampaignsByCampaignIdLaunchResponse200 (
 
     @param:JsonProperty(value = "campaign", required = true)
     @get:JsonProperty("campaign")
-    val campaign: MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign,
+    val campaign: MailCampaignProgress?,
 
     @param:JsonProperty(value = "draft", required = true)
     @get:JsonProperty("draft")
@@ -62,7 +62,7 @@ data class MailPostCampaignsByCampaignIdLaunchResponse200 (
     override val reaconKnownFields: Set<String> get() = setOf("campaign", "draft", "sequences")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("campaign", "draft", "sequences")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (campaign == null) "campaign" else null)
 
 
 
