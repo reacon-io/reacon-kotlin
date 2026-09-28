@@ -313,7 +313,6 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostAnalyticsExportRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostAnalyticsExportRequestAfter.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostAnalyticsExportResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostAnalyticsExportResponse200NextCursor.kt
-src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostAnalyticsExportResponse200NextCursorAnyOf.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCadenceCampaignsByCampaignIdStateRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCadenceCampaignsByCampaignIdStateResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCadenceCampaignsByCampaignIdStateResponse200AnyOf.kt
