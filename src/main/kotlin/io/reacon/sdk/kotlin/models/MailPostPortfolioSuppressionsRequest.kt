@@ -66,9 +66,10 @@ data class MailPostPortfolioSuppressionsRequest (
     /**
      * 
      *
-     * Values: DOMAIN
+     * Values: EMAIL,DOMAIN
      */
     enum class Scope(@get:JsonValue val value: kotlin.String) {
+        @JsonProperty(value = "email") EMAIL("email"),
         @JsonProperty(value = "domain") DOMAIN("domain");
     }
 

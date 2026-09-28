@@ -24,7 +24,7 @@
 package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailCampaignDraftRecord
-import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign
+import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200Campaign
 import io.reacon.sdk.kotlin.models.MailSequenceRunRecord
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -42,7 +42,7 @@ data class MailPostCampaignsByCampaignIdLaunchResponse200AnyOf1 (
 
     @param:JsonProperty(value = "campaign", required = true)
     @get:JsonProperty("campaign")
-    val campaign: MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign,
+    val campaign: MailPostCampaignsByCampaignIdLaunchResponse200Campaign,
 
     @param:JsonProperty(value = "draft", required = true)
     @get:JsonProperty("draft")

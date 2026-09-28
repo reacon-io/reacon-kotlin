@@ -266,6 +266,7 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetPortfolioOverviewResponse200.
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetPortfolioResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetPortfolioResponse200AnyOf.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetPortfolioResponse200AnyOf1.kt
+src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetPortfolioResponse200Portfolio.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetQueueResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetReplyAutomationsResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetSignaturesResponse200.kt
@@ -348,7 +349,7 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchR
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200AnyOf.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200AnyOf1.kt
-src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200AnyOfCampaign.kt
+src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200Campaign.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdStateRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdStateResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsRequest.kt
