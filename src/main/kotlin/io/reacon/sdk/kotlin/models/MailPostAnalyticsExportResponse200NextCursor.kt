@@ -23,7 +23,6 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.MailPostAnalyticsExportResponse200NextCursorAnyOf
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

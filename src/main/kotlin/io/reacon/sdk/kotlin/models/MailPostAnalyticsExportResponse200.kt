@@ -55,7 +55,7 @@ data class MailPostAnalyticsExportResponse200 (
 
     @param:JsonProperty(value = "nextCursor", required = true)
     @get:JsonProperty("nextCursor")
-    val nextCursor: MailPostAnalyticsExportResponse200NextCursor,
+    val nextCursor: MailPostAnalyticsExportResponse200NextCursor?,
 
     @param:JsonProperty(value = "rowCount", required = true)
     @get:JsonProperty("rowCount")
@@ -69,7 +69,7 @@ data class MailPostAnalyticsExportResponse200 (
     override val reaconKnownFields: Set<String> get() = setOf("content", "contentType", "filename", "nextCursor", "rowCount")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("content", "contentType", "filename", "nextCursor", "rowCount")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (nextCursor == null) "nextCursor" else null)
 
 
     /**
