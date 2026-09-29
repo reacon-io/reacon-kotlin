@@ -23,14 +23,16 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.CapabilityDomainSearch
 import io.reacon.sdk.kotlin.models.CapabilityDomainSearchContactsInner
+import io.reacon.sdk.kotlin.models.CapabilityEmailFound
+import io.reacon.sdk.kotlin.models.CapabilityEmailVerified
 import io.reacon.sdk.kotlin.models.CapabilityEmailVerifiedDetails
-import io.reacon.sdk.kotlin.models.IntegrationCapabilityResponseOutputNonNull
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * Null in preview mode; otherwise the result for the selected capability.
+ * 
  *
  * @param confidence 
  * @param email 
@@ -46,7 +48,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 
-data class IntegrationCapabilityResponseOutput (
+data class IntegrationCapabilityResponseOutputNonNull (
 
     @param:JsonProperty(value = "confidence", required = true)
     @get:JsonProperty("confidence")

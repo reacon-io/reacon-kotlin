@@ -23,7 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.IntegrationCapabilityResponseOutput
+import io.reacon.sdk.kotlin.models.IntegrationCapabilityResponseOutputNonNull
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -76,7 +76,7 @@ data class IntegrationCapabilityResponse (
 
     @param:JsonProperty(value = "output", required = true)
     @get:JsonProperty("output")
-    val output: IntegrationCapabilityResponseOutput,
+    val output: IntegrationCapabilityResponseOutputNonNull?,
 
     @param:JsonProperty(value = "replay", required = true)
     @get:JsonProperty("replay")
@@ -92,7 +92,7 @@ data class IntegrationCapabilityResponse (
     override val reaconKnownFields: Set<String> get() = setOf("actualCredits", "capability", "charged", "emulated", "estimatedCredits", "executionId", "mode", "output", "replay")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("actualCredits", "capability", "charged", "emulated", "estimatedCredits", "executionId", "mode", "output", "replay")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (output == null) "output" else null)
 
     @com.fasterxml.jackson.annotation.JsonAnyGetter
     fun additionalProperties(): Map<String, Any?> = additionalProperties
