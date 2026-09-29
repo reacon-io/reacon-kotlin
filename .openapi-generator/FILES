@@ -150,6 +150,7 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/InspectExcelWorkbookRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/InspectGoogleSheetRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationCapabilityResponse.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationCapabilityResponseOutput.kt
+src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationCapabilityResponseOutputNonNull.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationConnection.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationConnectionHealth.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/IntegrationConnectionList.kt

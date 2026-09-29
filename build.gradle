@@ -1,5 +1,5 @@
 group 'io.reacon'
-version '0.3.0-beta.1'
+version '0.4.0-beta.1'
 
 wrapper {
     gradleVersion = '8.14.5'
@@ -74,7 +74,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'io.reacon'
             artifactId = 'reacon-kotlin'
-            version = '0.3.0-beta.1'
+            version = '0.4.0-beta.1'
             from components.java
         }
     }
