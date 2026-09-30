@@ -56,6 +56,8 @@ data class MailCadenceWorkflowExperimentVariant (
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override var reaconFieldPresence: Set<String> = setOfNotNull("id", "name", "nextNodeId", "weight"),
+    @get:com.fasterxml.jackson.annotation.JsonIgnore
+    val additionalProperties: MutableMap<String, Any?> = mutableMapOf(),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
@@ -63,6 +65,14 @@ data class MailCadenceWorkflowExperimentVariant (
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("id", "name", "nextNodeId", "weight")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
+
+    @com.fasterxml.jackson.annotation.JsonAnyGetter
+    fun additionalProperties(): Map<String, Any?> = additionalProperties
+    @com.fasterxml.jackson.annotation.JsonAnySetter
+    fun putAdditionalProperty(key: String, value: Any?) {
+        require(key !in reaconKnownFields) { "Declared property cannot be overridden as an additional property" }
+        additionalProperties[key] = value
+    }
 
 
 
