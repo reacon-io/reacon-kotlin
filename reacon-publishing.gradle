@@ -8,4 +8,11 @@ def reaconDocumentationJar = tasks.register('reaconDocumentationJar', Jar) {
 }
 publishing.publications.named('maven') {
     artifact reaconDocumentationJar
+    // Standard Maven distribution metadata advertises the immutable download.
+    // The approved release controller handles uploads; no credentials or
+    // writable repository URL are embedded in generated SDK source.
+    pom.withXml {
+        def distribution = asNode().appendNode('distributionManagement')
+        distribution.appendNode('downloadUrl', "https://packages.reacon.io/maven/io/reacon/reacon-kotlin/${project.version}/reacon-kotlin-${project.version}.jar")
+    }
 }
