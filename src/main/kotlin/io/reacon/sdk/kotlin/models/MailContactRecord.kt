@@ -47,7 +47,7 @@ data class MailContactRecord (
 
     @param:JsonProperty(value = "customFields", required = true)
     @get:JsonProperty("customFields")
-    val customFields: kotlin.Any,
+    val customFields: kotlin.collections.Map<kotlin.String, kotlin.String>,
 
     @param:JsonProperty(value = "email", required = true)
     @get:JsonProperty("email")

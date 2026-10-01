@@ -62,7 +62,7 @@ data class MailMessageVariantInput (
 
     @param:JsonProperty("variables")
     @get:JsonProperty("variables")
-    val variables: kotlin.Any? = null,
+    val variables: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override var reaconFieldPresence: Set<String> = setOfNotNull("id", "subject", "text", "weight", if (html != null) "html" else null, if (variables != null) "variables" else null),

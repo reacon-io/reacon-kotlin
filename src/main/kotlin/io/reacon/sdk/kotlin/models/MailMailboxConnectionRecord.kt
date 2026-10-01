@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailImapCursor
 import io.reacon.sdk.kotlin.models.MailStoredImapSettings
 import io.reacon.sdk.kotlin.models.MailStoredSmtpSettings
 
@@ -58,7 +59,7 @@ data class MailMailboxConnectionRecord (
 
     @param:JsonProperty(value = "cursors", required = true)
     @get:JsonProperty("cursors")
-    val cursors: kotlin.Any,
+    val cursors: kotlin.collections.Map<kotlin.String, MailImapCursor>,
 
     @param:JsonProperty(value = "integrationConnectionId", required = true)
     @get:JsonProperty("integrationConnectionId")

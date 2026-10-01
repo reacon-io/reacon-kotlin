@@ -97,7 +97,7 @@ data class MailMessageRecord (
 
     @param:JsonProperty(value = "metadata", required = true)
     @get:JsonProperty("metadata")
-    val metadata: kotlin.Any,
+    val metadata: kotlin.collections.Map<kotlin.String, kotlin.String>,
 
     @param:JsonProperty(value = "nextAttemptAt", required = true)
     @get:JsonProperty("nextAttemptAt")

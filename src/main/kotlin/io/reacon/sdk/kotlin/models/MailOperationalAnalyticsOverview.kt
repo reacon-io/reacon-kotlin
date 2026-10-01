@@ -46,7 +46,7 @@ data class MailOperationalAnalyticsOverview (
 
     @param:JsonProperty(value = "replyLabels", required = true)
     @get:JsonProperty("replyLabels")
-    val replyLabels: kotlin.Any,
+    val replyLabels: kotlin.collections.Map<kotlin.String, java.math.BigDecimal>,
 
     @param:JsonProperty(value = "sampleLimited", required = true)
     @get:JsonProperty("sampleLimited")
@@ -54,11 +54,11 @@ data class MailOperationalAnalyticsOverview (
 
     @param:JsonProperty(value = "stages", required = true)
     @get:JsonProperty("stages")
-    val stages: kotlin.Any,
+    val stages: kotlin.collections.Map<kotlin.String, java.math.BigDecimal>,
 
     @param:JsonProperty(value = "taskOutcomes", required = true)
     @get:JsonProperty("taskOutcomes")
-    val taskOutcomes: kotlin.Any,
+    val taskOutcomes: kotlin.collections.Map<kotlin.String, java.math.BigDecimal>,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override var reaconFieldPresence: Set<String> = setOfNotNull("cadenceSteps", "replyLabels", "sampleLimited", "stages", "taskOutcomes"),

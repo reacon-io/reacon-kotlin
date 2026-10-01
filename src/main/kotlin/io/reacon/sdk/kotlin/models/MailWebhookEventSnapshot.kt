@@ -53,7 +53,7 @@ data class MailWebhookEventSnapshot (
 
     @param:JsonProperty(value = "payload", required = true)
     @get:JsonProperty("payload")
-    val payload: kotlin.Any,
+    val payload: kotlin.collections.Map<kotlin.String, kotlin.Any>,
 
     @param:JsonProperty(value = "type", required = true)
     @get:JsonProperty("type")

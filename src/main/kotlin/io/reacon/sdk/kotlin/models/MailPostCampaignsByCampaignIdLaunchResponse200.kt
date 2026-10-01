@@ -24,8 +24,6 @@
 package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailCampaignDraftRecord
-import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOf
-import io.reacon.sdk.kotlin.models.MailPostCampaignsByCampaignIdLaunchResponse200AnyOf1
 import io.reacon.sdk.kotlin.models.MailCampaignProgress
 import io.reacon.sdk.kotlin.models.MailSequenceRunRecord
 

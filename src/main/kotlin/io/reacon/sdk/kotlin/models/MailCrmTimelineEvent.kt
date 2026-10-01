@@ -55,7 +55,7 @@ data class MailCrmTimelineEvent (
 
     @param:JsonProperty(value = "payload", required = true)
     @get:JsonProperty("payload")
-    val payload: kotlin.Any,
+    val payload: kotlin.collections.Map<kotlin.String, kotlin.Any>,
 
     @param:JsonProperty(value = "tenantId", required = true)
     @get:JsonProperty("tenantId")
