@@ -23,6 +23,8 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailMailPortfolioSuppression
+import io.reacon.sdk.kotlin.models.MailMailPortfolioTeam
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -43,11 +45,11 @@ data class MailGetPortfolioResponse200AnyOf (
 
     @param:JsonProperty(value = "suppressions", required = true)
     @get:JsonProperty("suppressions")
-    val suppressions: kotlin.collections.List<kotlin.Any>,
+    val suppressions: kotlin.collections.List<MailMailPortfolioSuppression>,
 
     @param:JsonProperty(value = "teams", required = true)
     @get:JsonProperty("teams")
-    val teams: kotlin.collections.List<kotlin.Any>,
+    val teams: kotlin.collections.List<MailMailPortfolioTeam>,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override var reaconFieldPresence: Set<String> = setOfNotNull("portfolio", "suppressions", "teams"),

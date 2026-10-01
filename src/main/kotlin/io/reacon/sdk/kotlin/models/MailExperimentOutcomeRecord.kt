@@ -49,7 +49,7 @@ data class MailExperimentOutcomeRecord (
 
     @param:JsonProperty(value = "metadata", required = true)
     @get:JsonProperty("metadata")
-    val metadata: kotlin.Any,
+    val metadata: kotlin.collections.Map<kotlin.String, kotlin.Any>,
 
     @param:JsonProperty(value = "occurredAt", required = true)
     @get:JsonProperty("occurredAt")

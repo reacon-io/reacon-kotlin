@@ -71,7 +71,7 @@ data class MailExperimentReportDecision (
 
     @param:JsonProperty(value = "resultSnapshot", required = true)
     @get:JsonProperty("resultSnapshot")
-    val resultSnapshot: kotlin.Any,
+    val resultSnapshot: kotlin.collections.Map<kotlin.String, kotlin.Any>,
 
     @param:JsonProperty(value = "revision", required = true)
     @get:JsonProperty("revision")

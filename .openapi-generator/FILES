@@ -277,6 +277,7 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetTrackingDomainResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetTrackingDomainResponse200Domain.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetWebhooksResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailGetWebhooksResponse200SubscriptionsInner.kt
+src/main/kotlin/io/reacon/sdk/kotlin/models/MailImapCursor.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailInboxMessageRecord.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailMailAddress.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailMailPortfolio.kt
@@ -347,8 +348,6 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCadencesResponse200.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdDuplicateResponse201.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200.kt
-src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200AnyOf.kt
-src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200AnyOf1.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdLaunchResponse200Campaign.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdStateRequest.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/MailPostCampaignsByCampaignIdStateResponse200.kt
