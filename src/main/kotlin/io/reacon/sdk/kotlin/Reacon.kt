@@ -35,7 +35,8 @@ data class StreamOptions(val onlyIfFree: String? = null, val cacheMaxAge: String
                          val idleTimeoutMillis: Long = 30_000, val totalTimeoutMillis: Long = 300_000)
 
 /** Per-client authentication. An injected OkHttp client/pool remains caller-owned. */
-class Reacon(apiKey: String, private val baseUrl: String = "https://api.reacon.io", httpClient: OkHttpClient? = null) : Closeable {
+class Reacon(apiKey: String, httpClient: OkHttpClient? = null) : Closeable {
+    private val baseUrl: String = "https://api.reacon.io"
     private val owned = httpClient == null
     private val client: OkHttpClient
     val domains: DomainsApi
@@ -47,8 +48,8 @@ class Reacon(apiKey: String, private val baseUrl: String = "https://api.reacon.i
         client = (httpClient?.newBuilder() ?: OkHttpClient.Builder())
             .retryOnConnectionFailure(false).followRedirects(false).followSslRedirects(false)
             .addInterceptor { chain -> chain.proceed(chain.request().newBuilder().header("X-API-Key", apiKey).build()) }.build()
-        domains = DomainsApi(baseUrl, client); emails = EmailsApi(baseUrl, client)
-        leads = LeadsApi(baseUrl, client); verification = VerificationApi(baseUrl, client)
+        domains = DomainsApi(client); emails = EmailsApi(client)
+        leads = LeadsApi(client); verification = VerificationApi(client)
     }
 
     /** A cold Flow: collection starts one request. Cancellation/take() closes it.

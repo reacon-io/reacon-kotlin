@@ -32,7 +32,8 @@ import com.fasterxml.jackson.core.type.TypeReference
 
 val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClient) {
+open class ApiClient(val client: Call.Factory = defaultClient) {
+    val baseUrl: String get() = "https://api.reacon.io"
     val apiKey: MutableMap<String, String> = mutableMapOf()
     val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
     companion object {

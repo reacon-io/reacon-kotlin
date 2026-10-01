@@ -1,3 +1,4 @@
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import io.reacon.sdk.kotlin.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -15,8 +16,8 @@ fun main() = runBlocking {
         java.io.File("/results/streaming-runtime.json").writeText(mapper.writeValueAsString(proof))
     }
     val url = System.getenv("REACON_TEST_URL")
-    Reacon("synthetic-kotlin", url).use { client ->
-        Reacon("isolated-kotlin", url).use { isolated ->
+    Reacon("synthetic-kotlin", fixtureHttp(url)).use { client ->
+        Reacon("isolated-kotlin", fixtureHttp(url)).use { isolated ->
             client.streamVerification("never@example.test") // cold Flow sends nothing
             suspend fun collect(scenario: String, owner: Reacon = client, options: StreamOptions = StreamOptions(onlyIfFree = "true")) =
                 owner.streamVerification("$scenario@example.test", options).toList()
@@ -62,4 +63,17 @@ fun main() = runBlocking {
         }
     }
     println("Kotlin streaming: framing, terminal/error, isolation, timeout, cancellation and early-close assertions passed")
+}
+
+// Test-only HTTP routing; the SDK must emit its fixed production origin.
+fun fixtureHttp(target: String): okhttp3.OkHttpClient {
+    val base = target.toHttpUrl()
+    require(base.host == "127.0.0.1" || base.host == "localhost")
+    val executor = java.util.concurrent.Executors.newCachedThreadPool { runnable -> Thread(runnable, "reacon-fixture-http").apply { isDaemon = true } }
+    return okhttp3.OkHttpClient.Builder().dispatcher(okhttp3.Dispatcher(executor)).addInterceptor { chain ->
+        val request = chain.request()
+        check(request.url.scheme == "https" && request.url.host == "api.reacon.io")
+        val url = base.newBuilder().encodedPath(base.encodedPath.trimEnd('/') + request.url.encodedPath).encodedQuery(request.url.encodedQuery).build()
+        chain.proceed(request.newBuilder().url(url).build())
+    }.build()
 }
