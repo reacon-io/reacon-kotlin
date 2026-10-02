@@ -35,6 +35,7 @@ src/main/kotlin/io/reacon/sdk/kotlin/models/AirtableMappingOptionsResponseOption
 src/main/kotlin/io/reacon/sdk/kotlin/models/AirtableMappingOptionsResponseOptionsTablesInnerFieldsInner.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/ApiError.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/ApiKeyIdentity.kt
+src/main/kotlin/io/reacon/sdk/kotlin/models/ApiValidationIssue.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/AutomationHookCreated.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/BatchVerificationError.kt
 src/main/kotlin/io/reacon/sdk/kotlin/models/BatchVerificationItem.kt
