@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.ApiValidationIssue
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -57,7 +58,7 @@ data class ApiError (
 
     @param:JsonProperty("issues")
     @get:JsonProperty("issues")
-    val issues: kotlin.collections.List<kotlin.collections.Map<kotlin.String, kotlin.Any>>? = null,
+    val issues: kotlin.collections.List<ApiValidationIssue>? = null,
 
     @param:JsonProperty("message")
     @get:JsonProperty("message")
