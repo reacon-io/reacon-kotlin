@@ -24,6 +24,7 @@
 package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailMailPortfolio
+import io.reacon.sdk.kotlin.models.MailMailPortfolioSuppression
 import io.reacon.sdk.kotlin.models.MailMailPortfolioTeam
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -45,7 +46,7 @@ data class MailPostPortfolioResponse200 (
 
     @param:JsonProperty(value = "suppressions", required = true)
     @get:JsonProperty("suppressions")
-    val suppressions: kotlin.collections.List<kotlin.Any>,
+    val suppressions: kotlin.collections.List<MailMailPortfolioSuppression>,
 
     @param:JsonProperty(value = "teams", required = true)
     @get:JsonProperty("teams")
