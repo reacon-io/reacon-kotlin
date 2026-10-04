@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param emails 
  * @param mentions 
  * @param version 
+ * @param apiProtocolVersion Wire protocol major version, independent of SDK and actions-package versions.
  */
 
 
@@ -49,15 +50,20 @@ data class PublicStats (
     @get:JsonProperty("version")
     val version: kotlin.String,
 
+    /* Wire protocol major version, independent of SDK and actions-package versions. */
+    @param:JsonProperty("apiProtocolVersion")
+    @get:JsonProperty("apiProtocolVersion")
+    val apiProtocolVersion: kotlin.Int? = null,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("emails", "mentions", "version"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("emails", "mentions", "version", if (apiProtocolVersion != null) "apiProtocolVersion" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("emails", "mentions", "version")
+    override val reaconKnownFields: Set<String> get() = setOf("emails", "mentions", "version", "apiProtocolVersion")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("emails", "mentions", "version")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (apiProtocolVersion == null) "apiProtocolVersion" else null)
 
 
 
