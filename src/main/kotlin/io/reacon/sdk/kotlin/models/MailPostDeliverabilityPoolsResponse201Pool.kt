@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailMailboxPoolMember
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -51,7 +52,7 @@ data class MailPostDeliverabilityPoolsResponse201Pool (
 
     @param:JsonProperty(value = "members", required = true)
     @get:JsonProperty("members")
-    val members: kotlin.collections.List<kotlin.Any>,
+    val members: kotlin.collections.List<MailMailboxPoolMember>,
 
     @param:JsonProperty(value = "name", required = true)
     @get:JsonProperty("name")
