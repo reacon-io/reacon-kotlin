@@ -23,31 +23,30 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.ProductDatedRecipient
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * 
  *
- * @param items 
+ * @param campaignId 
  */
 
 
-data class ProductSequenceRecipientsListOutput (
+data class ProductMailSequenceResultsInput (
 
-    @param:JsonProperty(value = "items", required = true)
-    @get:JsonProperty("items")
-    val items: kotlin.collections.List<ProductDatedRecipient>,
+    @param:JsonProperty(value = "campaignId", required = true)
+    @get:JsonProperty("campaignId")
+    val campaignId: kotlin.String,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("items"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("campaignId"),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("items")
+    override val reaconKnownFields: Set<String> get() = setOf("campaignId")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("items")
+    override val reaconRequiredFields: Set<String> get() = setOf("campaignId")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
 
 

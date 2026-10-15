@@ -52,6 +52,17 @@ sealed class ProductToolExecution {
     data class ProductSequenceRecipientAddExecution(val value: io.reacon.sdk.kotlin.models.ProductSequenceRecipientAddExecution) : ProductToolExecution()
     data class ProductSequenceRecipientCancelExecution(val value: io.reacon.sdk.kotlin.models.ProductSequenceRecipientCancelExecution) : ProductToolExecution()
     data class ProductSequenceStartExecution(val value: io.reacon.sdk.kotlin.models.ProductSequenceStartExecution) : ProductToolExecution()
+    data class ProductMailSequenceDraftsListExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceDraftsListExecution) : ProductToolExecution()
+    data class ProductMailSequenceDraftSaveExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceDraftSaveExecution) : ProductToolExecution()
+    data class ProductMailSequenceAddAudienceExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceAddAudienceExecution) : ProductToolExecution()
+    data class ProductMailSequenceReadinessExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceReadinessExecution) : ProductToolExecution()
+    data class ProductMailSequencePublishExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequencePublishExecution) : ProductToolExecution()
+    data class ProductMailSequenceLaunchExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceLaunchExecution) : ProductToolExecution()
+    data class ProductMailSequenceCampaignsListExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceCampaignsListExecution) : ProductToolExecution()
+    data class ProductMailSequenceRecipientsListExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceRecipientsListExecution) : ProductToolExecution()
+    data class ProductMailSequenceAddAbExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceAddAbExecution) : ProductToolExecution()
+    data class ProductMailSequenceStateExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceStateExecution) : ProductToolExecution()
+    data class ProductMailSequenceResultsExecution(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceResultsExecution) : ProductToolExecution()
     data class ProductAccountInfoExecution(val value: io.reacon.sdk.kotlin.models.ProductAccountInfoExecution) : ProductToolExecution()
     data class ProductUsageExecution(val value: io.reacon.sdk.kotlin.models.ProductUsageExecution) : ProductToolExecution()
     data class ProductUsageHistoryExecution(val value: io.reacon.sdk.kotlin.models.ProductUsageHistoryExecution) : ProductToolExecution()
@@ -104,6 +115,17 @@ sealed class ProductToolExecution {
                 is ProductSequenceRecipientAddExecution -> provider.defaultSerializeValue(value.value, generator)
                 is ProductSequenceRecipientCancelExecution -> provider.defaultSerializeValue(value.value, generator)
                 is ProductSequenceStartExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceDraftsListExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceDraftSaveExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceAddAudienceExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceReadinessExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequencePublishExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceLaunchExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceCampaignsListExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceRecipientsListExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceAddAbExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceStateExecution -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceResultsExecution -> provider.defaultSerializeValue(value.value, generator)
                 is ProductAccountInfoExecution -> provider.defaultSerializeValue(value.value, generator)
                 is ProductUsageExecution -> provider.defaultSerializeValue(value.value, generator)
                 is ProductUsageHistoryExecution -> provider.defaultSerializeValue(value.value, generator)
@@ -116,7 +138,7 @@ sealed class ProductToolExecution {
     class Deserializer : JsonDeserializer<ProductToolExecution>() {
         override fun getNullValue(context: DeserializationContext): ProductToolExecution = throw JsonMappingException.from(context.parser, "ProductToolExecution must be an object")
         override fun deserialize(parser: JsonParser, context: DeserializationContext): ProductToolExecution {
-            val tree = parser.codec.readTree<JsonNode>(parser)
+            val tree: JsonNode = context.readTree(parser)
             if (!tree.isObject) throw JsonMappingException.from(parser, "ProductToolExecution must be an object")
             val keys = tree.fieldNames().asSequence().toSet()
             var lastFailure: Exception? = null
@@ -245,6 +267,39 @@ sealed class ProductToolExecution {
             }
             if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"sequence_start\"") {
                 try { return ProductSequenceStartExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductSequenceStartExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"mail_sequence_drafts_list\"") {
+                try { return ProductMailSequenceDraftsListExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceDraftsListExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_draft_save\"") {
+                try { return ProductMailSequenceDraftSaveExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceDraftSaveExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_add_audience\"") {
+                try { return ProductMailSequenceAddAudienceExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceAddAudienceExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"mail_sequence_readiness\"") {
+                try { return ProductMailSequenceReadinessExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceReadinessExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_publish\"") {
+                try { return ProductMailSequencePublishExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequencePublishExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_launch\"") {
+                try { return ProductMailSequenceLaunchExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceLaunchExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"mail_sequence_campaigns_list\"") {
+                try { return ProductMailSequenceCampaignsListExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceCampaignsListExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"mail_sequence_recipients_list\"") {
+                try { return ProductMailSequenceRecipientsListExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceRecipientsListExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_add_ab\"") {
+                try { return ProductMailSequenceAddAbExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceAddAbExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("tool")?.toString() == "\"mail_sequence_state\"") {
+                try { return ProductMailSequenceStateExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceStateExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"mail_sequence_results\"") {
+                try { return ProductMailSequenceResultsExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceResultsExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
             }
             if (true && setOf<String>("executionId", "tool", "replay", "output").all { it in keys } && tree.get("replay")?.toString() == "false" && tree.get("tool")?.toString() == "\"account_info\"") {
                 try { return ProductAccountInfoExecution(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductAccountInfoExecution::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }

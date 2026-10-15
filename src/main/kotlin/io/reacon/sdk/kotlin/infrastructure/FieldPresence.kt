@@ -58,7 +58,7 @@ class FieldPresenceModule : SimpleModule("ReaconFieldPresence") {
 private class PresenceDeserializer(private val delegate: JsonDeserializer<*>) : DelegatingDeserializer(delegate) {
     override fun newDelegatingInstance(newDelegatee: JsonDeserializer<*>): JsonDeserializer<*> = PresenceDeserializer(newDelegatee)
     override fun deserialize(parser: JsonParser, context: DeserializationContext): Any {
-        val tree = parser.codec.readTree<JsonNode>(parser)
+        val tree: JsonNode = context.readTree(parser)
         if (!tree.isObject) throw JsonMappingException.from(parser, "Expected a JSON object")
         val value = tree.traverse(parser.codec).use { replay -> replay.nextToken(); delegate.deserialize(replay, context) }
         if (value is FieldPresence) {

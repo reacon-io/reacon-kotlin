@@ -33,6 +33,7 @@ import io.reacon.sdk.kotlin.models.ProductToolRequest
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -47,7 +48,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class ProductToolsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class ProductToolsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -101,6 +102,17 @@ open class ProductToolsApi(client: Call.Factory = ApiClient.defaultClient) : Api
          @JsonProperty(value = "sequence_recipient_add") SEQUENCE_RECIPIENT_ADD("sequence_recipient_add"),
          @JsonProperty(value = "sequence_recipient_cancel") SEQUENCE_RECIPIENT_CANCEL("sequence_recipient_cancel"),
          @JsonProperty(value = "sequence_start") SEQUENCE_START("sequence_start"),
+         @JsonProperty(value = "mail_sequence_drafts_list") MAIL_SEQUENCE_DRAFTS_LIST("mail_sequence_drafts_list"),
+         @JsonProperty(value = "mail_sequence_draft_save") MAIL_SEQUENCE_DRAFT_SAVE("mail_sequence_draft_save"),
+         @JsonProperty(value = "mail_sequence_add_audience") MAIL_SEQUENCE_ADD_AUDIENCE("mail_sequence_add_audience"),
+         @JsonProperty(value = "mail_sequence_readiness") MAIL_SEQUENCE_READINESS("mail_sequence_readiness"),
+         @JsonProperty(value = "mail_sequence_publish") MAIL_SEQUENCE_PUBLISH("mail_sequence_publish"),
+         @JsonProperty(value = "mail_sequence_launch") MAIL_SEQUENCE_LAUNCH("mail_sequence_launch"),
+         @JsonProperty(value = "mail_sequence_campaigns_list") MAIL_SEQUENCE_CAMPAIGNS_LIST("mail_sequence_campaigns_list"),
+         @JsonProperty(value = "mail_sequence_recipients_list") MAIL_SEQUENCE_RECIPIENTS_LIST("mail_sequence_recipients_list"),
+         @JsonProperty(value = "mail_sequence_add_ab") MAIL_SEQUENCE_ADD_AB("mail_sequence_add_ab"),
+         @JsonProperty(value = "mail_sequence_state") MAIL_SEQUENCE_STATE("mail_sequence_state"),
+         @JsonProperty(value = "mail_sequence_results") MAIL_SEQUENCE_RESULTS("mail_sequence_results"),
          @JsonProperty(value = "account_info") ACCOUNT_INFO("account_info"),
          @JsonProperty(value = "usage") USAGE("usage"),
          @JsonProperty(value = "usage_history") USAGE_HISTORY("usage_history"),
@@ -133,8 +145,27 @@ open class ProductToolsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun executeProductTool(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest) : ProductToolExecution {
-        val localVarResponse = executeProductToolWithHttpInfo(tool = tool, productToolRequest = productToolRequest)
+    fun executeProductTool(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest, requestOptions: RequestOptions = RequestOptions()) : ProductToolExecution {
+        val localVarResponse = executeProductToolWithHttpInfo(tool = tool, productToolRequest = productToolRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ProductToolExecution
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun executeProductToolAsync(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest, requestOptions: RequestOptions = RequestOptions()) : ProductToolExecution {
+        val localVarResponse = executeProductToolAsyncWithHttpInfo(tool = tool, productToolRequest = productToolRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ProductToolExecution
@@ -163,11 +194,20 @@ open class ProductToolsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun executeProductToolWithHttpInfo(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest) : ApiResponse<ProductToolExecution?> {
+    fun executeProductToolWithHttpInfo(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ProductToolExecution?> {
         val localVariableConfig = executeProductToolRequestConfig(tool = tool, productToolRequest = productToolRequest)
 
         return request<ProductToolRequest, ProductToolExecution>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun executeProductToolAsyncWithHttpInfo(tool: ToolExecuteProductTool, productToolRequest: ProductToolRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ProductToolExecution?> {
+        val localVariableConfig = executeProductToolRequestConfig(tool = tool, productToolRequest = productToolRequest)
+
+        return requestAsync<ProductToolRequest, ProductToolExecution>(
+            localVariableConfig, requestOptions
         )
     }
 

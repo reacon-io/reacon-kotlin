@@ -23,7 +23,6 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.ProductSequenceRecipientsListOutput
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
@@ -32,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonValue
  * 
  *
  * @param executionId 
- * @param output 
+ * @param output Response body of the Mail API operation GET /v1/teams/{teamId}/mail/cadence-recipients, returned unchanged.
  * @param replay 
  * @param tool 
  */
@@ -44,9 +43,10 @@ data class ProductSequenceRecipientsListExecution (
     @get:JsonProperty("executionId")
     val executionId: kotlin.String?,
 
+    /* Response body of the Mail API operation GET /v1/teams/{teamId}/mail/cadence-recipients, returned unchanged. */
     @param:JsonProperty(value = "output", required = true)
     @get:JsonProperty("output")
-    val output: ProductSequenceRecipientsListOutput,
+    val output: kotlin.collections.Map<kotlin.String, kotlin.Any>,
 
     @param:JsonProperty(value = "replay", required = true)
     @get:JsonProperty("replay")

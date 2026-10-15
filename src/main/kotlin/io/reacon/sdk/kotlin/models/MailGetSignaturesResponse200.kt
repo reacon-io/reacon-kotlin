@@ -23,7 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.MailSignatureCandidate
+import io.reacon.sdk.kotlin.models.MailGetSignaturesResponse200CandidatesInner
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -39,7 +39,7 @@ data class MailGetSignaturesResponse200 (
 
     @param:JsonProperty(value = "candidates", required = true)
     @get:JsonProperty("candidates")
-    val candidates: kotlin.collections.List<MailSignatureCandidate>,
+    val candidates: kotlin.collections.List<MailGetSignaturesResponse200CandidatesInner>,
 
     @param:JsonProperty("nextCursor")
     @get:JsonProperty("nextCursor")

@@ -32,6 +32,7 @@ import io.reacon.sdk.kotlin.models.CompanyList
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -46,7 +47,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class CompaniesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class CompaniesApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -110,8 +111,27 @@ open class CompaniesApi(client: Call.Factory = ApiClient.defaultClient) : ApiCli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listCompanies(limit: kotlin.Int? = null, offset: kotlin.Int? = null, domain: kotlin.String? = null, name: kotlin.String? = null, website: kotlin.String? = null, sort: SortListCompanies? = null, order: OrderListCompanies? = null) : CompanyList {
-        val localVarResponse = listCompaniesWithHttpInfo(limit = limit, offset = offset, domain = domain, name = name, website = website, sort = sort, order = order)
+    fun listCompanies(limit: kotlin.Int? = null, offset: kotlin.Int? = null, domain: kotlin.String? = null, name: kotlin.String? = null, website: kotlin.String? = null, sort: SortListCompanies? = null, order: OrderListCompanies? = null, requestOptions: RequestOptions = RequestOptions()) : CompanyList {
+        val localVarResponse = listCompaniesWithHttpInfo(limit = limit, offset = offset, domain = domain, name = name, website = website, sort = sort, order = order, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CompanyList
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listCompaniesAsync(limit: kotlin.Int? = null, offset: kotlin.Int? = null, domain: kotlin.String? = null, name: kotlin.String? = null, website: kotlin.String? = null, sort: SortListCompanies? = null, order: OrderListCompanies? = null, requestOptions: RequestOptions = RequestOptions()) : CompanyList {
+        val localVarResponse = listCompaniesAsyncWithHttpInfo(limit = limit, offset = offset, domain = domain, name = name, website = website, sort = sort, order = order, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CompanyList
@@ -145,11 +165,20 @@ open class CompaniesApi(client: Call.Factory = ApiClient.defaultClient) : ApiCli
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listCompaniesWithHttpInfo(limit: kotlin.Int?, offset: kotlin.Int?, domain: kotlin.String?, name: kotlin.String?, website: kotlin.String?, sort: SortListCompanies?, order: OrderListCompanies?) : ApiResponse<CompanyList?> {
+    fun listCompaniesWithHttpInfo(limit: kotlin.Int?, offset: kotlin.Int?, domain: kotlin.String?, name: kotlin.String?, website: kotlin.String?, sort: SortListCompanies?, order: OrderListCompanies?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CompanyList?> {
         val localVariableConfig = listCompaniesRequestConfig(limit = limit, offset = offset, domain = domain, name = name, website = website, sort = sort, order = order)
 
         return request<Unit, CompanyList>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listCompaniesAsyncWithHttpInfo(limit: kotlin.Int?, offset: kotlin.Int?, domain: kotlin.String?, name: kotlin.String?, website: kotlin.String?, sort: SortListCompanies?, order: OrderListCompanies?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CompanyList?> {
+        val localVariableConfig = listCompaniesRequestConfig(limit = limit, offset = offset, domain = domain, name = name, website = website, sort = sort, order = order)
+
+        return requestAsync<Unit, CompanyList>(
+            localVariableConfig, requestOptions
         )
     }
 

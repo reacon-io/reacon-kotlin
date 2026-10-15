@@ -32,6 +32,7 @@ import io.reacon.sdk.kotlin.models.InsightsResponse
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -46,7 +47,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class InsightsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class InsightsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -68,8 +69,27 @@ open class InsightsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getEmailInsights(email: kotlin.String) : InsightsResponse {
-        val localVarResponse = getEmailInsightsWithHttpInfo(email = email)
+    fun getEmailInsights(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : InsightsResponse {
+        val localVarResponse = getEmailInsightsWithHttpInfo(email = email, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as InsightsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getEmailInsightsAsync(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : InsightsResponse {
+        val localVarResponse = getEmailInsightsAsyncWithHttpInfo(email = email, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as InsightsResponse
@@ -97,11 +117,20 @@ open class InsightsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getEmailInsightsWithHttpInfo(email: kotlin.String) : ApiResponse<InsightsResponse?> {
+    fun getEmailInsightsWithHttpInfo(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<InsightsResponse?> {
         val localVariableConfig = getEmailInsightsRequestConfig(email = email)
 
         return request<Unit, InsightsResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getEmailInsightsAsyncWithHttpInfo(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<InsightsResponse?> {
+        val localVariableConfig = getEmailInsightsRequestConfig(email = email)
+
+        return requestAsync<Unit, InsightsResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

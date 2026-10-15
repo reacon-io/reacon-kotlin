@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailEmailAssetReference
 import io.reacon.sdk.kotlin.models.MailMessageTemplateVersionWhatsappApproval
 
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -40,6 +41,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param tenantId 
  * @param variables 
  * @param version 
+ * @param attachments 
  * @param subject 
  * @param whatsappApproval 
  */
@@ -87,6 +89,10 @@ data class MailMessageTemplateVersion (
     @get:JsonProperty("version")
     val version: java.math.BigDecimal,
 
+    @param:JsonProperty("attachments")
+    @get:JsonProperty("attachments")
+    val attachments: kotlin.collections.List<MailEmailAssetReference>? = null,
+
     @param:JsonProperty("subject")
     @get:JsonProperty("subject")
     val subject: kotlin.String? = null,
@@ -96,14 +102,14 @@ data class MailMessageTemplateVersion (
     val whatsappApproval: MailMessageTemplateVersionWhatsappApproval? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("body", "channel", "createdAt", "createdByActorId", "id", "name", "status", "tenantId", "variables", "version", if (subject != null) "subject" else null, if (whatsappApproval != null) "whatsappApproval" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("body", "channel", "createdAt", "createdByActorId", "id", "name", "status", "tenantId", "variables", "version", if (attachments != null) "attachments" else null, if (subject != null) "subject" else null, if (whatsappApproval != null) "whatsappApproval" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("body", "channel", "createdAt", "createdByActorId", "id", "name", "status", "tenantId", "variables", "version", "subject", "whatsappApproval")
+    override val reaconKnownFields: Set<String> get() = setOf("body", "channel", "createdAt", "createdByActorId", "id", "name", "status", "tenantId", "variables", "version", "attachments", "subject", "whatsappApproval")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("body", "channel", "createdAt", "createdByActorId", "id", "name", "status", "tenantId", "variables", "version")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (subject == null) "subject" else null, if (whatsappApproval == null) "whatsappApproval" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (attachments == null) "attachments" else null, if (subject == null) "subject" else null, if (whatsappApproval == null) "whatsappApproval" else null)
 
 
 

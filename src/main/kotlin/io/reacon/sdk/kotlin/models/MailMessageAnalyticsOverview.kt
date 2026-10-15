@@ -27,6 +27,8 @@ import io.reacon.sdk.kotlin.models.MailCampaignProgressMessageCounts
 import io.reacon.sdk.kotlin.models.MailMessageAnalyticsOverviewDailyInner
 import io.reacon.sdk.kotlin.models.MailMessageAnalyticsOverviewMailboxesInner
 import io.reacon.sdk.kotlin.models.MailMessageAnalyticsOverviewVariantsInner
+import io.reacon.sdk.kotlin.models.MailRecipientEngagement
+import io.reacon.sdk.kotlin.models.MailSequenceRecipientEngagement
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -42,10 +44,12 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param deliveryRate 
  * @param from 
  * @param mailboxes 
- * @param replyRate 
+ * @param replyRate Legacy message-based rate, retained for API compatibility.
  * @param to 
  * @param total 
  * @param variants 
+ * @param recipients 
+ * @param sequences 
  */
 
 
@@ -87,6 +91,7 @@ data class MailMessageAnalyticsOverview (
     @get:JsonProperty("mailboxes")
     val mailboxes: kotlin.collections.List<MailMessageAnalyticsOverviewMailboxesInner>,
 
+    /* Legacy message-based rate, retained for API compatibility. */
     @param:JsonProperty(value = "replyRate", required = true)
     @get:JsonProperty("replyRate")
     val replyRate: java.math.BigDecimal,
@@ -103,15 +108,23 @@ data class MailMessageAnalyticsOverview (
     @get:JsonProperty("variants")
     val variants: kotlin.collections.List<MailMessageAnalyticsOverviewVariantsInner>,
 
+    @param:JsonProperty("recipients")
+    @get:JsonProperty("recipients")
+    val recipients: MailRecipientEngagement? = null,
+
+    @param:JsonProperty("sequences")
+    @get:JsonProperty("sequences")
+    val sequences: kotlin.collections.List<MailSequenceRecipientEngagement>? = null,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("acceptanceRate", "averageAcceptanceLatencyMs", "bounceRate", "complaintRate", "counts", "daily", "deliveryRate", "from", "mailboxes", "replyRate", "to", "total", "variants"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("acceptanceRate", "averageAcceptanceLatencyMs", "bounceRate", "complaintRate", "counts", "daily", "deliveryRate", "from", "mailboxes", "replyRate", "to", "total", "variants", if (recipients != null) "recipients" else null, if (sequences != null) "sequences" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("acceptanceRate", "averageAcceptanceLatencyMs", "bounceRate", "complaintRate", "counts", "daily", "deliveryRate", "from", "mailboxes", "replyRate", "to", "total", "variants")
+    override val reaconKnownFields: Set<String> get() = setOf("acceptanceRate", "averageAcceptanceLatencyMs", "bounceRate", "complaintRate", "counts", "daily", "deliveryRate", "from", "mailboxes", "replyRate", "to", "total", "variants", "recipients", "sequences")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("acceptanceRate", "averageAcceptanceLatencyMs", "bounceRate", "complaintRate", "counts", "daily", "deliveryRate", "from", "mailboxes", "replyRate", "to", "total", "variants")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (averageAcceptanceLatencyMs == null) "averageAcceptanceLatencyMs" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (averageAcceptanceLatencyMs == null) "averageAcceptanceLatencyMs" else null, if (recipients == null) "recipients" else null, if (sequences == null) "sequences" else null)
 
 
 

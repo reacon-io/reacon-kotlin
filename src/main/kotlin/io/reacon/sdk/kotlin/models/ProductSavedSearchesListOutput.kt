@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * 
  *
  * @param items Currently always empty.
+ * @param reason 
+ * @param supported 
  */
 
 
@@ -40,14 +42,22 @@ data class ProductSavedSearchesListOutput (
     @get:JsonProperty("items")
     val items: kotlin.collections.List<kotlin.Any>,
 
+    @param:JsonProperty(value = "reason", required = true)
+    @get:JsonProperty("reason")
+    val reason: kotlin.String,
+
+    @param:JsonProperty(value = "supported", required = true)
+    @get:JsonProperty("supported")
+    val supported: kotlin.Boolean,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("items"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("items", "reason", "supported"),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("items")
+    override val reaconKnownFields: Set<String> get() = setOf("items", "reason", "supported")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("items")
+    override val reaconRequiredFields: Set<String> get() = setOf("items", "reason", "supported")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
 
 

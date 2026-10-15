@@ -38,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonValue
  * @param nextNodeId 
  * @param templateId 
  * @param templateVersion 
+ * @param emailThread 
  * @param experiment 
  */
 
@@ -72,19 +73,23 @@ data class MailCadenceNodeAnyOf1 (
     @get:JsonProperty("templateVersion")
     val templateVersion: java.math.BigDecimal,
 
+    @param:JsonProperty("emailThread")
+    @get:JsonProperty("emailThread")
+    val emailThread: kotlin.String? = null,
+
     @param:JsonProperty("experiment")
     @get:JsonProperty("experiment")
     val experiment: MailCadenceMessageExperiment? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("id", "name", "channel", "kind", "nextNodeId", "templateId", "templateVersion", if (experiment != null) "experiment" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("id", "name", "channel", "kind", "nextNodeId", "templateId", "templateVersion", if (emailThread != null) "emailThread" else null, if (experiment != null) "experiment" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("id", "name", "channel", "kind", "nextNodeId", "templateId", "templateVersion", "experiment")
+    override val reaconKnownFields: Set<String> get() = setOf("id", "name", "channel", "kind", "nextNodeId", "templateId", "templateVersion", "emailThread", "experiment")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("id", "name", "channel", "kind", "nextNodeId", "templateId", "templateVersion")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (experiment == null) "experiment" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (emailThread == null) "emailThread" else null, if (experiment == null) "experiment" else null)
 
 
     /**

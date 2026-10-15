@@ -24,7 +24,7 @@
 package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailEvidenceField
-import io.reacon.sdk.kotlin.models.MailSignatureCandidateFieldsPhonesInner
+import io.reacon.sdk.kotlin.models.MailGetSignaturesResponse200CandidatesInnerFieldsPhonesInner
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -42,7 +42,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 
-data class MailSignatureCandidateFields (
+data class MailGetSignaturesResponse200CandidatesInnerFields (
 
     @param:JsonProperty(value = "emails", required = true)
     @get:JsonProperty("emails")
@@ -50,7 +50,7 @@ data class MailSignatureCandidateFields (
 
     @param:JsonProperty(value = "phones", required = true)
     @get:JsonProperty("phones")
-    val phones: kotlin.collections.List<MailSignatureCandidateFieldsPhonesInner>,
+    val phones: kotlin.collections.List<MailGetSignaturesResponse200CandidatesInnerFieldsPhonesInner>,
 
     @param:JsonProperty(value = "socialProfiles", required = true)
     @get:JsonProperty("socialProfiles")

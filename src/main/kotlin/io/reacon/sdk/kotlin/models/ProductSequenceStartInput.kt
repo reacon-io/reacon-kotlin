@@ -25,36 +25,82 @@ package io.reacon.sdk.kotlin.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * 
  *
+ * @param audienceListId 
+ * @param cadenceId 
+ * @param cadenceVersion 
  * @param idempotencyKey 
- * @param sequenceId 
+ * @param name The server applies trim before validating {\"type\":\"string\",\"minLength\":1,\"maxLength\":200}.
+ * @param enrollmentMode 
+ * @param mailboxId 
+ * @param mailboxPoolId 
+ * @param scheduledAt 
  */
 
 
 data class ProductSequenceStartInput (
 
+    @param:JsonProperty(value = "audienceListId", required = true)
+    @get:JsonProperty("audienceListId")
+    val audienceListId: kotlin.String,
+
+    @param:JsonProperty(value = "cadenceId", required = true)
+    @get:JsonProperty("cadenceId")
+    val cadenceId: kotlin.String,
+
+    @param:JsonProperty(value = "cadenceVersion", required = true)
+    @get:JsonProperty("cadenceVersion")
+    val cadenceVersion: kotlin.Int,
+
     @param:JsonProperty(value = "idempotencyKey", required = true)
     @get:JsonProperty("idempotencyKey")
     val idempotencyKey: kotlin.String,
 
-    @param:JsonProperty(value = "sequenceId", required = true)
-    @get:JsonProperty("sequenceId")
-    val sequenceId: java.util.UUID,
+    /* The server applies trim before validating {\"type\":\"string\",\"minLength\":1,\"maxLength\":200}. */
+    @param:JsonProperty(value = "name", required = true)
+    @get:JsonProperty("name")
+    val name: kotlin.String,
+
+    @param:JsonProperty("enrollmentMode")
+    @get:JsonProperty("enrollmentMode")
+    val enrollmentMode: ProductSequenceStartInput.EnrollmentMode? = null,
+
+    @param:JsonProperty("mailboxId")
+    @get:JsonProperty("mailboxId")
+    val mailboxId: kotlin.String? = null,
+
+    @param:JsonProperty("mailboxPoolId")
+    @get:JsonProperty("mailboxPoolId")
+    val mailboxPoolId: kotlin.String? = null,
+
+    @param:JsonProperty("scheduledAt")
+    @get:JsonProperty("scheduledAt")
+    val scheduledAt: kotlin.String? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("idempotencyKey", "sequenceId"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("audienceListId", "cadenceId", "cadenceVersion", "idempotencyKey", "name", if (enrollmentMode != null) "enrollmentMode" else null, if (mailboxId != null) "mailboxId" else null, if (mailboxPoolId != null) "mailboxPoolId" else null, if (scheduledAt != null) "scheduledAt" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("idempotencyKey", "sequenceId")
+    override val reaconKnownFields: Set<String> get() = setOf("audienceListId", "cadenceId", "cadenceVersion", "idempotencyKey", "name", "enrollmentMode", "mailboxId", "mailboxPoolId", "scheduledAt")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("idempotencyKey", "sequenceId")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override val reaconRequiredFields: Set<String> get() = setOf("audienceListId", "cadenceId", "cadenceVersion", "idempotencyKey", "name")
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (enrollmentMode == null) "enrollmentMode" else null, if (mailboxId == null) "mailboxId" else null, if (mailboxPoolId == null) "mailboxPoolId" else null, if (scheduledAt == null) "scheduledAt" else null)
 
 
+    /**
+     * 
+     *
+     * Values: NEW_ONLY,REENROLL
+     */
+    enum class EnrollmentMode(@get:JsonValue val value: kotlin.String) {
+        @JsonProperty(value = "new_only") NEW_ONLY("new_only"),
+        @JsonProperty(value = "reenroll") REENROLL("reenroll");
+    }
 
 }
 

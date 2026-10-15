@@ -27,6 +27,7 @@ import io.reacon.sdk.kotlin.models.MailGetChannelsResponse200Email
 import io.reacon.sdk.kotlin.models.MailGetChannelsResponse200Execution
 import io.reacon.sdk.kotlin.models.MailGetChannelsResponse200Sms
 import io.reacon.sdk.kotlin.models.MailGetChannelsResponse200Whatsapp
+import io.reacon.sdk.kotlin.models.MailMailExecutionWorkerStatus
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param execution 
  * @param sms 
  * @param whatsapp 
+ * @param worker 
  */
 
 
@@ -58,14 +60,18 @@ data class MailGetChannelsResponse200 (
     @get:JsonProperty("whatsapp")
     val whatsapp: MailGetChannelsResponse200Whatsapp,
 
+    @param:JsonProperty(value = "worker", required = true)
+    @get:JsonProperty("worker")
+    val worker: MailMailExecutionWorkerStatus,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("email", "execution", "sms", "whatsapp"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("email", "execution", "sms", "whatsapp", "worker"),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("email", "execution", "sms", "whatsapp")
+    override val reaconKnownFields: Set<String> get() = setOf("email", "execution", "sms", "whatsapp", "worker")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("email", "execution", "sms", "whatsapp")
+    override val reaconRequiredFields: Set<String> get() = setOf("email", "execution", "sms", "whatsapp", "worker")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
 
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import io.reacon.sdk.kotlin.apis.*
 import io.reacon.sdk.kotlin.models.*
 import io.reacon.sdk.kotlin.infrastructure.Serializer
+import io.reacon.sdk.kotlin.infrastructure.HttpPolicy
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -45,9 +46,8 @@ class Reacon(apiKey: String, httpClient: OkHttpClient? = null) : Closeable {
     val verification: VerificationApi
     init {
         require(apiKey.isNotEmpty()) { "apiKey is required" }
-        client = (httpClient?.newBuilder() ?: OkHttpClient.Builder())
-            .retryOnConnectionFailure(false).followRedirects(false).followSslRedirects(false)
-            .addInterceptor { chain -> chain.proceed(chain.request().newBuilder().header("X-API-Key", apiKey).build()) }.build()
+        client = HttpPolicy.client((httpClient?.newBuilder() ?: OkHttpClient.Builder())
+            .addInterceptor { chain -> chain.proceed(chain.request().newBuilder().header("X-API-Key", apiKey).build()) }.build())
         domains = DomainsApi(client); emails = EmailsApi(client)
         leads = LeadsApi(client); verification = VerificationApi(client)
     }
@@ -108,11 +108,12 @@ class Reacon(apiKey: String, httpClient: OkHttpClient? = null) : Closeable {
                 }
             }
             override fun onClosed(eventSource: EventSource) { close(ReaconProtocolException("Verification stream ended before a terminal event")) }
-            override fun onFailure(eventSource: EventSource, error: Throwable?, response: Response?) {
+            override fun onFailure(eventSource: EventSource, error: Throwable?, originalResponse: Response?) {
+                val response = originalResponse ?: HttpPolicy.responseFromFailure(error)
                 if (response != null && !response.isSuccessful) {
                     val text = try { response.peekBody(65536).string() } catch (_: Exception) { "" }
                     val body = try { mapper.readTree(text) } catch (_: Exception) { mapper.valueToTree<JsonNode>(text) }
-                    close(ReaconStreamApiException(response.code, response.headers, body))
+                    close(ReaconStreamApiException(response.code, response.headers, body)); response.close()
                 } else if (error is SocketTimeoutException) close(ReaconTimeoutException("idle"))
                 else if (response != null && response.header("content-type")?.substringBefore(';')?.trim() != "text/event-stream")
                     close(ReaconProtocolException("Expected a text/event-stream response body"))

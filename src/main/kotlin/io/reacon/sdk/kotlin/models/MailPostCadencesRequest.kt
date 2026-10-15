@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailPostCadencesRequestEmailRecipientOverridesInner
 import io.reacon.sdk.kotlin.models.MailPostCadencesRequestNodesInner
 import io.reacon.sdk.kotlin.models.MailPostCadencesRequestStopConditions
 
@@ -35,6 +36,8 @@ import com.fasterxml.jackson.annotation.JsonValue
  * @param name 
  * @param nodes 
  * @param status 
+ * @param emailExcludedContactIds 
+ * @param emailRecipientOverrides 
  * @param id 
  * @param stopConditions 
  */
@@ -54,6 +57,14 @@ data class MailPostCadencesRequest (
     @get:JsonProperty("status")
     val status: MailPostCadencesRequest.Status,
 
+    @param:JsonProperty("emailExcludedContactIds")
+    @get:JsonProperty("emailExcludedContactIds")
+    val emailExcludedContactIds: kotlin.collections.List<java.util.UUID>? = null,
+
+    @param:JsonProperty("emailRecipientOverrides")
+    @get:JsonProperty("emailRecipientOverrides")
+    val emailRecipientOverrides: kotlin.collections.List<MailPostCadencesRequestEmailRecipientOverridesInner>? = null,
+
     @param:JsonProperty("id")
     @get:JsonProperty("id")
     val id: kotlin.String? = null,
@@ -63,14 +74,14 @@ data class MailPostCadencesRequest (
     val stopConditions: MailPostCadencesRequestStopConditions? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("name", "nodes", "status", if (id != null) "id" else null, if (stopConditions != null) "stopConditions" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("name", "nodes", "status", if (emailExcludedContactIds != null) "emailExcludedContactIds" else null, if (emailRecipientOverrides != null) "emailRecipientOverrides" else null, if (id != null) "id" else null, if (stopConditions != null) "stopConditions" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("name", "nodes", "status", "id", "stopConditions")
+    override val reaconKnownFields: Set<String> get() = setOf("name", "nodes", "status", "emailExcludedContactIds", "emailRecipientOverrides", "id", "stopConditions")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("name", "nodes", "status")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (id == null) "id" else null, if (stopConditions == null) "stopConditions" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (emailExcludedContactIds == null) "emailExcludedContactIds" else null, if (emailRecipientOverrides == null) "emailRecipientOverrides" else null, if (id == null) "id" else null, if (stopConditions == null) "stopConditions" else null)
 
 
     /**

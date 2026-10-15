@@ -23,7 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.MailSignatureCandidateFields
+import io.reacon.sdk.kotlin.models.MailGetSignaturesResponse200CandidatesInnerFields
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -44,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 
-data class MailSignatureCandidate (
+data class MailGetSignaturesResponse200CandidatesInner (
 
     @param:JsonProperty(value = "confidence", required = true)
     @get:JsonProperty("confidence")
@@ -60,7 +60,7 @@ data class MailSignatureCandidate (
 
     @param:JsonProperty(value = "fields", required = true)
     @get:JsonProperty("fields")
-    val fields: MailSignatureCandidateFields,
+    val fields: MailGetSignaturesResponse200CandidatesInnerFields,
 
     @param:JsonProperty(value = "id", required = true)
     @get:JsonProperty("id")

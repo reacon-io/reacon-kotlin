@@ -87,6 +87,7 @@ import io.reacon.sdk.kotlin.models.UpdateSheetWorkflowStateRequest
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -101,7 +102,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class IntegrationsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -124,8 +125,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun bindTypeformForm(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest) : IntegrationFormConnectionResponse {
-        val localVarResponse = bindTypeformFormWithHttpInfo(teamId = teamId, bindTypeformFormRequest = bindTypeformFormRequest)
+    fun bindTypeformForm(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = bindTypeformFormWithHttpInfo(teamId = teamId, bindTypeformFormRequest = bindTypeformFormRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun bindTypeformFormAsync(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = bindTypeformFormAsyncWithHttpInfo(teamId = teamId, bindTypeformFormRequest = bindTypeformFormRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
@@ -154,11 +174,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun bindTypeformFormWithHttpInfo(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest) : ApiResponse<IntegrationFormConnectionResponse?> {
+    fun bindTypeformFormWithHttpInfo(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
         val localVariableConfig = bindTypeformFormRequestConfig(teamId = teamId, bindTypeformFormRequest = bindTypeformFormRequest)
 
         return request<BindTypeformFormRequest, IntegrationFormConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun bindTypeformFormAsyncWithHttpInfo(teamId: kotlin.String, bindTypeformFormRequest: BindTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
+        val localVariableConfig = bindTypeformFormRequestConfig(teamId = teamId, bindTypeformFormRequest = bindTypeformFormRequest)
+
+        return requestAsync<BindTypeformFormRequest, IntegrationFormConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -201,8 +230,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun bindWebflowForm(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest) : IntegrationFormConnectionResponse {
-        val localVarResponse = bindWebflowFormWithHttpInfo(teamId = teamId, bindWebflowFormRequest = bindWebflowFormRequest)
+    fun bindWebflowForm(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = bindWebflowFormWithHttpInfo(teamId = teamId, bindWebflowFormRequest = bindWebflowFormRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun bindWebflowFormAsync(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = bindWebflowFormAsyncWithHttpInfo(teamId = teamId, bindWebflowFormRequest = bindWebflowFormRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
@@ -231,11 +279,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun bindWebflowFormWithHttpInfo(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest) : ApiResponse<IntegrationFormConnectionResponse?> {
+    fun bindWebflowFormWithHttpInfo(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
         val localVariableConfig = bindWebflowFormRequestConfig(teamId = teamId, bindWebflowFormRequest = bindWebflowFormRequest)
 
         return request<BindWebflowFormRequest, IntegrationFormConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun bindWebflowFormAsyncWithHttpInfo(teamId: kotlin.String, bindWebflowFormRequest: BindWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
+        val localVariableConfig = bindWebflowFormRequestConfig(teamId = teamId, bindWebflowFormRequest = bindWebflowFormRequest)
+
+        return requestAsync<BindWebflowFormRequest, IntegrationFormConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -278,8 +335,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun cancelIntegrationJob(teamId: kotlin.String, jobId: java.util.UUID) : IntegrationJobCancellation {
-        val localVarResponse = cancelIntegrationJobWithHttpInfo(teamId = teamId, jobId = jobId)
+    fun cancelIntegrationJob(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobCancellation {
+        val localVarResponse = cancelIntegrationJobWithHttpInfo(teamId = teamId, jobId = jobId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobCancellation
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun cancelIntegrationJobAsync(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobCancellation {
+        val localVarResponse = cancelIntegrationJobAsyncWithHttpInfo(teamId = teamId, jobId = jobId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobCancellation
@@ -308,11 +384,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun cancelIntegrationJobWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID) : ApiResponse<IntegrationJobCancellation?> {
+    fun cancelIntegrationJobWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobCancellation?> {
         val localVariableConfig = cancelIntegrationJobRequestConfig(teamId = teamId, jobId = jobId)
 
         return request<Unit, IntegrationJobCancellation>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun cancelIntegrationJobAsyncWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobCancellation?> {
+        val localVariableConfig = cancelIntegrationJobRequestConfig(teamId = teamId, jobId = jobId)
+
+        return requestAsync<Unit, IntegrationJobCancellation>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -355,8 +440,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureAirtableMapping(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = configureAirtableMappingWithHttpInfo(teamId = teamId, connectionId = connectionId, configureAirtableMappingRequest = configureAirtableMappingRequest)
+    fun configureAirtableMapping(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureAirtableMappingWithHttpInfo(teamId = teamId, connectionId = connectionId, configureAirtableMappingRequest = configureAirtableMappingRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureAirtableMappingAsync(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureAirtableMappingAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureAirtableMappingRequest = configureAirtableMappingRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -386,11 +490,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureAirtableMappingWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun configureAirtableMappingWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = configureAirtableMappingRequestConfig(teamId = teamId, connectionId = connectionId, configureAirtableMappingRequest = configureAirtableMappingRequest)
 
         return request<ConfigureAirtableMappingRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureAirtableMappingAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureAirtableMappingRequest: ConfigureAirtableMappingRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = configureAirtableMappingRequestConfig(teamId = teamId, connectionId = connectionId, configureAirtableMappingRequest = configureAirtableMappingRequest)
+
+        return requestAsync<ConfigureAirtableMappingRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -434,8 +547,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureCoda(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = configureCodaWithHttpInfo(teamId = teamId, configureCodaRequest = configureCodaRequest)
+    fun configureCoda(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureCodaWithHttpInfo(teamId = teamId, configureCodaRequest = configureCodaRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCodaAsync(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureCodaAsyncWithHttpInfo(teamId = teamId, configureCodaRequest = configureCodaRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -464,11 +596,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureCodaWithHttpInfo(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun configureCodaWithHttpInfo(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = configureCodaRequestConfig(teamId = teamId, configureCodaRequest = configureCodaRequest)
 
         return request<ConfigureCodaRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCodaAsyncWithHttpInfo(teamId: kotlin.String, configureCodaRequest: ConfigureCodaRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = configureCodaRequestConfig(teamId = teamId, configureCodaRequest = configureCodaRequest)
+
+        return requestAsync<ConfigureCodaRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -512,8 +653,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureCrmMapping(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = configureCrmMappingWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmMappingRequest = configureCrmMappingRequest)
+    fun configureCrmMapping(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureCrmMappingWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmMappingRequest = configureCrmMappingRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCrmMappingAsync(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureCrmMappingAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmMappingRequest = configureCrmMappingRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -543,11 +703,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureCrmMappingWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun configureCrmMappingWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = configureCrmMappingRequestConfig(teamId = teamId, connectionId = connectionId, configureCrmMappingRequest = configureCrmMappingRequest)
 
         return request<ConfigureCrmMappingRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCrmMappingAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureCrmMappingRequest: ConfigureCrmMappingRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = configureCrmMappingRequestConfig(teamId = teamId, connectionId = connectionId, configureCrmMappingRequest = configureCrmMappingRequest)
+
+        return requestAsync<ConfigureCrmMappingRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -592,8 +761,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureCrmSync(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest) : CrmSyncConfigurationResponse {
-        val localVarResponse = configureCrmSyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmSyncRequest = configureCrmSyncRequest)
+    fun configureCrmSync(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest, requestOptions: RequestOptions = RequestOptions()) : CrmSyncConfigurationResponse {
+        val localVarResponse = configureCrmSyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmSyncRequest = configureCrmSyncRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CrmSyncConfigurationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCrmSyncAsync(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest, requestOptions: RequestOptions = RequestOptions()) : CrmSyncConfigurationResponse {
+        val localVarResponse = configureCrmSyncAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureCrmSyncRequest = configureCrmSyncRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CrmSyncConfigurationResponse
@@ -623,11 +811,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureCrmSyncWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest) : ApiResponse<CrmSyncConfigurationResponse?> {
+    fun configureCrmSyncWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CrmSyncConfigurationResponse?> {
         val localVariableConfig = configureCrmSyncRequestConfig(teamId = teamId, connectionId = connectionId, configureCrmSyncRequest = configureCrmSyncRequest)
 
         return request<ConfigureCrmSyncRequest, CrmSyncConfigurationResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureCrmSyncAsyncWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID, configureCrmSyncRequest: ConfigureCrmSyncRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CrmSyncConfigurationResponse?> {
+        val localVariableConfig = configureCrmSyncRequestConfig(teamId = teamId, connectionId = connectionId, configureCrmSyncRequest = configureCrmSyncRequest)
+
+        return requestAsync<ConfigureCrmSyncRequest, CrmSyncConfigurationResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -671,8 +868,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureFreshsales(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = configureFreshsalesWithHttpInfo(teamId = teamId, configureFreshsalesRequest = configureFreshsalesRequest)
+    fun configureFreshsales(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureFreshsalesWithHttpInfo(teamId = teamId, configureFreshsalesRequest = configureFreshsalesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureFreshsalesAsync(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = configureFreshsalesAsyncWithHttpInfo(teamId = teamId, configureFreshsalesRequest = configureFreshsalesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -701,11 +917,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureFreshsalesWithHttpInfo(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun configureFreshsalesWithHttpInfo(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = configureFreshsalesRequestConfig(teamId = teamId, configureFreshsalesRequest = configureFreshsalesRequest)
 
         return request<ConfigureFreshsalesRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureFreshsalesAsyncWithHttpInfo(teamId: kotlin.String, configureFreshsalesRequest: ConfigureFreshsalesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = configureFreshsalesRequestConfig(teamId = teamId, configureFreshsalesRequest = configureFreshsalesRequest)
+
+        return requestAsync<ConfigureFreshsalesRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -749,8 +974,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureNotificationRoutes(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest) : IntegrationConnectionResponse {
-        val localVarResponse = configureNotificationRoutesWithHttpInfo(teamId = teamId, connectionId = connectionId, configureNotificationRoutesRequest = configureNotificationRoutesRequest)
+    fun configureNotificationRoutes(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureNotificationRoutesWithHttpInfo(teamId = teamId, connectionId = connectionId, configureNotificationRoutesRequest = configureNotificationRoutesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureNotificationRoutesAsync(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureNotificationRoutesAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureNotificationRoutesRequest = configureNotificationRoutesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
@@ -780,11 +1024,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureNotificationRoutesWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest) : ApiResponse<IntegrationConnectionResponse?> {
+    fun configureNotificationRoutesWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
         val localVariableConfig = configureNotificationRoutesRequestConfig(teamId = teamId, connectionId = connectionId, configureNotificationRoutesRequest = configureNotificationRoutesRequest)
 
         return request<ConfigureNotificationRoutesRequest, IntegrationConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureNotificationRoutesAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureNotificationRoutesRequest: ConfigureNotificationRoutesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
+        val localVariableConfig = configureNotificationRoutesRequestConfig(teamId = teamId, connectionId = connectionId, configureNotificationRoutesRequest = configureNotificationRoutesRequest)
+
+        return requestAsync<ConfigureNotificationRoutesRequest, IntegrationConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -829,8 +1082,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureSlackDestination(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest) : IntegrationConnectionResponse {
-        val localVarResponse = configureSlackDestinationWithHttpInfo(teamId = teamId, connectionId = connectionId, configureSlackDestinationRequest = configureSlackDestinationRequest)
+    fun configureSlackDestination(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureSlackDestinationWithHttpInfo(teamId = teamId, connectionId = connectionId, configureSlackDestinationRequest = configureSlackDestinationRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureSlackDestinationAsync(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureSlackDestinationAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, configureSlackDestinationRequest = configureSlackDestinationRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
@@ -860,11 +1132,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureSlackDestinationWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest) : ApiResponse<IntegrationConnectionResponse?> {
+    fun configureSlackDestinationWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
         val localVariableConfig = configureSlackDestinationRequestConfig(teamId = teamId, connectionId = connectionId, configureSlackDestinationRequest = configureSlackDestinationRequest)
 
         return request<ConfigureSlackDestinationRequest, IntegrationConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureSlackDestinationAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, configureSlackDestinationRequest: ConfigureSlackDestinationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
+        val localVariableConfig = configureSlackDestinationRequestConfig(teamId = teamId, connectionId = connectionId, configureSlackDestinationRequest = configureSlackDestinationRequest)
+
+        return requestAsync<ConfigureSlackDestinationRequest, IntegrationConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -908,8 +1189,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureTeamsWorkflow(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest) : IntegrationConnectionResponse {
-        val localVarResponse = configureTeamsWorkflowWithHttpInfo(teamId = teamId, configureTeamsWorkflowRequest = configureTeamsWorkflowRequest)
+    fun configureTeamsWorkflow(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureTeamsWorkflowWithHttpInfo(teamId = teamId, configureTeamsWorkflowRequest = configureTeamsWorkflowRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureTeamsWorkflowAsync(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureTeamsWorkflowAsyncWithHttpInfo(teamId = teamId, configureTeamsWorkflowRequest = configureTeamsWorkflowRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
@@ -938,11 +1238,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureTeamsWorkflowWithHttpInfo(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest) : ApiResponse<IntegrationConnectionResponse?> {
+    fun configureTeamsWorkflowWithHttpInfo(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
         val localVariableConfig = configureTeamsWorkflowRequestConfig(teamId = teamId, configureTeamsWorkflowRequest = configureTeamsWorkflowRequest)
 
         return request<ConfigureTeamsWorkflowRequest, IntegrationConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureTeamsWorkflowAsyncWithHttpInfo(teamId: kotlin.String, configureTeamsWorkflowRequest: ConfigureTeamsWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
+        val localVariableConfig = configureTeamsWorkflowRequestConfig(teamId = teamId, configureTeamsWorkflowRequest = configureTeamsWorkflowRequest)
+
+        return requestAsync<ConfigureTeamsWorkflowRequest, IntegrationConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -985,8 +1294,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureTypeformForm(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest) : IntegrationFormConnectionResponse {
-        val localVarResponse = configureTypeformFormWithHttpInfo(teamId = teamId, configureTypeformFormRequest = configureTypeformFormRequest)
+    fun configureTypeformForm(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = configureTypeformFormWithHttpInfo(teamId = teamId, configureTypeformFormRequest = configureTypeformFormRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureTypeformFormAsync(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = configureTypeformFormAsyncWithHttpInfo(teamId = teamId, configureTypeformFormRequest = configureTypeformFormRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
@@ -1015,11 +1343,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureTypeformFormWithHttpInfo(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest) : ApiResponse<IntegrationFormConnectionResponse?> {
+    fun configureTypeformFormWithHttpInfo(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
         val localVariableConfig = configureTypeformFormRequestConfig(teamId = teamId, configureTypeformFormRequest = configureTypeformFormRequest)
 
         return request<ConfigureTypeformFormRequest, IntegrationFormConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureTypeformFormAsyncWithHttpInfo(teamId: kotlin.String, configureTypeformFormRequest: ConfigureTypeformFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
+        val localVariableConfig = configureTypeformFormRequestConfig(teamId = teamId, configureTypeformFormRequest = configureTypeformFormRequest)
+
+        return requestAsync<ConfigureTypeformFormRequest, IntegrationFormConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1062,8 +1399,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureWarehouse(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest) : IntegrationConnectionResponse {
-        val localVarResponse = configureWarehouseWithHttpInfo(teamId = teamId, configureWarehouseRequest = configureWarehouseRequest)
+    fun configureWarehouse(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureWarehouseWithHttpInfo(teamId = teamId, configureWarehouseRequest = configureWarehouseRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureWarehouseAsync(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionResponse {
+        val localVarResponse = configureWarehouseAsyncWithHttpInfo(teamId = teamId, configureWarehouseRequest = configureWarehouseRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionResponse
@@ -1092,11 +1448,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureWarehouseWithHttpInfo(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest) : ApiResponse<IntegrationConnectionResponse?> {
+    fun configureWarehouseWithHttpInfo(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
         val localVariableConfig = configureWarehouseRequestConfig(teamId = teamId, configureWarehouseRequest = configureWarehouseRequest)
 
         return request<ConfigureWarehouseRequest, IntegrationConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureWarehouseAsyncWithHttpInfo(teamId: kotlin.String, configureWarehouseRequest: ConfigureWarehouseRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionResponse?> {
+        val localVariableConfig = configureWarehouseRequestConfig(teamId = teamId, configureWarehouseRequest = configureWarehouseRequest)
+
+        return requestAsync<ConfigureWarehouseRequest, IntegrationConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1139,8 +1504,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureWebflowForm(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest) : IntegrationFormConnectionResponse {
-        val localVarResponse = configureWebflowFormWithHttpInfo(teamId = teamId, configureWebflowFormRequest = configureWebflowFormRequest)
+    fun configureWebflowForm(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = configureWebflowFormWithHttpInfo(teamId = teamId, configureWebflowFormRequest = configureWebflowFormRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureWebflowFormAsync(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationFormConnectionResponse {
+        val localVarResponse = configureWebflowFormAsyncWithHttpInfo(teamId = teamId, configureWebflowFormRequest = configureWebflowFormRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationFormConnectionResponse
@@ -1169,11 +1553,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureWebflowFormWithHttpInfo(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest) : ApiResponse<IntegrationFormConnectionResponse?> {
+    fun configureWebflowFormWithHttpInfo(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
         val localVariableConfig = configureWebflowFormRequestConfig(teamId = teamId, configureWebflowFormRequest = configureWebflowFormRequest)
 
         return request<ConfigureWebflowFormRequest, IntegrationFormConnectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureWebflowFormAsyncWithHttpInfo(teamId: kotlin.String, configureWebflowFormRequest: ConfigureWebflowFormRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationFormConnectionResponse?> {
+        val localVariableConfig = configureWebflowFormRequestConfig(teamId = teamId, configureWebflowFormRequest = configureWebflowFormRequest)
+
+        return requestAsync<ConfigureWebflowFormRequest, IntegrationFormConnectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1215,8 +1608,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun disableMcpIdentity(teamId: java.util.UUID, identityId: java.util.UUID) : Unit {
-        val localVarResponse = disableMcpIdentityWithHttpInfo(teamId = teamId, identityId = identityId)
+    fun disableMcpIdentity(teamId: java.util.UUID, identityId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = disableMcpIdentityWithHttpInfo(teamId = teamId, identityId = identityId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun disableMcpIdentityAsync(teamId: java.util.UUID, identityId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = disableMcpIdentityAsyncWithHttpInfo(teamId = teamId, identityId = identityId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -1244,11 +1656,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun disableMcpIdentityWithHttpInfo(teamId: java.util.UUID, identityId: java.util.UUID) : ApiResponse<Unit?> {
+    fun disableMcpIdentityWithHttpInfo(teamId: java.util.UUID, identityId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
         val localVariableConfig = disableMcpIdentityRequestConfig(teamId = teamId, identityId = identityId)
 
         return request<Unit, Unit>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun disableMcpIdentityAsyncWithHttpInfo(teamId: java.util.UUID, identityId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
+        val localVariableConfig = disableMcpIdentityRequestConfig(teamId = teamId, identityId = identityId)
+
+        return requestAsync<Unit, Unit>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1329,8 +1750,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun executeIntegrationCapability(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability? = null, xLumenreachInstallId: kotlin.String? = null, xLumenreachTimestamp: kotlin.String? = null, xLumenreachEventId: kotlin.String? = null, xLumenreachSignature: kotlin.String? = null) : IntegrationCapabilityResponse {
-        val localVarResponse = executeIntegrationCapabilityWithHttpInfo(capability = capability, executeIntegrationCapabilityRequest = executeIntegrationCapabilityRequest, xLumenreachIntegration = xLumenreachIntegration, xLumenreachInstallId = xLumenreachInstallId, xLumenreachTimestamp = xLumenreachTimestamp, xLumenreachEventId = xLumenreachEventId, xLumenreachSignature = xLumenreachSignature)
+    fun executeIntegrationCapability(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability? = null, xLumenreachInstallId: kotlin.String? = null, xLumenreachTimestamp: kotlin.String? = null, xLumenreachEventId: kotlin.String? = null, xLumenreachSignature: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationCapabilityResponse {
+        val localVarResponse = executeIntegrationCapabilityWithHttpInfo(capability = capability, executeIntegrationCapabilityRequest = executeIntegrationCapabilityRequest, xLumenreachIntegration = xLumenreachIntegration, xLumenreachInstallId = xLumenreachInstallId, xLumenreachTimestamp = xLumenreachTimestamp, xLumenreachEventId = xLumenreachEventId, xLumenreachSignature = xLumenreachSignature, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationCapabilityResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun executeIntegrationCapabilityAsync(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability? = null, xLumenreachInstallId: kotlin.String? = null, xLumenreachTimestamp: kotlin.String? = null, xLumenreachEventId: kotlin.String? = null, xLumenreachSignature: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationCapabilityResponse {
+        val localVarResponse = executeIntegrationCapabilityAsyncWithHttpInfo(capability = capability, executeIntegrationCapabilityRequest = executeIntegrationCapabilityRequest, xLumenreachIntegration = xLumenreachIntegration, xLumenreachInstallId = xLumenreachInstallId, xLumenreachTimestamp = xLumenreachTimestamp, xLumenreachEventId = xLumenreachEventId, xLumenreachSignature = xLumenreachSignature, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationCapabilityResponse
@@ -1364,11 +1804,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun executeIntegrationCapabilityWithHttpInfo(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability?, xLumenreachInstallId: kotlin.String?, xLumenreachTimestamp: kotlin.String?, xLumenreachEventId: kotlin.String?, xLumenreachSignature: kotlin.String?) : ApiResponse<IntegrationCapabilityResponse?> {
+    fun executeIntegrationCapabilityWithHttpInfo(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability?, xLumenreachInstallId: kotlin.String?, xLumenreachTimestamp: kotlin.String?, xLumenreachEventId: kotlin.String?, xLumenreachSignature: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationCapabilityResponse?> {
         val localVariableConfig = executeIntegrationCapabilityRequestConfig(capability = capability, executeIntegrationCapabilityRequest = executeIntegrationCapabilityRequest, xLumenreachIntegration = xLumenreachIntegration, xLumenreachInstallId = xLumenreachInstallId, xLumenreachTimestamp = xLumenreachTimestamp, xLumenreachEventId = xLumenreachEventId, xLumenreachSignature = xLumenreachSignature)
 
         return request<ExecuteIntegrationCapabilityRequest, IntegrationCapabilityResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun executeIntegrationCapabilityAsyncWithHttpInfo(capability: CapabilityExecuteIntegrationCapability, executeIntegrationCapabilityRequest: ExecuteIntegrationCapabilityRequest, xLumenreachIntegration: XLumenreachIntegrationExecuteIntegrationCapability?, xLumenreachInstallId: kotlin.String?, xLumenreachTimestamp: kotlin.String?, xLumenreachEventId: kotlin.String?, xLumenreachSignature: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationCapabilityResponse?> {
+        val localVariableConfig = executeIntegrationCapabilityRequestConfig(capability = capability, executeIntegrationCapabilityRequest = executeIntegrationCapabilityRequest, xLumenreachIntegration = xLumenreachIntegration, xLumenreachInstallId = xLumenreachInstallId, xLumenreachTimestamp = xLumenreachTimestamp, xLumenreachEventId = xLumenreachEventId, xLumenreachSignature = xLumenreachSignature)
+
+        return requestAsync<ExecuteIntegrationCapabilityRequest, IntegrationCapabilityResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1422,8 +1871,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getAirtableMappingOptions(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String? = null) : AirtableMappingOptionsResponse {
-        val localVarResponse = getAirtableMappingOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId, baseId = baseId)
+    fun getAirtableMappingOptions(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : AirtableMappingOptionsResponse {
+        val localVarResponse = getAirtableMappingOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId, baseId = baseId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AirtableMappingOptionsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getAirtableMappingOptionsAsync(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : AirtableMappingOptionsResponse {
+        val localVarResponse = getAirtableMappingOptionsAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, baseId = baseId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AirtableMappingOptionsResponse
@@ -1453,11 +1921,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getAirtableMappingOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String?) : ApiResponse<AirtableMappingOptionsResponse?> {
+    fun getAirtableMappingOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<AirtableMappingOptionsResponse?> {
         val localVariableConfig = getAirtableMappingOptionsRequestConfig(teamId = teamId, connectionId = connectionId, baseId = baseId)
 
         return request<Unit, AirtableMappingOptionsResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getAirtableMappingOptionsAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, baseId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<AirtableMappingOptionsResponse?> {
+        val localVariableConfig = getAirtableMappingOptionsRequestConfig(teamId = teamId, connectionId = connectionId, baseId = baseId)
+
+        return requestAsync<Unit, AirtableMappingOptionsResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1506,8 +1983,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getCrmMappingOptions(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String? = null) : CrmMappingOptionsResponse {
-        val localVarResponse = getCrmMappingOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId, resourceId = resourceId)
+    fun getCrmMappingOptions(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : CrmMappingOptionsResponse {
+        val localVarResponse = getCrmMappingOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId, resourceId = resourceId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CrmMappingOptionsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getCrmMappingOptionsAsync(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : CrmMappingOptionsResponse {
+        val localVarResponse = getCrmMappingOptionsAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, resourceId = resourceId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CrmMappingOptionsResponse
@@ -1537,11 +2033,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getCrmMappingOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String?) : ApiResponse<CrmMappingOptionsResponse?> {
+    fun getCrmMappingOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CrmMappingOptionsResponse?> {
         val localVariableConfig = getCrmMappingOptionsRequestConfig(teamId = teamId, connectionId = connectionId, resourceId = resourceId)
 
         return request<Unit, CrmMappingOptionsResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getCrmMappingOptionsAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, resourceId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CrmMappingOptionsResponse?> {
+        val localVariableConfig = getCrmMappingOptionsRequestConfig(teamId = teamId, connectionId = connectionId, resourceId = resourceId)
+
+        return requestAsync<Unit, CrmMappingOptionsResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1589,8 +2094,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getHubSpotConfigurationOptions(teamId: kotlin.String, connectionId: kotlin.String) : HubSpotConfigurationOptionsResponse {
-        val localVarResponse = getHubSpotConfigurationOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId)
+    fun getHubSpotConfigurationOptions(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : HubSpotConfigurationOptionsResponse {
+        val localVarResponse = getHubSpotConfigurationOptionsWithHttpInfo(teamId = teamId, connectionId = connectionId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as HubSpotConfigurationOptionsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getHubSpotConfigurationOptionsAsync(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : HubSpotConfigurationOptionsResponse {
+        val localVarResponse = getHubSpotConfigurationOptionsAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as HubSpotConfigurationOptionsResponse
@@ -1619,11 +2143,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getHubSpotConfigurationOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String) : ApiResponse<HubSpotConfigurationOptionsResponse?> {
+    fun getHubSpotConfigurationOptionsWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<HubSpotConfigurationOptionsResponse?> {
         val localVariableConfig = getHubSpotConfigurationOptionsRequestConfig(teamId = teamId, connectionId = connectionId)
 
         return request<Unit, HubSpotConfigurationOptionsResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getHubSpotConfigurationOptionsAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<HubSpotConfigurationOptionsResponse?> {
+        val localVariableConfig = getHubSpotConfigurationOptionsRequestConfig(teamId = teamId, connectionId = connectionId)
+
+        return requestAsync<Unit, HubSpotConfigurationOptionsResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1665,8 +2198,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getIntegrationJob(teamId: kotlin.String, jobId: java.util.UUID) : IntegrationJobResponse {
-        val localVarResponse = getIntegrationJobWithHttpInfo(teamId = teamId, jobId = jobId)
+    fun getIntegrationJob(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobResponse {
+        val localVarResponse = getIntegrationJobWithHttpInfo(teamId = teamId, jobId = jobId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getIntegrationJobAsync(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobResponse {
+        val localVarResponse = getIntegrationJobAsyncWithHttpInfo(teamId = teamId, jobId = jobId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobResponse
@@ -1695,11 +2247,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getIntegrationJobWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID) : ApiResponse<IntegrationJobResponse?> {
+    fun getIntegrationJobWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobResponse?> {
         val localVariableConfig = getIntegrationJobRequestConfig(teamId = teamId, jobId = jobId)
 
         return request<Unit, IntegrationJobResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getIntegrationJobAsyncWithHttpInfo(teamId: kotlin.String, jobId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobResponse?> {
+        val localVariableConfig = getIntegrationJobRequestConfig(teamId = teamId, jobId = jobId)
+
+        return requestAsync<Unit, IntegrationJobResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1741,8 +2302,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun inspectCodaTable(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest) : CodaTableInspectionResponse {
-        val localVarResponse = inspectCodaTableWithHttpInfo(teamId = teamId, inspectCodaTableRequest = inspectCodaTableRequest)
+    fun inspectCodaTable(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest, requestOptions: RequestOptions = RequestOptions()) : CodaTableInspectionResponse {
+        val localVarResponse = inspectCodaTableWithHttpInfo(teamId = teamId, inspectCodaTableRequest = inspectCodaTableRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CodaTableInspectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectCodaTableAsync(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest, requestOptions: RequestOptions = RequestOptions()) : CodaTableInspectionResponse {
+        val localVarResponse = inspectCodaTableAsyncWithHttpInfo(teamId = teamId, inspectCodaTableRequest = inspectCodaTableRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CodaTableInspectionResponse
@@ -1771,11 +2351,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun inspectCodaTableWithHttpInfo(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest) : ApiResponse<CodaTableInspectionResponse?> {
+    fun inspectCodaTableWithHttpInfo(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CodaTableInspectionResponse?> {
         val localVariableConfig = inspectCodaTableRequestConfig(teamId = teamId, inspectCodaTableRequest = inspectCodaTableRequest)
 
         return request<InspectCodaTableRequest, CodaTableInspectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectCodaTableAsyncWithHttpInfo(teamId: kotlin.String, inspectCodaTableRequest: InspectCodaTableRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CodaTableInspectionResponse?> {
+        val localVariableConfig = inspectCodaTableRequestConfig(teamId = teamId, inspectCodaTableRequest = inspectCodaTableRequest)
+
+        return requestAsync<InspectCodaTableRequest, CodaTableInspectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1818,8 +2407,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun inspectExcelWorkbook(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest) : ExcelWorkbookInspectionResponse {
-        val localVarResponse = inspectExcelWorkbookWithHttpInfo(teamId = teamId, inspectExcelWorkbookRequest = inspectExcelWorkbookRequest)
+    fun inspectExcelWorkbook(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest, requestOptions: RequestOptions = RequestOptions()) : ExcelWorkbookInspectionResponse {
+        val localVarResponse = inspectExcelWorkbookWithHttpInfo(teamId = teamId, inspectExcelWorkbookRequest = inspectExcelWorkbookRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ExcelWorkbookInspectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectExcelWorkbookAsync(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest, requestOptions: RequestOptions = RequestOptions()) : ExcelWorkbookInspectionResponse {
+        val localVarResponse = inspectExcelWorkbookAsyncWithHttpInfo(teamId = teamId, inspectExcelWorkbookRequest = inspectExcelWorkbookRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ExcelWorkbookInspectionResponse
@@ -1848,11 +2456,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun inspectExcelWorkbookWithHttpInfo(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest) : ApiResponse<ExcelWorkbookInspectionResponse?> {
+    fun inspectExcelWorkbookWithHttpInfo(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ExcelWorkbookInspectionResponse?> {
         val localVariableConfig = inspectExcelWorkbookRequestConfig(teamId = teamId, inspectExcelWorkbookRequest = inspectExcelWorkbookRequest)
 
         return request<InspectExcelWorkbookRequest, ExcelWorkbookInspectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectExcelWorkbookAsyncWithHttpInfo(teamId: kotlin.String, inspectExcelWorkbookRequest: InspectExcelWorkbookRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ExcelWorkbookInspectionResponse?> {
+        val localVariableConfig = inspectExcelWorkbookRequestConfig(teamId = teamId, inspectExcelWorkbookRequest = inspectExcelWorkbookRequest)
+
+        return requestAsync<InspectExcelWorkbookRequest, ExcelWorkbookInspectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1895,8 +2512,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun inspectGoogleSheet(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest) : GoogleSheetInspectionResponse {
-        val localVarResponse = inspectGoogleSheetWithHttpInfo(teamId = teamId, inspectGoogleSheetRequest = inspectGoogleSheetRequest)
+    fun inspectGoogleSheet(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest, requestOptions: RequestOptions = RequestOptions()) : GoogleSheetInspectionResponse {
+        val localVarResponse = inspectGoogleSheetWithHttpInfo(teamId = teamId, inspectGoogleSheetRequest = inspectGoogleSheetRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as GoogleSheetInspectionResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectGoogleSheetAsync(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest, requestOptions: RequestOptions = RequestOptions()) : GoogleSheetInspectionResponse {
+        val localVarResponse = inspectGoogleSheetAsyncWithHttpInfo(teamId = teamId, inspectGoogleSheetRequest = inspectGoogleSheetRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GoogleSheetInspectionResponse
@@ -1925,11 +2561,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun inspectGoogleSheetWithHttpInfo(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest) : ApiResponse<GoogleSheetInspectionResponse?> {
+    fun inspectGoogleSheetWithHttpInfo(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<GoogleSheetInspectionResponse?> {
         val localVariableConfig = inspectGoogleSheetRequestConfig(teamId = teamId, inspectGoogleSheetRequest = inspectGoogleSheetRequest)
 
         return request<InspectGoogleSheetRequest, GoogleSheetInspectionResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectGoogleSheetAsyncWithHttpInfo(teamId: kotlin.String, inspectGoogleSheetRequest: InspectGoogleSheetRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<GoogleSheetInspectionResponse?> {
+        val localVariableConfig = inspectGoogleSheetRequestConfig(teamId = teamId, inspectGoogleSheetRequest = inspectGoogleSheetRequest)
+
+        return requestAsync<InspectGoogleSheetRequest, GoogleSheetInspectionResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1972,8 +2617,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun linkMcpIdentity(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest? = null) : McpIdentityResponse {
-        val localVarResponse = linkMcpIdentityWithHttpInfo(teamId = teamId, linkMcpIdentityRequest = linkMcpIdentityRequest)
+    fun linkMcpIdentity(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest? = null, requestOptions: RequestOptions = RequestOptions()) : McpIdentityResponse {
+        val localVarResponse = linkMcpIdentityWithHttpInfo(teamId = teamId, linkMcpIdentityRequest = linkMcpIdentityRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as McpIdentityResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun linkMcpIdentityAsync(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest? = null, requestOptions: RequestOptions = RequestOptions()) : McpIdentityResponse {
+        val localVarResponse = linkMcpIdentityAsyncWithHttpInfo(teamId = teamId, linkMcpIdentityRequest = linkMcpIdentityRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as McpIdentityResponse
@@ -2002,11 +2666,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun linkMcpIdentityWithHttpInfo(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest?) : ApiResponse<McpIdentityResponse?> {
+    fun linkMcpIdentityWithHttpInfo(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<McpIdentityResponse?> {
         val localVariableConfig = linkMcpIdentityRequestConfig(teamId = teamId, linkMcpIdentityRequest = linkMcpIdentityRequest)
 
         return request<LinkMcpIdentityRequest, McpIdentityResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun linkMcpIdentityAsyncWithHttpInfo(teamId: java.util.UUID, linkMcpIdentityRequest: LinkMcpIdentityRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<McpIdentityResponse?> {
+        val localVariableConfig = linkMcpIdentityRequestConfig(teamId = teamId, linkMcpIdentityRequest = linkMcpIdentityRequest)
+
+        return requestAsync<LinkMcpIdentityRequest, McpIdentityResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2048,8 +2721,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listIntegrationConnections(teamId: kotlin.String) : IntegrationConnectionList {
-        val localVarResponse = listIntegrationConnectionsWithHttpInfo(teamId = teamId)
+    fun listIntegrationConnections(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionList {
+        val localVarResponse = listIntegrationConnectionsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionList
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationConnectionsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionList {
+        val localVarResponse = listIntegrationConnectionsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionList
@@ -2077,11 +2769,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listIntegrationConnectionsWithHttpInfo(teamId: kotlin.String) : ApiResponse<IntegrationConnectionList?> {
+    fun listIntegrationConnectionsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionList?> {
         val localVariableConfig = listIntegrationConnectionsRequestConfig(teamId = teamId)
 
         return request<Unit, IntegrationConnectionList>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationConnectionsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionList?> {
+        val localVariableConfig = listIntegrationConnectionsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, IntegrationConnectionList>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2145,8 +2846,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listIntegrationJobs(teamId: kotlin.String, connectionId: java.util.UUID? = null, status: StatusListIntegrationJobs? = null, cursor: kotlin.String? = null, limit: kotlin.Int? = null) : IntegrationJobPage {
-        val localVarResponse = listIntegrationJobsWithHttpInfo(teamId = teamId, connectionId = connectionId, status = status, cursor = cursor, limit = limit)
+    fun listIntegrationJobs(teamId: kotlin.String, connectionId: java.util.UUID? = null, status: StatusListIntegrationJobs? = null, cursor: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobPage {
+        val localVarResponse = listIntegrationJobsWithHttpInfo(teamId = teamId, connectionId = connectionId, status = status, cursor = cursor, limit = limit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobPage
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationJobsAsync(teamId: kotlin.String, connectionId: java.util.UUID? = null, status: StatusListIntegrationJobs? = null, cursor: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationJobPage {
+        val localVarResponse = listIntegrationJobsAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, status = status, cursor = cursor, limit = limit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationJobPage
@@ -2178,11 +2898,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listIntegrationJobsWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID?, status: StatusListIntegrationJobs?, cursor: kotlin.String?, limit: kotlin.Int?) : ApiResponse<IntegrationJobPage?> {
+    fun listIntegrationJobsWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID?, status: StatusListIntegrationJobs?, cursor: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobPage?> {
         val localVariableConfig = listIntegrationJobsRequestConfig(teamId = teamId, connectionId = connectionId, status = status, cursor = cursor, limit = limit)
 
         return request<Unit, IntegrationJobPage>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationJobsAsyncWithHttpInfo(teamId: kotlin.String, connectionId: java.util.UUID?, status: StatusListIntegrationJobs?, cursor: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationJobPage?> {
+        val localVariableConfig = listIntegrationJobsRequestConfig(teamId = teamId, connectionId = connectionId, status = status, cursor = cursor, limit = limit)
+
+        return requestAsync<Unit, IntegrationJobPage>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2239,8 +2968,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listIntegrationProviders() : IntegrationProviderList {
-        val localVarResponse = listIntegrationProvidersWithHttpInfo()
+    fun listIntegrationProviders(requestOptions: RequestOptions = RequestOptions()) : IntegrationProviderList {
+        val localVarResponse = listIntegrationProvidersWithHttpInfo(requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationProviderList
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationProvidersAsync(requestOptions: RequestOptions = RequestOptions()) : IntegrationProviderList {
+        val localVarResponse = listIntegrationProvidersAsyncWithHttpInfo(requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationProviderList
@@ -2267,11 +3015,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listIntegrationProvidersWithHttpInfo() : ApiResponse<IntegrationProviderList?> {
+    fun listIntegrationProvidersWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationProviderList?> {
         val localVariableConfig = listIntegrationProvidersRequestConfig()
 
         return request<Unit, IntegrationProviderList>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listIntegrationProvidersAsyncWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationProviderList?> {
+        val localVariableConfig = listIntegrationProvidersRequestConfig()
+
+        return requestAsync<Unit, IntegrationProviderList>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2310,8 +3067,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMcpIdentities(teamId: java.util.UUID) : McpIdentityList {
-        val localVarResponse = listMcpIdentitiesWithHttpInfo(teamId = teamId)
+    fun listMcpIdentities(teamId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : McpIdentityList {
+        val localVarResponse = listMcpIdentitiesWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as McpIdentityList
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMcpIdentitiesAsync(teamId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : McpIdentityList {
+        val localVarResponse = listMcpIdentitiesAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as McpIdentityList
@@ -2339,11 +3115,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMcpIdentitiesWithHttpInfo(teamId: java.util.UUID) : ApiResponse<McpIdentityList?> {
+    fun listMcpIdentitiesWithHttpInfo(teamId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<McpIdentityList?> {
         val localVariableConfig = listMcpIdentitiesRequestConfig(teamId = teamId)
 
         return request<Unit, McpIdentityList>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMcpIdentitiesAsyncWithHttpInfo(teamId: java.util.UUID, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<McpIdentityList?> {
+        val localVariableConfig = listMcpIdentitiesRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, McpIdentityList>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2383,8 +3168,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listSheetWorkflows(teamId: kotlin.String) : SheetWorkflowList {
-        val localVarResponse = listSheetWorkflowsWithHttpInfo(teamId = teamId)
+    fun listSheetWorkflows(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowList {
+        val localVarResponse = listSheetWorkflowsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowList
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listSheetWorkflowsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowList {
+        val localVarResponse = listSheetWorkflowsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowList
@@ -2412,11 +3216,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listSheetWorkflowsWithHttpInfo(teamId: kotlin.String) : ApiResponse<SheetWorkflowList?> {
+    fun listSheetWorkflowsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowList?> {
         val localVariableConfig = listSheetWorkflowsRequestConfig(teamId = teamId)
 
         return request<Unit, SheetWorkflowList>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listSheetWorkflowsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowList?> {
+        val localVariableConfig = listSheetWorkflowsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, SheetWorkflowList>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2458,8 +3271,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun previewSheetWorkflow(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest? = null) : SheetWorkflowPreview {
-        val localVarResponse = previewSheetWorkflowWithHttpInfo(teamId = teamId, workflowId = workflowId, previewSheetWorkflowRequest = previewSheetWorkflowRequest)
+    fun previewSheetWorkflow(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest? = null, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowPreview {
+        val localVarResponse = previewSheetWorkflowWithHttpInfo(teamId = teamId, workflowId = workflowId, previewSheetWorkflowRequest = previewSheetWorkflowRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowPreview
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun previewSheetWorkflowAsync(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest? = null, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowPreview {
+        val localVarResponse = previewSheetWorkflowAsyncWithHttpInfo(teamId = teamId, workflowId = workflowId, previewSheetWorkflowRequest = previewSheetWorkflowRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowPreview
@@ -2489,11 +3321,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun previewSheetWorkflowWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest?) : ApiResponse<SheetWorkflowPreview?> {
+    fun previewSheetWorkflowWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowPreview?> {
         val localVariableConfig = previewSheetWorkflowRequestConfig(teamId = teamId, workflowId = workflowId, previewSheetWorkflowRequest = previewSheetWorkflowRequest)
 
         return request<PreviewSheetWorkflowRequest, SheetWorkflowPreview>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun previewSheetWorkflowAsyncWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, previewSheetWorkflowRequest: PreviewSheetWorkflowRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowPreview?> {
+        val localVariableConfig = previewSheetWorkflowRequestConfig(teamId = teamId, workflowId = workflowId, previewSheetWorkflowRequest = previewSheetWorkflowRequest)
+
+        return requestAsync<PreviewSheetWorkflowRequest, SheetWorkflowPreview>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2538,8 +3379,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun queueIntegrationLeadExport(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest? = null) : IntegrationLeadExportResponse {
-        val localVarResponse = queueIntegrationLeadExportWithHttpInfo(teamId = teamId, connectionId = connectionId, queueIntegrationLeadExportRequest = queueIntegrationLeadExportRequest)
+    fun queueIntegrationLeadExport(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationLeadExportResponse {
+        val localVarResponse = queueIntegrationLeadExportWithHttpInfo(teamId = teamId, connectionId = connectionId, queueIntegrationLeadExportRequest = queueIntegrationLeadExportRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationLeadExportResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun queueIntegrationLeadExportAsync(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationLeadExportResponse {
+        val localVarResponse = queueIntegrationLeadExportAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, queueIntegrationLeadExportRequest = queueIntegrationLeadExportRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationLeadExportResponse
@@ -2569,11 +3429,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun queueIntegrationLeadExportWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest?) : ApiResponse<IntegrationLeadExportResponse?> {
+    fun queueIntegrationLeadExportWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationLeadExportResponse?> {
         val localVariableConfig = queueIntegrationLeadExportRequestConfig(teamId = teamId, connectionId = connectionId, queueIntegrationLeadExportRequest = queueIntegrationLeadExportRequest)
 
         return request<QueueIntegrationLeadExportRequest, IntegrationLeadExportResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun queueIntegrationLeadExportAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueIntegrationLeadExportRequest: QueueIntegrationLeadExportRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationLeadExportResponse?> {
+        val localVariableConfig = queueIntegrationLeadExportRequestConfig(teamId = teamId, connectionId = connectionId, queueIntegrationLeadExportRequest = queueIntegrationLeadExportRequest)
+
+        return requestAsync<QueueIntegrationLeadExportRequest, IntegrationLeadExportResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2618,8 +3487,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun queueNotificationTest(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest? = null) : QueuedIntegrationJobResponse {
-        val localVarResponse = queueNotificationTestWithHttpInfo(teamId = teamId, connectionId = connectionId, queueNotificationTestRequest = queueNotificationTestRequest)
+    fun queueNotificationTest(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest? = null, requestOptions: RequestOptions = RequestOptions()) : QueuedIntegrationJobResponse {
+        val localVarResponse = queueNotificationTestWithHttpInfo(teamId = teamId, connectionId = connectionId, queueNotificationTestRequest = queueNotificationTestRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as QueuedIntegrationJobResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun queueNotificationTestAsync(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest? = null, requestOptions: RequestOptions = RequestOptions()) : QueuedIntegrationJobResponse {
+        val localVarResponse = queueNotificationTestAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, queueNotificationTestRequest = queueNotificationTestRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as QueuedIntegrationJobResponse
@@ -2649,11 +3537,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun queueNotificationTestWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest?) : ApiResponse<QueuedIntegrationJobResponse?> {
+    fun queueNotificationTestWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<QueuedIntegrationJobResponse?> {
         val localVariableConfig = queueNotificationTestRequestConfig(teamId = teamId, connectionId = connectionId, queueNotificationTestRequest = queueNotificationTestRequest)
 
         return request<QueueNotificationTestRequest, QueuedIntegrationJobResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun queueNotificationTestAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, queueNotificationTestRequest: QueueNotificationTestRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<QueuedIntegrationJobResponse?> {
+        val localVariableConfig = queueNotificationTestRequestConfig(teamId = teamId, connectionId = connectionId, queueNotificationTestRequest = queueNotificationTestRequest)
+
+        return requestAsync<QueueNotificationTestRequest, QueuedIntegrationJobResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2698,8 +3595,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rotateCodaCredential(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = rotateCodaCredentialWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateCodaCredentialRequest = rotateCodaCredentialRequest)
+    fun rotateCodaCredential(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = rotateCodaCredentialWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateCodaCredentialRequest = rotateCodaCredentialRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateCodaCredentialAsync(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = rotateCodaCredentialAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateCodaCredentialRequest = rotateCodaCredentialRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -2729,11 +3645,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rotateCodaCredentialWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun rotateCodaCredentialWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = rotateCodaCredentialRequestConfig(teamId = teamId, connectionId = connectionId, rotateCodaCredentialRequest = rotateCodaCredentialRequest)
 
         return request<RotateCodaCredentialRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateCodaCredentialAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateCodaCredentialRequest: RotateCodaCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = rotateCodaCredentialRequestConfig(teamId = teamId, connectionId = connectionId, rotateCodaCredentialRequest = rotateCodaCredentialRequest)
+
+        return requestAsync<RotateCodaCredentialRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2778,8 +3703,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rotateFreshsalesCredential(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest) : IntegrationConnectionTestResponse {
-        val localVarResponse = rotateFreshsalesCredentialWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateFreshsalesCredentialRequest = rotateFreshsalesCredentialRequest)
+    fun rotateFreshsalesCredential(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = rotateFreshsalesCredentialWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateFreshsalesCredentialRequest = rotateFreshsalesCredentialRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateFreshsalesCredentialAsync(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = rotateFreshsalesCredentialAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, rotateFreshsalesCredentialRequest = rotateFreshsalesCredentialRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -2809,11 +3753,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rotateFreshsalesCredentialWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun rotateFreshsalesCredentialWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = rotateFreshsalesCredentialRequestConfig(teamId = teamId, connectionId = connectionId, rotateFreshsalesCredentialRequest = rotateFreshsalesCredentialRequest)
 
         return request<RotateFreshsalesCredentialRequest, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateFreshsalesCredentialAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, rotateFreshsalesCredentialRequest: RotateFreshsalesCredentialRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = rotateFreshsalesCredentialRequestConfig(teamId = teamId, connectionId = connectionId, rotateFreshsalesCredentialRequest = rotateFreshsalesCredentialRequest)
+
+        return requestAsync<RotateFreshsalesCredentialRequest, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2858,8 +3811,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun runSheetWorkflow(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest? = null) : QueuedIntegrationJobResponse {
-        val localVarResponse = runSheetWorkflowWithHttpInfo(teamId = teamId, workflowId = workflowId, runSheetWorkflowRequest = runSheetWorkflowRequest)
+    fun runSheetWorkflow(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest? = null, requestOptions: RequestOptions = RequestOptions()) : QueuedIntegrationJobResponse {
+        val localVarResponse = runSheetWorkflowWithHttpInfo(teamId = teamId, workflowId = workflowId, runSheetWorkflowRequest = runSheetWorkflowRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as QueuedIntegrationJobResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun runSheetWorkflowAsync(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest? = null, requestOptions: RequestOptions = RequestOptions()) : QueuedIntegrationJobResponse {
+        val localVarResponse = runSheetWorkflowAsyncWithHttpInfo(teamId = teamId, workflowId = workflowId, runSheetWorkflowRequest = runSheetWorkflowRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as QueuedIntegrationJobResponse
@@ -2889,11 +3861,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun runSheetWorkflowWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest?) : ApiResponse<QueuedIntegrationJobResponse?> {
+    fun runSheetWorkflowWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<QueuedIntegrationJobResponse?> {
         val localVariableConfig = runSheetWorkflowRequestConfig(teamId = teamId, workflowId = workflowId, runSheetWorkflowRequest = runSheetWorkflowRequest)
 
         return request<RunSheetWorkflowRequest, QueuedIntegrationJobResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun runSheetWorkflowAsyncWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, runSheetWorkflowRequest: RunSheetWorkflowRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<QueuedIntegrationJobResponse?> {
+        val localVariableConfig = runSheetWorkflowRequestConfig(teamId = teamId, workflowId = workflowId, runSheetWorkflowRequest = runSheetWorkflowRequest)
+
+        return requestAsync<RunSheetWorkflowRequest, QueuedIntegrationJobResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2937,8 +3918,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun saveSheetWorkflow(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest) : SheetWorkflowResponse {
-        val localVarResponse = saveSheetWorkflowWithHttpInfo(teamId = teamId, saveSheetWorkflowRequest = saveSheetWorkflowRequest)
+    fun saveSheetWorkflow(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowResponse {
+        val localVarResponse = saveSheetWorkflowWithHttpInfo(teamId = teamId, saveSheetWorkflowRequest = saveSheetWorkflowRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveSheetWorkflowAsync(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowResponse {
+        val localVarResponse = saveSheetWorkflowAsyncWithHttpInfo(teamId = teamId, saveSheetWorkflowRequest = saveSheetWorkflowRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowResponse
@@ -2967,11 +3967,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun saveSheetWorkflowWithHttpInfo(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest) : ApiResponse<SheetWorkflowResponse?> {
+    fun saveSheetWorkflowWithHttpInfo(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowResponse?> {
         val localVariableConfig = saveSheetWorkflowRequestConfig(teamId = teamId, saveSheetWorkflowRequest = saveSheetWorkflowRequest)
 
         return request<SaveSheetWorkflowRequest, SheetWorkflowResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveSheetWorkflowAsyncWithHttpInfo(teamId: kotlin.String, saveSheetWorkflowRequest: SaveSheetWorkflowRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowResponse?> {
+        val localVariableConfig = saveSheetWorkflowRequestConfig(teamId = teamId, saveSheetWorkflowRequest = saveSheetWorkflowRequest)
+
+        return requestAsync<SaveSheetWorkflowRequest, SheetWorkflowResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3014,8 +4023,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun startAttioOAuth(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest? = null) : IntegrationOAuthStartResponse {
-        val localVarResponse = startAttioOAuthWithHttpInfo(teamId = teamId, startAttioOAuthRequest = startAttioOAuthRequest)
+    fun startAttioOAuth(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startAttioOAuthWithHttpInfo(teamId = teamId, startAttioOAuthRequest = startAttioOAuthRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startAttioOAuthAsync(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startAttioOAuthAsyncWithHttpInfo(teamId = teamId, startAttioOAuthRequest = startAttioOAuthRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
@@ -3044,11 +4072,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun startAttioOAuthWithHttpInfo(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest?) : ApiResponse<IntegrationOAuthStartResponse?> {
+    fun startAttioOAuthWithHttpInfo(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
         val localVariableConfig = startAttioOAuthRequestConfig(teamId = teamId, startAttioOAuthRequest = startAttioOAuthRequest)
 
         return request<StartAttioOAuthRequest, IntegrationOAuthStartResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startAttioOAuthAsyncWithHttpInfo(teamId: kotlin.String, startAttioOAuthRequest: StartAttioOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
+        val localVariableConfig = startAttioOAuthRequestConfig(teamId = teamId, startAttioOAuthRequest = startAttioOAuthRequest)
+
+        return requestAsync<StartAttioOAuthRequest, IntegrationOAuthStartResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3091,8 +4128,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun startGoogleSheetsOAuth(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest? = null) : IntegrationOAuthStartResponse {
-        val localVarResponse = startGoogleSheetsOAuthWithHttpInfo(teamId = teamId, startGoogleSheetsOAuthRequest = startGoogleSheetsOAuthRequest)
+    fun startGoogleSheetsOAuth(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startGoogleSheetsOAuthWithHttpInfo(teamId = teamId, startGoogleSheetsOAuthRequest = startGoogleSheetsOAuthRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startGoogleSheetsOAuthAsync(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startGoogleSheetsOAuthAsyncWithHttpInfo(teamId = teamId, startGoogleSheetsOAuthRequest = startGoogleSheetsOAuthRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
@@ -3121,11 +4177,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun startGoogleSheetsOAuthWithHttpInfo(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest?) : ApiResponse<IntegrationOAuthStartResponse?> {
+    fun startGoogleSheetsOAuthWithHttpInfo(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
         val localVariableConfig = startGoogleSheetsOAuthRequestConfig(teamId = teamId, startGoogleSheetsOAuthRequest = startGoogleSheetsOAuthRequest)
 
         return request<StartGoogleSheetsOAuthRequest, IntegrationOAuthStartResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startGoogleSheetsOAuthAsyncWithHttpInfo(teamId: kotlin.String, startGoogleSheetsOAuthRequest: StartGoogleSheetsOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
+        val localVariableConfig = startGoogleSheetsOAuthRequestConfig(teamId = teamId, startGoogleSheetsOAuthRequest = startGoogleSheetsOAuthRequest)
+
+        return requestAsync<StartGoogleSheetsOAuthRequest, IntegrationOAuthStartResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3197,8 +4262,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun startIntegrationOAuth(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest? = null) : IntegrationOAuthStartResponse {
-        val localVarResponse = startIntegrationOAuthWithHttpInfo(teamId = teamId, provider = provider, startIntegrationOAuthRequest = startIntegrationOAuthRequest)
+    fun startIntegrationOAuth(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startIntegrationOAuthWithHttpInfo(teamId = teamId, provider = provider, startIntegrationOAuthRequest = startIntegrationOAuthRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startIntegrationOAuthAsync(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest? = null, requestOptions: RequestOptions = RequestOptions()) : IntegrationOAuthStartResponse {
+        val localVarResponse = startIntegrationOAuthAsyncWithHttpInfo(teamId = teamId, provider = provider, startIntegrationOAuthRequest = startIntegrationOAuthRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationOAuthStartResponse
@@ -3228,11 +4312,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun startIntegrationOAuthWithHttpInfo(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest?) : ApiResponse<IntegrationOAuthStartResponse?> {
+    fun startIntegrationOAuthWithHttpInfo(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
         val localVariableConfig = startIntegrationOAuthRequestConfig(teamId = teamId, provider = provider, startIntegrationOAuthRequest = startIntegrationOAuthRequest)
 
         return request<StartIntegrationOAuthRequest, IntegrationOAuthStartResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startIntegrationOAuthAsyncWithHttpInfo(teamId: kotlin.String, provider: ProviderStartIntegrationOAuth, startIntegrationOAuthRequest: StartIntegrationOAuthRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationOAuthStartResponse?> {
+        val localVariableConfig = startIntegrationOAuthRequestConfig(teamId = teamId, provider = provider, startIntegrationOAuthRequest = startIntegrationOAuthRequest)
+
+        return requestAsync<StartIntegrationOAuthRequest, IntegrationOAuthStartResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3276,8 +4369,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testIntegrationConnection(teamId: kotlin.String, connectionId: kotlin.String) : IntegrationConnectionTestResponse {
-        val localVarResponse = testIntegrationConnectionWithHttpInfo(teamId = teamId, connectionId = connectionId)
+    fun testIntegrationConnection(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = testIntegrationConnectionWithHttpInfo(teamId = teamId, connectionId = connectionId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun testIntegrationConnectionAsync(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionTestResponse {
+        val localVarResponse = testIntegrationConnectionAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionTestResponse
@@ -3306,11 +4418,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun testIntegrationConnectionWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String) : ApiResponse<IntegrationConnectionTestResponse?> {
+    fun testIntegrationConnectionWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
         val localVariableConfig = testIntegrationConnectionRequestConfig(teamId = teamId, connectionId = connectionId)
 
         return request<Unit, IntegrationConnectionTestResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun testIntegrationConnectionAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionTestResponse?> {
+        val localVariableConfig = testIntegrationConnectionRequestConfig(teamId = teamId, connectionId = connectionId)
+
+        return requestAsync<Unit, IntegrationConnectionTestResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3353,8 +4474,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateIntegrationConnectionState(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest) : IntegrationConnectionStateResponse {
-        val localVarResponse = updateIntegrationConnectionStateWithHttpInfo(teamId = teamId, connectionId = connectionId, updateIntegrationConnectionStateRequest = updateIntegrationConnectionStateRequest)
+    fun updateIntegrationConnectionState(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionStateResponse {
+        val localVarResponse = updateIntegrationConnectionStateWithHttpInfo(teamId = teamId, connectionId = connectionId, updateIntegrationConnectionStateRequest = updateIntegrationConnectionStateRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionStateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateIntegrationConnectionStateAsync(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest, requestOptions: RequestOptions = RequestOptions()) : IntegrationConnectionStateResponse {
+        val localVarResponse = updateIntegrationConnectionStateAsyncWithHttpInfo(teamId = teamId, connectionId = connectionId, updateIntegrationConnectionStateRequest = updateIntegrationConnectionStateRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as IntegrationConnectionStateResponse
@@ -3384,11 +4524,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateIntegrationConnectionStateWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest) : ApiResponse<IntegrationConnectionStateResponse?> {
+    fun updateIntegrationConnectionStateWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionStateResponse?> {
         val localVariableConfig = updateIntegrationConnectionStateRequestConfig(teamId = teamId, connectionId = connectionId, updateIntegrationConnectionStateRequest = updateIntegrationConnectionStateRequest)
 
         return request<UpdateIntegrationConnectionStateRequest, IntegrationConnectionStateResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateIntegrationConnectionStateAsyncWithHttpInfo(teamId: kotlin.String, connectionId: kotlin.String, updateIntegrationConnectionStateRequest: UpdateIntegrationConnectionStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<IntegrationConnectionStateResponse?> {
+        val localVariableConfig = updateIntegrationConnectionStateRequestConfig(teamId = teamId, connectionId = connectionId, updateIntegrationConnectionStateRequest = updateIntegrationConnectionStateRequest)
+
+        return requestAsync<UpdateIntegrationConnectionStateRequest, IntegrationConnectionStateResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3433,8 +4582,27 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateSheetWorkflowState(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest) : SheetWorkflowStateResponse {
-        val localVarResponse = updateSheetWorkflowStateWithHttpInfo(teamId = teamId, workflowId = workflowId, updateSheetWorkflowStateRequest = updateSheetWorkflowStateRequest)
+    fun updateSheetWorkflowState(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowStateResponse {
+        val localVarResponse = updateSheetWorkflowStateWithHttpInfo(teamId = teamId, workflowId = workflowId, updateSheetWorkflowStateRequest = updateSheetWorkflowStateRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowStateResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateSheetWorkflowStateAsync(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest, requestOptions: RequestOptions = RequestOptions()) : SheetWorkflowStateResponse {
+        val localVarResponse = updateSheetWorkflowStateAsyncWithHttpInfo(teamId = teamId, workflowId = workflowId, updateSheetWorkflowStateRequest = updateSheetWorkflowStateRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SheetWorkflowStateResponse
@@ -3464,11 +4632,20 @@ open class IntegrationsApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateSheetWorkflowStateWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest) : ApiResponse<SheetWorkflowStateResponse?> {
+    fun updateSheetWorkflowStateWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowStateResponse?> {
         val localVariableConfig = updateSheetWorkflowStateRequestConfig(teamId = teamId, workflowId = workflowId, updateSheetWorkflowStateRequest = updateSheetWorkflowStateRequest)
 
         return request<UpdateSheetWorkflowStateRequest, SheetWorkflowStateResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateSheetWorkflowStateAsyncWithHttpInfo(teamId: kotlin.String, workflowId: kotlin.String, updateSheetWorkflowStateRequest: UpdateSheetWorkflowStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SheetWorkflowStateResponse?> {
+        val localVariableConfig = updateSheetWorkflowStateRequestConfig(teamId = teamId, workflowId = workflowId, updateSheetWorkflowStateRequest = updateSheetWorkflowStateRequest)
+
+        return requestAsync<UpdateSheetWorkflowStateRequest, SheetWorkflowStateResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailMailAttachmentReference
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  *
  * @param subject 
  * @param text 
+ * @param attachments 
  * @param html 
  */
 
@@ -45,19 +47,23 @@ data class MailRenderedMessage (
     @get:JsonProperty("text")
     val text: kotlin.String,
 
+    @param:JsonProperty("attachments")
+    @get:JsonProperty("attachments")
+    val attachments: kotlin.collections.List<MailMailAttachmentReference>? = null,
+
     @param:JsonProperty("html")
     @get:JsonProperty("html")
     val html: kotlin.String? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("subject", "text", if (html != null) "html" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("subject", "text", if (attachments != null) "attachments" else null, if (html != null) "html" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("subject", "text", "html")
+    override val reaconKnownFields: Set<String> get() = setOf("subject", "text", "attachments", "html")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("subject", "text")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (html == null) "html" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (attachments == null) "attachments" else null, if (html == null) "html" else null)
 
 
 

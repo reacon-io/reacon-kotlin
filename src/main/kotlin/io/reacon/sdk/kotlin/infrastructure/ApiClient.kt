@@ -32,8 +32,18 @@ import com.fasterxml.jackson.core.type.TypeReference
 
 val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val client: Call.Factory = defaultClient) {
+open class ApiClient(client: Call.Factory? = null, val requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : AutoCloseable {
     val baseUrl: String get() = "https://api.reacon.io"
+    private val ownsTransport = client == null
+    val client: Call.Factory = when (client) {
+        null -> HttpPolicy.client(builder.build())
+        is OkHttpClient -> HttpPolicy.client(client)
+        else -> client
+    }
+    init { HttpPolicy.timeoutMillis(requestTimeout) }
+    override fun close() {
+        if (ownsTransport) (client as OkHttpClient).let { it.dispatcher.cancelAll(); it.connectionPool.evictAll(); it.dispatcher.executorService.shutdown() }
+    }
     val apiKey: MutableMap<String, String> = mutableMapOf()
     val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
     companion object {
@@ -377,7 +387,7 @@ open class ApiClient(val client: Call.Factory = defaultClient) {
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
+    protected inline fun <reified I> buildHttpRequest(requestConfig: RequestConfig<I>): okhttp3.Request {
         val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         // take authMethod from operation
@@ -429,43 +439,14 @@ open class ApiClient(val client: Call.Factory = defaultClient) {
             this.headers(headersBuilder.build())
         }.build()
 
-        val response = client.newCall(request).execute()
-
-        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
-
-        // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        @Suppress("UNNECESSARY_SAFE_CALL")
-        return response.use {
-            when {
-                it.isRedirect -> Redirection(
-                    it.code,
-                    it.headers.toMultimap()
-                )
-                it.isInformational -> Informational(
-                    it.message,
-                    it.code,
-                    it.headers.toMultimap()
-                )
-                it.isSuccessful -> Success(
-                    responseBody(it, accept),
-                    it.code,
-                    it.headers.toMultimap()
-                )
-                it.isClientError -> ClientError(
-                    it.message,
-                    it.body?.string(),
-                    it.code,
-                    it.headers.toMultimap()
-                )
-                else -> ServerError(
-                    it.message,
-                    it.body?.string(),
-                    it.code,
-                    it.headers.toMultimap()
-                )
-            }
-        }
+        return request
     }
+
+    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>, options: RequestOptions = RequestOptions()): ApiResponse<T?> =
+        HttpPolicy.decode(HttpPolicy.execute(client, buildHttpRequest(requestConfig), options, requestTimeout), object : TypeReference<T>() {})
+
+    protected suspend inline fun <reified I, reified T: Any?> requestAsync(requestConfig: RequestConfig<I>, options: RequestOptions = RequestOptions()): ApiResponse<T?> =
+        HttpPolicy.decode(HttpPolicy.executeAsync(client, buildHttpRequest(requestConfig), options, requestTimeout), object : TypeReference<T>() {})
 
     protected fun parameterToString(value: Any?): String = when (value) {
         null -> ""

@@ -34,7 +34,7 @@ sealed class MailPostCadencesRequestNodesInner {
     class Deserializer : JsonDeserializer<MailPostCadencesRequestNodesInner>() {
         override fun getNullValue(context: DeserializationContext): MailPostCadencesRequestNodesInner = throw JsonMappingException.from(context.parser, "MailPostCadencesRequestNodesInner must be an object")
         override fun deserialize(parser: JsonParser, context: DeserializationContext): MailPostCadencesRequestNodesInner {
-            val tree = parser.codec.readTree<JsonNode>(parser)
+            val tree: JsonNode = context.readTree(parser)
             if (!tree.isObject) throw JsonMappingException.from(parser, "MailPostCadencesRequestNodesInner must be an object")
             val keys = tree.fieldNames().asSequence().toSet()
             var lastFailure: Exception? = null

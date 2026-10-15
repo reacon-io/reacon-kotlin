@@ -35,6 +35,7 @@ import io.reacon.sdk.kotlin.models.SegmentInstallationCreated
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -49,7 +50,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class WebhooksApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -71,8 +72,27 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createAutomationHook(createAutomationHookRequest: CreateAutomationHookRequest) : AutomationHookCreated {
-        val localVarResponse = createAutomationHookWithHttpInfo(createAutomationHookRequest = createAutomationHookRequest)
+    fun createAutomationHook(createAutomationHookRequest: CreateAutomationHookRequest, requestOptions: RequestOptions = RequestOptions()) : AutomationHookCreated {
+        val localVarResponse = createAutomationHookWithHttpInfo(createAutomationHookRequest = createAutomationHookRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as AutomationHookCreated
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createAutomationHookAsync(createAutomationHookRequest: CreateAutomationHookRequest, requestOptions: RequestOptions = RequestOptions()) : AutomationHookCreated {
+        val localVarResponse = createAutomationHookAsyncWithHttpInfo(createAutomationHookRequest = createAutomationHookRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as AutomationHookCreated
@@ -100,11 +120,20 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createAutomationHookWithHttpInfo(createAutomationHookRequest: CreateAutomationHookRequest) : ApiResponse<AutomationHookCreated?> {
+    fun createAutomationHookWithHttpInfo(createAutomationHookRequest: CreateAutomationHookRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<AutomationHookCreated?> {
         val localVariableConfig = createAutomationHookRequestConfig(createAutomationHookRequest = createAutomationHookRequest)
 
         return request<CreateAutomationHookRequest, AutomationHookCreated>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createAutomationHookAsyncWithHttpInfo(createAutomationHookRequest: CreateAutomationHookRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<AutomationHookCreated?> {
+        val localVariableConfig = createAutomationHookRequestConfig(createAutomationHookRequest = createAutomationHookRequest)
+
+        return requestAsync<CreateAutomationHookRequest, AutomationHookCreated>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -145,8 +174,27 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createSegmentInstallation(createSegmentInstallationRequest: CreateSegmentInstallationRequest) : SegmentInstallationCreated {
-        val localVarResponse = createSegmentInstallationWithHttpInfo(createSegmentInstallationRequest = createSegmentInstallationRequest)
+    fun createSegmentInstallation(createSegmentInstallationRequest: CreateSegmentInstallationRequest, requestOptions: RequestOptions = RequestOptions()) : SegmentInstallationCreated {
+        val localVarResponse = createSegmentInstallationWithHttpInfo(createSegmentInstallationRequest = createSegmentInstallationRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as SegmentInstallationCreated
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createSegmentInstallationAsync(createSegmentInstallationRequest: CreateSegmentInstallationRequest, requestOptions: RequestOptions = RequestOptions()) : SegmentInstallationCreated {
+        val localVarResponse = createSegmentInstallationAsyncWithHttpInfo(createSegmentInstallationRequest = createSegmentInstallationRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as SegmentInstallationCreated
@@ -174,11 +222,20 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createSegmentInstallationWithHttpInfo(createSegmentInstallationRequest: CreateSegmentInstallationRequest) : ApiResponse<SegmentInstallationCreated?> {
+    fun createSegmentInstallationWithHttpInfo(createSegmentInstallationRequest: CreateSegmentInstallationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SegmentInstallationCreated?> {
         val localVariableConfig = createSegmentInstallationRequestConfig(createSegmentInstallationRequest = createSegmentInstallationRequest)
 
         return request<CreateSegmentInstallationRequest, SegmentInstallationCreated>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createSegmentInstallationAsyncWithHttpInfo(createSegmentInstallationRequest: CreateSegmentInstallationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<SegmentInstallationCreated?> {
+        val localVariableConfig = createSegmentInstallationRequestConfig(createSegmentInstallationRequest = createSegmentInstallationRequest)
+
+        return requestAsync<CreateSegmentInstallationRequest, SegmentInstallationCreated>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -218,8 +275,27 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteAutomationHook(hookId: kotlin.String) : Unit {
-        val localVarResponse = deleteAutomationHookWithHttpInfo(hookId = hookId)
+    fun deleteAutomationHook(hookId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = deleteAutomationHookWithHttpInfo(hookId = hookId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteAutomationHookAsync(hookId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = deleteAutomationHookAsyncWithHttpInfo(hookId = hookId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -246,11 +322,20 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteAutomationHookWithHttpInfo(hookId: kotlin.String) : ApiResponse<Unit?> {
+    fun deleteAutomationHookWithHttpInfo(hookId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
         val localVariableConfig = deleteAutomationHookRequestConfig(hookId = hookId)
 
         return request<Unit, Unit>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteAutomationHookAsyncWithHttpInfo(hookId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
+        val localVariableConfig = deleteAutomationHookRequestConfig(hookId = hookId)
+
+        return requestAsync<Unit, Unit>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -289,8 +374,27 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      * @throws ServerException If the API returns a server error response
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteSegmentInstallation(installationId: kotlin.String) : Unit {
-        val localVarResponse = deleteSegmentInstallationWithHttpInfo(installationId = installationId)
+    fun deleteSegmentInstallation(installationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = deleteSegmentInstallationWithHttpInfo(installationId = installationId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> Unit
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteSegmentInstallationAsync(installationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : Unit {
+        val localVarResponse = deleteSegmentInstallationAsyncWithHttpInfo(installationId = installationId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> Unit
@@ -317,11 +421,20 @@ open class WebhooksApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteSegmentInstallationWithHttpInfo(installationId: kotlin.String) : ApiResponse<Unit?> {
+    fun deleteSegmentInstallationWithHttpInfo(installationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
         val localVariableConfig = deleteSegmentInstallationRequestConfig(installationId = installationId)
 
         return request<Unit, Unit>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteSegmentInstallationAsyncWithHttpInfo(installationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<Unit?> {
+        val localVariableConfig = deleteSegmentInstallationRequestConfig(installationId = installationId)
+
+        return requestAsync<Unit, Unit>(
+            localVariableConfig, requestOptions
         )
     }
 

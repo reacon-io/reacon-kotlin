@@ -23,34 +23,62 @@
 
 package io.reacon.sdk.kotlin.models
 
-import io.reacon.sdk.kotlin.models.ProductSequence
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonValue
 
 /**
  * 
  *
+ * @param cadences 
+ * @param campaigns 
+ * @param drafts 
  * @param items 
+ * @param source 
  */
 
 
 data class ProductSequencesListOutput (
 
+    @param:JsonProperty(value = "cadences", required = true)
+    @get:JsonProperty("cadences")
+    val cadences: kotlin.collections.List<kotlin.collections.Map<kotlin.String, kotlin.Any>>,
+
+    @param:JsonProperty(value = "campaigns", required = true)
+    @get:JsonProperty("campaigns")
+    val campaigns: kotlin.collections.List<kotlin.collections.Map<kotlin.String, kotlin.Any>>,
+
+    @param:JsonProperty(value = "drafts", required = true)
+    @get:JsonProperty("drafts")
+    val drafts: kotlin.collections.List<kotlin.collections.Map<kotlin.String, kotlin.Any>>,
+
     @param:JsonProperty(value = "items", required = true)
     @get:JsonProperty("items")
-    val items: kotlin.collections.List<ProductSequence>,
+    val items: kotlin.collections.List<kotlin.collections.Map<kotlin.String, kotlin.Any>>,
+
+    @param:JsonProperty(value = "source", required = true)
+    @get:JsonProperty("source")
+    val source: ProductSequencesListOutput.Source,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("items"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("cadences", "campaigns", "drafts", "items", "source"),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("items")
+    override val reaconKnownFields: Set<String> get() = setOf("cadences", "campaigns", "drafts", "items", "source")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("items")
+    override val reaconRequiredFields: Set<String> get() = setOf("cadences", "campaigns", "drafts", "items", "source")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
 
 
+    /**
+     * 
+     *
+     * Values: CANONICAL_MAIL
+     */
+    enum class Source(@get:JsonValue val value: kotlin.String) {
+        @JsonProperty(value = "canonical_mail") CANONICAL_MAIL("canonical_mail");
+    }
 
 }
 
