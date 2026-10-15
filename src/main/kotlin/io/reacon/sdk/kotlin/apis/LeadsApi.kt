@@ -41,6 +41,7 @@ import io.reacon.sdk.kotlin.models.UpdateLeadResponse
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -55,7 +56,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class LeadsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -78,8 +79,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createLead(teamId: kotlin.String, createLeadRequest: CreateLeadRequest) : CreateLeadResponse {
-        val localVarResponse = createLeadWithHttpInfo(teamId = teamId, createLeadRequest = createLeadRequest)
+    fun createLead(teamId: kotlin.String, createLeadRequest: CreateLeadRequest, requestOptions: RequestOptions = RequestOptions()) : CreateLeadResponse {
+        val localVarResponse = createLeadWithHttpInfo(teamId = teamId, createLeadRequest = createLeadRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as CreateLeadResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createLeadAsync(teamId: kotlin.String, createLeadRequest: CreateLeadRequest, requestOptions: RequestOptions = RequestOptions()) : CreateLeadResponse {
+        val localVarResponse = createLeadAsyncWithHttpInfo(teamId = teamId, createLeadRequest = createLeadRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as CreateLeadResponse
@@ -108,11 +128,20 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createLeadWithHttpInfo(teamId: kotlin.String, createLeadRequest: CreateLeadRequest) : ApiResponse<CreateLeadResponse?> {
+    fun createLeadWithHttpInfo(teamId: kotlin.String, createLeadRequest: CreateLeadRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CreateLeadResponse?> {
         val localVariableConfig = createLeadRequestConfig(teamId = teamId, createLeadRequest = createLeadRequest)
 
         return request<CreateLeadRequest, CreateLeadResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createLeadAsyncWithHttpInfo(teamId: kotlin.String, createLeadRequest: CreateLeadRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<CreateLeadResponse?> {
+        val localVariableConfig = createLeadRequestConfig(teamId = teamId, createLeadRequest = createLeadRequest)
+
+        return requestAsync<CreateLeadRequest, CreateLeadResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -154,8 +183,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteLead(leadId: kotlin.String) : DeleteLeadResponse {
-        val localVarResponse = deleteLeadWithHttpInfo(leadId = leadId)
+    fun deleteLead(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DeleteLeadResponse {
+        val localVarResponse = deleteLeadWithHttpInfo(leadId = leadId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteLeadResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteLeadAsync(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DeleteLeadResponse {
+        val localVarResponse = deleteLeadAsyncWithHttpInfo(leadId = leadId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteLeadResponse
@@ -183,11 +231,20 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteLeadWithHttpInfo(leadId: kotlin.String) : ApiResponse<DeleteLeadResponse?> {
+    fun deleteLeadWithHttpInfo(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DeleteLeadResponse?> {
         val localVariableConfig = deleteLeadRequestConfig(leadId = leadId)
 
         return request<Unit, DeleteLeadResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteLeadAsyncWithHttpInfo(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DeleteLeadResponse?> {
+        val localVariableConfig = deleteLeadRequestConfig(leadId = leadId)
+
+        return requestAsync<Unit, DeleteLeadResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -228,8 +285,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun exportLeads(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest) : kotlin.collections.List<LeadExportInner> {
-        val localVarResponse = exportLeadsWithHttpInfo(teamId = teamId, exportLeadsRequest = exportLeadsRequest)
+    fun exportLeads(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()) : kotlin.collections.List<LeadExportInner> {
+        val localVarResponse = exportLeadsWithHttpInfo(teamId = teamId, exportLeadsRequest = exportLeadsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<LeadExportInner>
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportLeadsAsync(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()) : kotlin.collections.List<LeadExportInner> {
+        val localVarResponse = exportLeadsAsyncWithHttpInfo(teamId = teamId, exportLeadsRequest = exportLeadsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.collections.List<LeadExportInner>
@@ -259,10 +335,10 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     /** Download CSV text through the authenticated request pipeline. */
-    fun exportLeadsCsv(teamId: String, exportLeadsRequest: ExportLeadsRequest): String {
+    fun exportLeadsCsv(teamId: String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()): String {
         val config = exportLeadsRequestConfig(teamId, exportLeadsRequest.copy(format = ExportLeadsRequest.Format.CSV))
         config.headers["Accept"] = "text/csv"
-        return when (val response = request<ExportLeadsRequest, String>(config)) {
+        return when (val response = request<ExportLeadsRequest, String>(config, requestOptions)) {
             is Success -> {
                 val contentType = response.headers.entries.firstOrNull { it.key.equals("content-type", ignoreCase = true) }?.value?.firstOrNull()?.substringBefore(';')?.trim()
                 require(contentType.equals("text/csv", ignoreCase = true)) { "Expected a CSV export response" }
@@ -274,12 +350,38 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
         }
     }
 
-    fun exportLeadsWithHttpInfo(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest) : ApiResponse<kotlin.collections.List<LeadExportInner>?> {
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportLeadsCsvAsync(teamId: String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()): String {
+        val config = exportLeadsRequestConfig(teamId, exportLeadsRequest.copy(format = ExportLeadsRequest.Format.CSV))
+        config.headers["Accept"] = "text/csv"
+        return when (val response = requestAsync<ExportLeadsRequest, String>(config, requestOptions)) {
+            is Success -> {
+                val contentType = response.headers.entries.firstOrNull { it.key.equals("content-type", ignoreCase = true) }?.value?.firstOrNull()?.substringBefore(';')?.trim()
+                require(contentType.equals("text/csv", ignoreCase = true)) { "Expected a CSV export response" }
+                response.data ?: ""
+            }
+            is ClientError -> throw ClientException("CSV export failed", response.statusCode, response)
+            is ServerError -> throw ServerException("CSV export failed", response.statusCode, response)
+            else -> throw UnsupportedOperationException("Unexpected CSV response type")
+        }
+    }
+
+    fun exportLeadsWithHttpInfo(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<kotlin.collections.List<LeadExportInner>?> {
         require(exportLeadsRequest.format != ExportLeadsRequest.Format.CSV) { "Use exportLeadsCsv for a CSV export" }
         val localVariableConfig = exportLeadsRequestConfig(teamId = teamId, exportLeadsRequest = exportLeadsRequest)
 
         return request<ExportLeadsRequest, kotlin.collections.List<LeadExportInner>>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportLeadsAsyncWithHttpInfo(teamId: kotlin.String, exportLeadsRequest: ExportLeadsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<kotlin.collections.List<LeadExportInner>?> {
+        require(exportLeadsRequest.format != ExportLeadsRequest.Format.CSV) { "Use exportLeadsCsv for a CSV export" }
+        val localVariableConfig = exportLeadsRequestConfig(teamId = teamId, exportLeadsRequest = exportLeadsRequest)
+
+        return requestAsync<ExportLeadsRequest, kotlin.collections.List<LeadExportInner>>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -321,8 +423,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getLead(leadId: kotlin.String) : GetLeadResponse {
-        val localVarResponse = getLeadWithHttpInfo(leadId = leadId)
+    fun getLead(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : GetLeadResponse {
+        val localVarResponse = getLeadWithHttpInfo(leadId = leadId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as GetLeadResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getLeadAsync(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : GetLeadResponse {
+        val localVarResponse = getLeadAsyncWithHttpInfo(leadId = leadId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as GetLeadResponse
@@ -350,11 +471,20 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getLeadWithHttpInfo(leadId: kotlin.String) : ApiResponse<GetLeadResponse?> {
+    fun getLeadWithHttpInfo(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<GetLeadResponse?> {
         val localVariableConfig = getLeadRequestConfig(leadId = leadId)
 
         return request<Unit, GetLeadResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getLeadAsyncWithHttpInfo(leadId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<GetLeadResponse?> {
+        val localVariableConfig = getLeadRequestConfig(leadId = leadId)
+
+        return requestAsync<Unit, GetLeadResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -462,8 +592,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listLeads(teamId: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, domain: kotlin.String? = null, search: kotlin.String? = null, sort: SortListLeads? = null, group: GroupListLeads? = null, order: OrderListLeads? = null, position: kotlin.String? = null, filters: kotlin.String? = null) : LeadPage {
-        val localVarResponse = listLeadsWithHttpInfo(teamId = teamId, limit = limit, offset = offset, cursor = cursor, domain = domain, search = search, sort = sort, group = group, order = order, position = position, filters = filters)
+    fun listLeads(teamId: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, domain: kotlin.String? = null, search: kotlin.String? = null, sort: SortListLeads? = null, group: GroupListLeads? = null, order: OrderListLeads? = null, position: kotlin.String? = null, filters: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : LeadPage {
+        val localVarResponse = listLeadsWithHttpInfo(teamId = teamId, limit = limit, offset = offset, cursor = cursor, domain = domain, search = search, sort = sort, group = group, order = order, position = position, filters = filters, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as LeadPage
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listLeadsAsync(teamId: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, domain: kotlin.String? = null, search: kotlin.String? = null, sort: SortListLeads? = null, group: GroupListLeads? = null, order: OrderListLeads? = null, position: kotlin.String? = null, filters: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : LeadPage {
+        val localVarResponse = listLeadsAsyncWithHttpInfo(teamId = teamId, limit = limit, offset = offset, cursor = cursor, domain = domain, search = search, sort = sort, group = group, order = order, position = position, filters = filters, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as LeadPage
@@ -501,11 +650,20 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listLeadsWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, domain: kotlin.String?, search: kotlin.String?, sort: SortListLeads?, group: GroupListLeads?, order: OrderListLeads?, position: kotlin.String?, filters: kotlin.String?) : ApiResponse<LeadPage?> {
+    fun listLeadsWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, domain: kotlin.String?, search: kotlin.String?, sort: SortListLeads?, group: GroupListLeads?, order: OrderListLeads?, position: kotlin.String?, filters: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<LeadPage?> {
         val localVariableConfig = listLeadsRequestConfig(teamId = teamId, limit = limit, offset = offset, cursor = cursor, domain = domain, search = search, sort = sort, group = group, order = order, position = position, filters = filters)
 
         return request<Unit, LeadPage>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listLeadsAsyncWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, domain: kotlin.String?, search: kotlin.String?, sort: SortListLeads?, group: GroupListLeads?, order: OrderListLeads?, position: kotlin.String?, filters: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<LeadPage?> {
+        val localVariableConfig = listLeadsRequestConfig(teamId = teamId, limit = limit, offset = offset, cursor = cursor, domain = domain, search = search, sort = sort, group = group, order = order, position = position, filters = filters)
+
+        return requestAsync<Unit, LeadPage>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -588,8 +746,27 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateLead(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest? = null) : UpdateLeadResponse {
-        val localVarResponse = updateLeadWithHttpInfo(leadId = leadId, updateLeadRequest = updateLeadRequest)
+    fun updateLead(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest? = null, requestOptions: RequestOptions = RequestOptions()) : UpdateLeadResponse {
+        val localVarResponse = updateLeadWithHttpInfo(leadId = leadId, updateLeadRequest = updateLeadRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as UpdateLeadResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateLeadAsync(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest? = null, requestOptions: RequestOptions = RequestOptions()) : UpdateLeadResponse {
+        val localVarResponse = updateLeadAsyncWithHttpInfo(leadId = leadId, updateLeadRequest = updateLeadRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as UpdateLeadResponse
@@ -618,11 +795,20 @@ open class LeadsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateLeadWithHttpInfo(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest?) : ApiResponse<UpdateLeadResponse?> {
+    fun updateLeadWithHttpInfo(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<UpdateLeadResponse?> {
         val localVariableConfig = updateLeadRequestConfig(leadId = leadId, updateLeadRequest = updateLeadRequest)
 
         return request<UpdateLeadRequest, UpdateLeadResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateLeadAsyncWithHttpInfo(leadId: kotlin.String, updateLeadRequest: UpdateLeadRequest?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<UpdateLeadResponse?> {
+        val localVariableConfig = updateLeadRequestConfig(leadId = leadId, updateLeadRequest = updateLeadRequest)
+
+        return requestAsync<UpdateLeadRequest, UpdateLeadResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

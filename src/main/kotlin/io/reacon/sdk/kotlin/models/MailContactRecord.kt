@@ -23,6 +23,7 @@
 
 package io.reacon.sdk.kotlin.models
 
+import io.reacon.sdk.kotlin.models.MailContactRecordVerification
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -36,6 +37,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param tenantId 
  * @param updatedAt 
  * @param name 
+ * @param verification 
  */
 
 
@@ -69,15 +71,19 @@ data class MailContactRecord (
     @get:JsonProperty("name")
     val name: kotlin.String? = null,
 
+    @param:JsonProperty("verification")
+    @get:JsonProperty("verification")
+    val verification: MailContactRecordVerification? = null,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("createdAt", "customFields", "email", "id", "tenantId", "updatedAt", if (name != null) "name" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("createdAt", "customFields", "email", "id", "tenantId", "updatedAt", if (name != null) "name" else null, if (verification != null) "verification" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("createdAt", "customFields", "email", "id", "tenantId", "updatedAt", "name")
+    override val reaconKnownFields: Set<String> get() = setOf("createdAt", "customFields", "email", "id", "tenantId", "updatedAt", "name", "verification")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("createdAt", "customFields", "email", "id", "tenantId", "updatedAt")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (name == null) "name" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (name == null) "name" else null, if (verification == null) "verification" else null)
 
 
 

@@ -34,7 +34,7 @@ sealed class MailCadenceNode {
     class Deserializer : JsonDeserializer<MailCadenceNode>() {
         override fun getNullValue(context: DeserializationContext): MailCadenceNode = throw JsonMappingException.from(context.parser, "MailCadenceNode must be an object")
         override fun deserialize(parser: JsonParser, context: DeserializationContext): MailCadenceNode {
-            val tree = parser.codec.readTree<JsonNode>(parser)
+            val tree: JsonNode = context.readTree(parser)
             if (!tree.isObject) throw JsonMappingException.from(parser, "MailCadenceNode must be an object")
             val keys = tree.fieldNames().asSequence().toSet()
             var lastFailure: Exception? = null

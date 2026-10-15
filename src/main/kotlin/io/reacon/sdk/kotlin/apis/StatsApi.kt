@@ -32,6 +32,7 @@ import io.reacon.sdk.kotlin.models.PublicStats
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -46,7 +47,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class StatsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class StatsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -67,8 +68,27 @@ open class StatsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getStats() : PublicStats {
-        val localVarResponse = getStatsWithHttpInfo()
+    fun getStats(requestOptions: RequestOptions = RequestOptions()) : PublicStats {
+        val localVarResponse = getStatsWithHttpInfo(requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as PublicStats
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getStatsAsync(requestOptions: RequestOptions = RequestOptions()) : PublicStats {
+        val localVarResponse = getStatsAsyncWithHttpInfo(requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as PublicStats
@@ -95,11 +115,20 @@ open class StatsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getStatsWithHttpInfo() : ApiResponse<PublicStats?> {
+    fun getStatsWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<PublicStats?> {
         val localVariableConfig = getStatsRequestConfig()
 
         return request<Unit, PublicStats>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getStatsAsyncWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<PublicStats?> {
+        val localVariableConfig = getStatsRequestConfig()
+
+        return requestAsync<Unit, PublicStats>(
+            localVariableConfig, requestOptions
         )
     }
 

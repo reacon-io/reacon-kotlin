@@ -24,6 +24,7 @@
 package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailCadenceEnrollmentVariableGap
+import io.reacon.sdk.kotlin.models.MailRecipientEligibilitySummary
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param ready 
  * @param requiredVariables 
  * @param senderCount 
+ * @param eligibility 
  */
 
 
@@ -70,15 +72,19 @@ data class MailPostCadenceRunsPreflightResponse200 (
     @get:JsonProperty("senderCount")
     val senderCount: java.math.BigDecimal,
 
+    @param:JsonProperty("eligibility")
+    @get:JsonProperty("eligibility")
+    val eligibility: MailRecipientEligibilitySummary? = null,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("audienceCount", "cadenceId", "cadenceVersion", "missingVariables", "ready", "requiredVariables", "senderCount"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("audienceCount", "cadenceId", "cadenceVersion", "missingVariables", "ready", "requiredVariables", "senderCount", if (eligibility != null) "eligibility" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("audienceCount", "cadenceId", "cadenceVersion", "missingVariables", "ready", "requiredVariables", "senderCount")
+    override val reaconKnownFields: Set<String> get() = setOf("audienceCount", "cadenceId", "cadenceVersion", "missingVariables", "ready", "requiredVariables", "senderCount", "eligibility")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("audienceCount", "cadenceId", "cadenceVersion", "missingVariables", "ready", "requiredVariables", "senderCount")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (eligibility == null) "eligibility" else null)
 
 
 

@@ -166,6 +166,7 @@ import io.reacon.sdk.kotlin.models.MailPutDeliverabilityPoolsByPoolIdMembersByMa
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -180,7 +181,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class MailApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -203,8 +204,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun addMailPortfolioTeam(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest) : MailPostPortfolioTeamsResponse200 {
-        val localVarResponse = addMailPortfolioTeamWithHttpInfo(teamId = teamId, mailPostPortfolioTeamsRequest = mailPostPortfolioTeamsRequest)
+    fun addMailPortfolioTeam(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioTeamsResponse200 {
+        val localVarResponse = addMailPortfolioTeamWithHttpInfo(teamId = teamId, mailPostPortfolioTeamsRequest = mailPostPortfolioTeamsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioTeamsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun addMailPortfolioTeamAsync(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioTeamsResponse200 {
+        val localVarResponse = addMailPortfolioTeamAsyncWithHttpInfo(teamId = teamId, mailPostPortfolioTeamsRequest = mailPostPortfolioTeamsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioTeamsResponse200
@@ -233,11 +253,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun addMailPortfolioTeamWithHttpInfo(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest) : ApiResponse<MailPostPortfolioTeamsResponse200?> {
+    fun addMailPortfolioTeamWithHttpInfo(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioTeamsResponse200?> {
         val localVariableConfig = addMailPortfolioTeamRequestConfig(teamId = teamId, mailPostPortfolioTeamsRequest = mailPostPortfolioTeamsRequest)
 
         return request<MailPostPortfolioTeamsRequest, MailPostPortfolioTeamsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun addMailPortfolioTeamAsyncWithHttpInfo(teamId: kotlin.String, mailPostPortfolioTeamsRequest: MailPostPortfolioTeamsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioTeamsResponse200?> {
+        val localVariableConfig = addMailPortfolioTeamRequestConfig(teamId = teamId, mailPostPortfolioTeamsRequest = mailPostPortfolioTeamsRequest)
+
+        return requestAsync<MailPostPortfolioTeamsRequest, MailPostPortfolioTeamsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -280,8 +309,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun archiveMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String) : MailPostExperimentsByExperimentKeyArchiveResponse200 {
-        val localVarResponse = archiveMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey)
+    fun archiveMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyArchiveResponse200 {
+        val localVarResponse = archiveMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyArchiveResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun archiveMailExperimentAsync(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyArchiveResponse200 {
+        val localVarResponse = archiveMailExperimentAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyArchiveResponse200
@@ -310,11 +358,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun archiveMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String) : ApiResponse<MailPostExperimentsByExperimentKeyArchiveResponse200?> {
+    fun archiveMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyArchiveResponse200?> {
         val localVariableConfig = archiveMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
 
         return request<Unit, MailPostExperimentsByExperimentKeyArchiveResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun archiveMailExperimentAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyArchiveResponse200?> {
+        val localVariableConfig = archiveMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
+
+        return requestAsync<Unit, MailPostExperimentsByExperimentKeyArchiveResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -356,8 +413,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun cancelMailMessage(teamId: kotlin.String, messageId: kotlin.String) : MailPostMessagesByMessageIdCancelResponse200 {
-        val localVarResponse = cancelMailMessageWithHttpInfo(teamId = teamId, messageId = messageId)
+    fun cancelMailMessage(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesByMessageIdCancelResponse200 {
+        val localVarResponse = cancelMailMessageWithHttpInfo(teamId = teamId, messageId = messageId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesByMessageIdCancelResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun cancelMailMessageAsync(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesByMessageIdCancelResponse200 {
+        val localVarResponse = cancelMailMessageAsyncWithHttpInfo(teamId = teamId, messageId = messageId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesByMessageIdCancelResponse200
@@ -386,11 +462,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun cancelMailMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String) : ApiResponse<MailPostMessagesByMessageIdCancelResponse200?> {
+    fun cancelMailMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesByMessageIdCancelResponse200?> {
         val localVariableConfig = cancelMailMessageRequestConfig(teamId = teamId, messageId = messageId)
 
         return request<Unit, MailPostMessagesByMessageIdCancelResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun cancelMailMessageAsyncWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesByMessageIdCancelResponse200?> {
+        val localVariableConfig = cancelMailMessageRequestConfig(teamId = teamId, messageId = messageId)
+
+        return requestAsync<Unit, MailPostMessagesByMessageIdCancelResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -433,8 +518,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun changeMailCadenceCampaignState(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest) : MailPostCadenceCampaignsByCampaignIdStateResponse200 {
-        val localVarResponse = changeMailCadenceCampaignStateWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCadenceCampaignsByCampaignIdStateRequest = mailPostCadenceCampaignsByCampaignIdStateRequest)
+    fun changeMailCadenceCampaignState(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceCampaignsByCampaignIdStateResponse200 {
+        val localVarResponse = changeMailCadenceCampaignStateWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCadenceCampaignsByCampaignIdStateRequest = mailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceCampaignsByCampaignIdStateResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCadenceCampaignStateAsync(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceCampaignsByCampaignIdStateResponse200 {
+        val localVarResponse = changeMailCadenceCampaignStateAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCadenceCampaignsByCampaignIdStateRequest = mailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceCampaignsByCampaignIdStateResponse200
@@ -464,11 +568,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun changeMailCadenceCampaignStateWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest) : ApiResponse<MailPostCadenceCampaignsByCampaignIdStateResponse200?> {
+    fun changeMailCadenceCampaignStateWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceCampaignsByCampaignIdStateResponse200?> {
         val localVariableConfig = changeMailCadenceCampaignStateRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCadenceCampaignsByCampaignIdStateRequest = mailPostCadenceCampaignsByCampaignIdStateRequest)
 
         return request<MailPostCadenceCampaignsByCampaignIdStateRequest, MailPostCadenceCampaignsByCampaignIdStateResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCadenceCampaignStateAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCadenceCampaignsByCampaignIdStateRequest: MailPostCadenceCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceCampaignsByCampaignIdStateResponse200?> {
+        val localVariableConfig = changeMailCadenceCampaignStateRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCadenceCampaignsByCampaignIdStateRequest = mailPostCadenceCampaignsByCampaignIdStateRequest)
+
+        return requestAsync<MailPostCadenceCampaignsByCampaignIdStateRequest, MailPostCadenceCampaignsByCampaignIdStateResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -513,8 +626,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun changeMailCadenceRunState(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest) : MailPostCadenceRunsByRunIdStateResponse200 {
-        val localVarResponse = changeMailCadenceRunStateWithHttpInfo(teamId = teamId, runId = runId, mailPostCadenceRunsByRunIdStateRequest = mailPostCadenceRunsByRunIdStateRequest)
+    fun changeMailCadenceRunState(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsByRunIdStateResponse200 {
+        val localVarResponse = changeMailCadenceRunStateWithHttpInfo(teamId = teamId, runId = runId, mailPostCadenceRunsByRunIdStateRequest = mailPostCadenceRunsByRunIdStateRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsByRunIdStateResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCadenceRunStateAsync(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsByRunIdStateResponse200 {
+        val localVarResponse = changeMailCadenceRunStateAsyncWithHttpInfo(teamId = teamId, runId = runId, mailPostCadenceRunsByRunIdStateRequest = mailPostCadenceRunsByRunIdStateRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsByRunIdStateResponse200
@@ -544,11 +676,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun changeMailCadenceRunStateWithHttpInfo(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest) : ApiResponse<MailPostCadenceRunsByRunIdStateResponse200?> {
+    fun changeMailCadenceRunStateWithHttpInfo(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsByRunIdStateResponse200?> {
         val localVariableConfig = changeMailCadenceRunStateRequestConfig(teamId = teamId, runId = runId, mailPostCadenceRunsByRunIdStateRequest = mailPostCadenceRunsByRunIdStateRequest)
 
         return request<MailPostCadenceRunsByRunIdStateRequest, MailPostCadenceRunsByRunIdStateResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCadenceRunStateAsyncWithHttpInfo(teamId: kotlin.String, runId: kotlin.String, mailPostCadenceRunsByRunIdStateRequest: MailPostCadenceRunsByRunIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsByRunIdStateResponse200?> {
+        val localVariableConfig = changeMailCadenceRunStateRequestConfig(teamId = teamId, runId = runId, mailPostCadenceRunsByRunIdStateRequest = mailPostCadenceRunsByRunIdStateRequest)
+
+        return requestAsync<MailPostCadenceRunsByRunIdStateRequest, MailPostCadenceRunsByRunIdStateResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -593,8 +734,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun changeMailCampaignState(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest) : MailPostCampaignsByCampaignIdStateResponse200 {
-        val localVarResponse = changeMailCampaignStateWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdStateRequest = mailPostCampaignsByCampaignIdStateRequest)
+    fun changeMailCampaignState(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdStateResponse200 {
+        val localVarResponse = changeMailCampaignStateWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdStateRequest = mailPostCampaignsByCampaignIdStateRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdStateResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCampaignStateAsync(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdStateResponse200 {
+        val localVarResponse = changeMailCampaignStateAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdStateRequest = mailPostCampaignsByCampaignIdStateRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdStateResponse200
@@ -624,11 +784,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun changeMailCampaignStateWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest) : ApiResponse<MailPostCampaignsByCampaignIdStateResponse200?> {
+    fun changeMailCampaignStateWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdStateResponse200?> {
         val localVariableConfig = changeMailCampaignStateRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdStateRequest = mailPostCampaignsByCampaignIdStateRequest)
 
         return request<MailPostCampaignsByCampaignIdStateRequest, MailPostCampaignsByCampaignIdStateResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun changeMailCampaignStateAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdStateRequest: MailPostCampaignsByCampaignIdStateRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdStateResponse200?> {
+        val localVariableConfig = changeMailCampaignStateRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdStateRequest = mailPostCampaignsByCampaignIdStateRequest)
+
+        return requestAsync<MailPostCampaignsByCampaignIdStateRequest, MailPostCampaignsByCampaignIdStateResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -672,8 +841,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun classifyMailReply(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest) : MailPostCrmClassifyReplyResponse200 {
-        val localVarResponse = classifyMailReplyWithHttpInfo(teamId = teamId, mailPostCrmClassifyReplyRequest = mailPostCrmClassifyReplyRequest)
+    fun classifyMailReply(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmClassifyReplyResponse200 {
+        val localVarResponse = classifyMailReplyWithHttpInfo(teamId = teamId, mailPostCrmClassifyReplyRequest = mailPostCrmClassifyReplyRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmClassifyReplyResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun classifyMailReplyAsync(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmClassifyReplyResponse200 {
+        val localVarResponse = classifyMailReplyAsyncWithHttpInfo(teamId = teamId, mailPostCrmClassifyReplyRequest = mailPostCrmClassifyReplyRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmClassifyReplyResponse200
@@ -702,11 +890,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun classifyMailReplyWithHttpInfo(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest) : ApiResponse<MailPostCrmClassifyReplyResponse200?> {
+    fun classifyMailReplyWithHttpInfo(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmClassifyReplyResponse200?> {
         val localVariableConfig = classifyMailReplyRequestConfig(teamId = teamId, mailPostCrmClassifyReplyRequest = mailPostCrmClassifyReplyRequest)
 
         return request<MailPostCrmClassifyReplyRequest, MailPostCrmClassifyReplyResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun classifyMailReplyAsyncWithHttpInfo(teamId: kotlin.String, mailPostCrmClassifyReplyRequest: MailPostCrmClassifyReplyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmClassifyReplyResponse200?> {
+        val localVariableConfig = classifyMailReplyRequestConfig(teamId = teamId, mailPostCrmClassifyReplyRequest = mailPostCrmClassifyReplyRequest)
+
+        return requestAsync<MailPostCrmClassifyReplyRequest, MailPostCrmClassifyReplyResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -750,8 +947,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun completeMailCrmTask(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest) : MailPostCrmTasksByTaskIdCompleteResponse200 {
-        val localVarResponse = completeMailCrmTaskWithHttpInfo(teamId = teamId, taskId = taskId, mailPostCrmTasksByTaskIdCompleteRequest = mailPostCrmTasksByTaskIdCompleteRequest)
+    fun completeMailCrmTask(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmTasksByTaskIdCompleteResponse200 {
+        val localVarResponse = completeMailCrmTaskWithHttpInfo(teamId = teamId, taskId = taskId, mailPostCrmTasksByTaskIdCompleteRequest = mailPostCrmTasksByTaskIdCompleteRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmTasksByTaskIdCompleteResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun completeMailCrmTaskAsync(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmTasksByTaskIdCompleteResponse200 {
+        val localVarResponse = completeMailCrmTaskAsyncWithHttpInfo(teamId = teamId, taskId = taskId, mailPostCrmTasksByTaskIdCompleteRequest = mailPostCrmTasksByTaskIdCompleteRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmTasksByTaskIdCompleteResponse200
@@ -781,11 +997,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun completeMailCrmTaskWithHttpInfo(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest) : ApiResponse<MailPostCrmTasksByTaskIdCompleteResponse200?> {
+    fun completeMailCrmTaskWithHttpInfo(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmTasksByTaskIdCompleteResponse200?> {
         val localVariableConfig = completeMailCrmTaskRequestConfig(teamId = teamId, taskId = taskId, mailPostCrmTasksByTaskIdCompleteRequest = mailPostCrmTasksByTaskIdCompleteRequest)
 
         return request<MailPostCrmTasksByTaskIdCompleteRequest, MailPostCrmTasksByTaskIdCompleteResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun completeMailCrmTaskAsyncWithHttpInfo(teamId: kotlin.String, taskId: kotlin.String, mailPostCrmTasksByTaskIdCompleteRequest: MailPostCrmTasksByTaskIdCompleteRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmTasksByTaskIdCompleteResponse200?> {
+        val localVariableConfig = completeMailCrmTaskRequestConfig(teamId = teamId, taskId = taskId, mailPostCrmTasksByTaskIdCompleteRequest = mailPostCrmTasksByTaskIdCompleteRequest)
+
+        return requestAsync<MailPostCrmTasksByTaskIdCompleteRequest, MailPostCrmTasksByTaskIdCompleteResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -830,8 +1055,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureMailDeliverability(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest) : MailPostDeliverabilityMailboxesByMailboxIdResponse200 {
-        val localVarResponse = configureMailDeliverabilityWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdRequest = mailPostDeliverabilityMailboxesByMailboxIdRequest)
+    fun configureMailDeliverability(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdResponse200 {
+        val localVarResponse = configureMailDeliverabilityWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdRequest = mailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureMailDeliverabilityAsync(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdResponse200 {
+        val localVarResponse = configureMailDeliverabilityAsyncWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdRequest = mailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdResponse200
@@ -861,11 +1105,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureMailDeliverabilityWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResponse200?> {
+    fun configureMailDeliverabilityWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResponse200?> {
         val localVariableConfig = configureMailDeliverabilityRequestConfig(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdRequest = mailPostDeliverabilityMailboxesByMailboxIdRequest)
 
         return request<MailPostDeliverabilityMailboxesByMailboxIdRequest, MailPostDeliverabilityMailboxesByMailboxIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureMailDeliverabilityAsyncWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdRequest: MailPostDeliverabilityMailboxesByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResponse200?> {
+        val localVariableConfig = configureMailDeliverabilityRequestConfig(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdRequest = mailPostDeliverabilityMailboxesByMailboxIdRequest)
+
+        return requestAsync<MailPostDeliverabilityMailboxesByMailboxIdRequest, MailPostDeliverabilityMailboxesByMailboxIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -909,8 +1162,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun configureMailTrackingDomain(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest) : MailPostTrackingDomainResponse200 {
-        val localVarResponse = configureMailTrackingDomainWithHttpInfo(teamId = teamId, mailPostTrackingDomainRequest = mailPostTrackingDomainRequest)
+    fun configureMailTrackingDomain(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTrackingDomainResponse200 {
+        val localVarResponse = configureMailTrackingDomainWithHttpInfo(teamId = teamId, mailPostTrackingDomainRequest = mailPostTrackingDomainRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTrackingDomainResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureMailTrackingDomainAsync(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTrackingDomainResponse200 {
+        val localVarResponse = configureMailTrackingDomainAsyncWithHttpInfo(teamId = teamId, mailPostTrackingDomainRequest = mailPostTrackingDomainRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTrackingDomainResponse200
@@ -939,11 +1211,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun configureMailTrackingDomainWithHttpInfo(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest) : ApiResponse<MailPostTrackingDomainResponse200?> {
+    fun configureMailTrackingDomainWithHttpInfo(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTrackingDomainResponse200?> {
         val localVariableConfig = configureMailTrackingDomainRequestConfig(teamId = teamId, mailPostTrackingDomainRequest = mailPostTrackingDomainRequest)
 
         return request<MailPostTrackingDomainRequest, MailPostTrackingDomainResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun configureMailTrackingDomainAsyncWithHttpInfo(teamId: kotlin.String, mailPostTrackingDomainRequest: MailPostTrackingDomainRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTrackingDomainResponse200?> {
+        val localVariableConfig = configureMailTrackingDomainRequestConfig(teamId = teamId, mailPostTrackingDomainRequest = mailPostTrackingDomainRequest)
+
+        return requestAsync<MailPostTrackingDomainRequest, MailPostTrackingDomainResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -987,8 +1268,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun copyMailCadence(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest) : MailPostCadencesByCadenceIdCopyResponse200 {
-        val localVarResponse = copyMailCadenceWithHttpInfo(teamId = teamId, cadenceId = cadenceId, mailPostCadencesByCadenceIdCopyRequest = mailPostCadencesByCadenceIdCopyRequest)
+    fun copyMailCadence(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadencesByCadenceIdCopyResponse200 {
+        val localVarResponse = copyMailCadenceWithHttpInfo(teamId = teamId, cadenceId = cadenceId, mailPostCadencesByCadenceIdCopyRequest = mailPostCadencesByCadenceIdCopyRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadencesByCadenceIdCopyResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun copyMailCadenceAsync(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadencesByCadenceIdCopyResponse200 {
+        val localVarResponse = copyMailCadenceAsyncWithHttpInfo(teamId = teamId, cadenceId = cadenceId, mailPostCadencesByCadenceIdCopyRequest = mailPostCadencesByCadenceIdCopyRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadencesByCadenceIdCopyResponse200
@@ -1018,11 +1318,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun copyMailCadenceWithHttpInfo(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest) : ApiResponse<MailPostCadencesByCadenceIdCopyResponse200?> {
+    fun copyMailCadenceWithHttpInfo(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadencesByCadenceIdCopyResponse200?> {
         val localVariableConfig = copyMailCadenceRequestConfig(teamId = teamId, cadenceId = cadenceId, mailPostCadencesByCadenceIdCopyRequest = mailPostCadencesByCadenceIdCopyRequest)
 
         return request<MailPostCadencesByCadenceIdCopyRequest, MailPostCadencesByCadenceIdCopyResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun copyMailCadenceAsyncWithHttpInfo(teamId: kotlin.String, cadenceId: kotlin.String, mailPostCadencesByCadenceIdCopyRequest: MailPostCadencesByCadenceIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadencesByCadenceIdCopyResponse200?> {
+        val localVariableConfig = copyMailCadenceRequestConfig(teamId = teamId, cadenceId = cadenceId, mailPostCadencesByCadenceIdCopyRequest = mailPostCadencesByCadenceIdCopyRequest)
+
+        return requestAsync<MailPostCadencesByCadenceIdCopyRequest, MailPostCadencesByCadenceIdCopyResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1067,8 +1376,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun copyMailTemplate(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest) : MailPostTemplatesByTemplateIdCopyResponse200 {
-        val localVarResponse = copyMailTemplateWithHttpInfo(teamId = teamId, templateId = templateId, mailPostTemplatesByTemplateIdCopyRequest = mailPostTemplatesByTemplateIdCopyRequest)
+    fun copyMailTemplate(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTemplatesByTemplateIdCopyResponse200 {
+        val localVarResponse = copyMailTemplateWithHttpInfo(teamId = teamId, templateId = templateId, mailPostTemplatesByTemplateIdCopyRequest = mailPostTemplatesByTemplateIdCopyRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTemplatesByTemplateIdCopyResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun copyMailTemplateAsync(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTemplatesByTemplateIdCopyResponse200 {
+        val localVarResponse = copyMailTemplateAsyncWithHttpInfo(teamId = teamId, templateId = templateId, mailPostTemplatesByTemplateIdCopyRequest = mailPostTemplatesByTemplateIdCopyRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTemplatesByTemplateIdCopyResponse200
@@ -1098,11 +1426,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun copyMailTemplateWithHttpInfo(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest) : ApiResponse<MailPostTemplatesByTemplateIdCopyResponse200?> {
+    fun copyMailTemplateWithHttpInfo(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTemplatesByTemplateIdCopyResponse200?> {
         val localVariableConfig = copyMailTemplateRequestConfig(teamId = teamId, templateId = templateId, mailPostTemplatesByTemplateIdCopyRequest = mailPostTemplatesByTemplateIdCopyRequest)
 
         return request<MailPostTemplatesByTemplateIdCopyRequest, MailPostTemplatesByTemplateIdCopyResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun copyMailTemplateAsyncWithHttpInfo(teamId: kotlin.String, templateId: kotlin.String, mailPostTemplatesByTemplateIdCopyRequest: MailPostTemplatesByTemplateIdCopyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTemplatesByTemplateIdCopyResponse200?> {
+        val localVariableConfig = copyMailTemplateRequestConfig(teamId = teamId, templateId = templateId, mailPostTemplatesByTemplateIdCopyRequest = mailPostTemplatesByTemplateIdCopyRequest)
+
+        return requestAsync<MailPostTemplatesByTemplateIdCopyRequest, MailPostTemplatesByTemplateIdCopyResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1146,8 +1483,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailCampaignDraft(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest) : MailPostCampaignsResponse201 {
-        val localVarResponse = createMailCampaignDraftWithHttpInfo(teamId = teamId, mailPostCampaignsRequest = mailPostCampaignsRequest)
+    fun createMailCampaignDraft(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsResponse201 {
+        val localVarResponse = createMailCampaignDraftWithHttpInfo(teamId = teamId, mailPostCampaignsRequest = mailPostCampaignsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCampaignDraftAsync(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsResponse201 {
+        val localVarResponse = createMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, mailPostCampaignsRequest = mailPostCampaignsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsResponse201
@@ -1176,11 +1532,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailCampaignDraftWithHttpInfo(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest) : ApiResponse<MailPostCampaignsResponse201?> {
+    fun createMailCampaignDraftWithHttpInfo(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsResponse201?> {
         val localVariableConfig = createMailCampaignDraftRequestConfig(teamId = teamId, mailPostCampaignsRequest = mailPostCampaignsRequest)
 
         return request<MailPostCampaignsRequest, MailPostCampaignsResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, mailPostCampaignsRequest: MailPostCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsResponse201?> {
+        val localVariableConfig = createMailCampaignDraftRequestConfig(teamId = teamId, mailPostCampaignsRequest = mailPostCampaignsRequest)
+
+        return requestAsync<MailPostCampaignsRequest, MailPostCampaignsResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1223,8 +1588,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailCrmNote(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest) : MailPostCrmNotesResponse200 {
-        val localVarResponse = createMailCrmNoteWithHttpInfo(teamId = teamId, mailPostCrmNotesRequest = mailPostCrmNotesRequest)
+    fun createMailCrmNote(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmNotesResponse200 {
+        val localVarResponse = createMailCrmNoteWithHttpInfo(teamId = teamId, mailPostCrmNotesRequest = mailPostCrmNotesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmNotesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCrmNoteAsync(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmNotesResponse200 {
+        val localVarResponse = createMailCrmNoteAsyncWithHttpInfo(teamId = teamId, mailPostCrmNotesRequest = mailPostCrmNotesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmNotesResponse200
@@ -1253,11 +1637,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailCrmNoteWithHttpInfo(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest) : ApiResponse<MailPostCrmNotesResponse200?> {
+    fun createMailCrmNoteWithHttpInfo(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmNotesResponse200?> {
         val localVariableConfig = createMailCrmNoteRequestConfig(teamId = teamId, mailPostCrmNotesRequest = mailPostCrmNotesRequest)
 
         return request<MailPostCrmNotesRequest, MailPostCrmNotesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCrmNoteAsyncWithHttpInfo(teamId: kotlin.String, mailPostCrmNotesRequest: MailPostCrmNotesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmNotesResponse200?> {
+        val localVariableConfig = createMailCrmNoteRequestConfig(teamId = teamId, mailPostCrmNotesRequest = mailPostCrmNotesRequest)
+
+        return requestAsync<MailPostCrmNotesRequest, MailPostCrmNotesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1300,8 +1693,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailCrmTask(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest) : MailPostCrmTasksResponse201 {
-        val localVarResponse = createMailCrmTaskWithHttpInfo(teamId = teamId, mailPostCrmTasksRequest = mailPostCrmTasksRequest)
+    fun createMailCrmTask(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmTasksResponse201 {
+        val localVarResponse = createMailCrmTaskWithHttpInfo(teamId = teamId, mailPostCrmTasksRequest = mailPostCrmTasksRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmTasksResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCrmTaskAsync(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmTasksResponse201 {
+        val localVarResponse = createMailCrmTaskAsyncWithHttpInfo(teamId = teamId, mailPostCrmTasksRequest = mailPostCrmTasksRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmTasksResponse201
@@ -1330,11 +1742,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailCrmTaskWithHttpInfo(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest) : ApiResponse<MailPostCrmTasksResponse201?> {
+    fun createMailCrmTaskWithHttpInfo(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmTasksResponse201?> {
         val localVariableConfig = createMailCrmTaskRequestConfig(teamId = teamId, mailPostCrmTasksRequest = mailPostCrmTasksRequest)
 
         return request<MailPostCrmTasksRequest, MailPostCrmTasksResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailCrmTaskAsyncWithHttpInfo(teamId: kotlin.String, mailPostCrmTasksRequest: MailPostCrmTasksRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmTasksResponse201?> {
+        val localVariableConfig = createMailCrmTaskRequestConfig(teamId = teamId, mailPostCrmTasksRequest = mailPostCrmTasksRequest)
+
+        return requestAsync<MailPostCrmTasksRequest, MailPostCrmTasksResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1377,8 +1798,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailMailboxPool(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest) : MailPostDeliverabilityPoolsResponse201 {
-        val localVarResponse = createMailMailboxPoolWithHttpInfo(teamId = teamId, mailPostDeliverabilityPoolsRequest = mailPostDeliverabilityPoolsRequest)
+    fun createMailMailboxPool(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityPoolsResponse201 {
+        val localVarResponse = createMailMailboxPoolWithHttpInfo(teamId = teamId, mailPostDeliverabilityPoolsRequest = mailPostDeliverabilityPoolsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityPoolsResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailMailboxPoolAsync(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityPoolsResponse201 {
+        val localVarResponse = createMailMailboxPoolAsyncWithHttpInfo(teamId = teamId, mailPostDeliverabilityPoolsRequest = mailPostDeliverabilityPoolsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityPoolsResponse201
@@ -1407,11 +1847,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailMailboxPoolWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest) : ApiResponse<MailPostDeliverabilityPoolsResponse201?> {
+    fun createMailMailboxPoolWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityPoolsResponse201?> {
         val localVariableConfig = createMailMailboxPoolRequestConfig(teamId = teamId, mailPostDeliverabilityPoolsRequest = mailPostDeliverabilityPoolsRequest)
 
         return request<MailPostDeliverabilityPoolsRequest, MailPostDeliverabilityPoolsResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailMailboxPoolAsyncWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityPoolsRequest: MailPostDeliverabilityPoolsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityPoolsResponse201?> {
+        val localVariableConfig = createMailMailboxPoolRequestConfig(teamId = teamId, mailPostDeliverabilityPoolsRequest = mailPostDeliverabilityPoolsRequest)
+
+        return requestAsync<MailPostDeliverabilityPoolsRequest, MailPostDeliverabilityPoolsResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1454,8 +1903,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailPortfolio(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest) : MailPostPortfolioResponse200 {
-        val localVarResponse = createMailPortfolioWithHttpInfo(teamId = teamId, mailPostPortfolioRequest = mailPostPortfolioRequest)
+    fun createMailPortfolio(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioResponse200 {
+        val localVarResponse = createMailPortfolioWithHttpInfo(teamId = teamId, mailPostPortfolioRequest = mailPostPortfolioRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailPortfolioAsync(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioResponse200 {
+        val localVarResponse = createMailPortfolioAsyncWithHttpInfo(teamId = teamId, mailPostPortfolioRequest = mailPostPortfolioRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioResponse200
@@ -1484,11 +1952,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailPortfolioWithHttpInfo(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest) : ApiResponse<MailPostPortfolioResponse200?> {
+    fun createMailPortfolioWithHttpInfo(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioResponse200?> {
         val localVariableConfig = createMailPortfolioRequestConfig(teamId = teamId, mailPostPortfolioRequest = mailPostPortfolioRequest)
 
         return request<MailPostPortfolioRequest, MailPostPortfolioResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailPortfolioAsyncWithHttpInfo(teamId: kotlin.String, mailPostPortfolioRequest: MailPostPortfolioRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioResponse200?> {
+        val localVariableConfig = createMailPortfolioRequestConfig(teamId = teamId, mailPostPortfolioRequest = mailPostPortfolioRequest)
+
+        return requestAsync<MailPostPortfolioRequest, MailPostPortfolioResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1531,8 +2008,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailPortfolioSuppression(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest) : MailPostPortfolioSuppressionsResponse200 {
-        val localVarResponse = createMailPortfolioSuppressionWithHttpInfo(teamId = teamId, mailPostPortfolioSuppressionsRequest = mailPostPortfolioSuppressionsRequest)
+    fun createMailPortfolioSuppression(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioSuppressionsResponse200 {
+        val localVarResponse = createMailPortfolioSuppressionWithHttpInfo(teamId = teamId, mailPostPortfolioSuppressionsRequest = mailPostPortfolioSuppressionsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioSuppressionsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailPortfolioSuppressionAsync(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioSuppressionsResponse200 {
+        val localVarResponse = createMailPortfolioSuppressionAsyncWithHttpInfo(teamId = teamId, mailPostPortfolioSuppressionsRequest = mailPostPortfolioSuppressionsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioSuppressionsResponse200
@@ -1561,11 +2057,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailPortfolioSuppressionWithHttpInfo(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest) : ApiResponse<MailPostPortfolioSuppressionsResponse200?> {
+    fun createMailPortfolioSuppressionWithHttpInfo(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioSuppressionsResponse200?> {
         val localVariableConfig = createMailPortfolioSuppressionRequestConfig(teamId = teamId, mailPostPortfolioSuppressionsRequest = mailPostPortfolioSuppressionsRequest)
 
         return request<MailPostPortfolioSuppressionsRequest, MailPostPortfolioSuppressionsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailPortfolioSuppressionAsyncWithHttpInfo(teamId: kotlin.String, mailPostPortfolioSuppressionsRequest: MailPostPortfolioSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioSuppressionsResponse200?> {
+        val localVariableConfig = createMailPortfolioSuppressionRequestConfig(teamId = teamId, mailPostPortfolioSuppressionsRequest = mailPostPortfolioSuppressionsRequest)
+
+        return requestAsync<MailPostPortfolioSuppressionsRequest, MailPostPortfolioSuppressionsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1608,8 +2113,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailSuppression(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest) : MailPostSuppressionsResponse200 {
-        val localVarResponse = createMailSuppressionWithHttpInfo(teamId = teamId, mailPostSuppressionsRequest = mailPostSuppressionsRequest)
+    fun createMailSuppression(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostSuppressionsResponse200 {
+        val localVarResponse = createMailSuppressionWithHttpInfo(teamId = teamId, mailPostSuppressionsRequest = mailPostSuppressionsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostSuppressionsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailSuppressionAsync(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostSuppressionsResponse200 {
+        val localVarResponse = createMailSuppressionAsyncWithHttpInfo(teamId = teamId, mailPostSuppressionsRequest = mailPostSuppressionsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostSuppressionsResponse200
@@ -1638,11 +2162,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailSuppressionWithHttpInfo(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest) : ApiResponse<MailPostSuppressionsResponse200?> {
+    fun createMailSuppressionWithHttpInfo(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostSuppressionsResponse200?> {
         val localVariableConfig = createMailSuppressionRequestConfig(teamId = teamId, mailPostSuppressionsRequest = mailPostSuppressionsRequest)
 
         return request<MailPostSuppressionsRequest, MailPostSuppressionsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailSuppressionAsyncWithHttpInfo(teamId: kotlin.String, mailPostSuppressionsRequest: MailPostSuppressionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostSuppressionsResponse200?> {
+        val localVariableConfig = createMailSuppressionRequestConfig(teamId = teamId, mailPostSuppressionsRequest = mailPostSuppressionsRequest)
+
+        return requestAsync<MailPostSuppressionsRequest, MailPostSuppressionsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1685,8 +2218,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createMailWebhook(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest) : MailPostWebhooksResponse201 {
-        val localVarResponse = createMailWebhookWithHttpInfo(teamId = teamId, mailPostWebhooksRequest = mailPostWebhooksRequest)
+    fun createMailWebhook(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksResponse201 {
+        val localVarResponse = createMailWebhookWithHttpInfo(teamId = teamId, mailPostWebhooksRequest = mailPostWebhooksRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailWebhookAsync(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksResponse201 {
+        val localVarResponse = createMailWebhookAsyncWithHttpInfo(teamId = teamId, mailPostWebhooksRequest = mailPostWebhooksRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksResponse201
@@ -1715,11 +2267,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun createMailWebhookWithHttpInfo(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest) : ApiResponse<MailPostWebhooksResponse201?> {
+    fun createMailWebhookWithHttpInfo(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksResponse201?> {
         val localVariableConfig = createMailWebhookRequestConfig(teamId = teamId, mailPostWebhooksRequest = mailPostWebhooksRequest)
 
         return request<MailPostWebhooksRequest, MailPostWebhooksResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun createMailWebhookAsyncWithHttpInfo(teamId: kotlin.String, mailPostWebhooksRequest: MailPostWebhooksRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksResponse201?> {
+        val localVariableConfig = createMailWebhookRequestConfig(teamId = teamId, mailPostWebhooksRequest = mailPostWebhooksRequest)
+
+        return requestAsync<MailPostWebhooksRequest, MailPostWebhooksResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1763,8 +2324,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun decideMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest) : MailPostExperimentsByExperimentKeyDecideResponse200 {
-        val localVarResponse = decideMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyDecideRequest = mailPostExperimentsByExperimentKeyDecideRequest)
+    fun decideMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyDecideResponse200 {
+        val localVarResponse = decideMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyDecideRequest = mailPostExperimentsByExperimentKeyDecideRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyDecideResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun decideMailExperimentAsync(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyDecideResponse200 {
+        val localVarResponse = decideMailExperimentAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyDecideRequest = mailPostExperimentsByExperimentKeyDecideRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyDecideResponse200
@@ -1794,11 +2374,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun decideMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest) : ApiResponse<MailPostExperimentsByExperimentKeyDecideResponse200?> {
+    fun decideMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyDecideResponse200?> {
         val localVariableConfig = decideMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyDecideRequest = mailPostExperimentsByExperimentKeyDecideRequest)
 
         return request<MailPostExperimentsByExperimentKeyDecideRequest, MailPostExperimentsByExperimentKeyDecideResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun decideMailExperimentAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyDecideRequest: MailPostExperimentsByExperimentKeyDecideRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyDecideResponse200?> {
+        val localVariableConfig = decideMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyDecideRequest = mailPostExperimentsByExperimentKeyDecideRequest)
+
+        return requestAsync<MailPostExperimentsByExperimentKeyDecideRequest, MailPostExperimentsByExperimentKeyDecideResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1843,8 +2432,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest) : MailDeleteCampaignsByCampaignIdResponse200 {
-        val localVarResponse = deleteMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailDeleteCampaignsByCampaignIdRequest = mailDeleteCampaignsByCampaignIdRequest)
+    fun deleteMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailDeleteCampaignsByCampaignIdResponse200 {
+        val localVarResponse = deleteMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailDeleteCampaignsByCampaignIdRequest = mailDeleteCampaignsByCampaignIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteCampaignsByCampaignIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailCampaignDraftAsync(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailDeleteCampaignsByCampaignIdResponse200 {
+        val localVarResponse = deleteMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, mailDeleteCampaignsByCampaignIdRequest = mailDeleteCampaignsByCampaignIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteCampaignsByCampaignIdResponse200
@@ -1874,11 +2482,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest) : ApiResponse<MailDeleteCampaignsByCampaignIdResponse200?> {
+    fun deleteMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteCampaignsByCampaignIdResponse200?> {
         val localVariableConfig = deleteMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailDeleteCampaignsByCampaignIdRequest = mailDeleteCampaignsByCampaignIdRequest)
 
         return request<MailDeleteCampaignsByCampaignIdRequest, MailDeleteCampaignsByCampaignIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailDeleteCampaignsByCampaignIdRequest: MailDeleteCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteCampaignsByCampaignIdResponse200?> {
+        val localVariableConfig = deleteMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailDeleteCampaignsByCampaignIdRequest = mailDeleteCampaignsByCampaignIdRequest)
+
+        return requestAsync<MailDeleteCampaignsByCampaignIdRequest, MailDeleteCampaignsByCampaignIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1922,8 +2539,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteMailReplyAutomation(teamId: kotlin.String, automationId: kotlin.String) : MailDeleteReplyAutomationsByAutomationIdResponse200 {
-        val localVarResponse = deleteMailReplyAutomationWithHttpInfo(teamId = teamId, automationId = automationId)
+    fun deleteMailReplyAutomation(teamId: kotlin.String, automationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteReplyAutomationsByAutomationIdResponse200 {
+        val localVarResponse = deleteMailReplyAutomationWithHttpInfo(teamId = teamId, automationId = automationId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteReplyAutomationsByAutomationIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailReplyAutomationAsync(teamId: kotlin.String, automationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteReplyAutomationsByAutomationIdResponse200 {
+        val localVarResponse = deleteMailReplyAutomationAsyncWithHttpInfo(teamId = teamId, automationId = automationId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteReplyAutomationsByAutomationIdResponse200
@@ -1952,11 +2588,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteMailReplyAutomationWithHttpInfo(teamId: kotlin.String, automationId: kotlin.String) : ApiResponse<MailDeleteReplyAutomationsByAutomationIdResponse200?> {
+    fun deleteMailReplyAutomationWithHttpInfo(teamId: kotlin.String, automationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteReplyAutomationsByAutomationIdResponse200?> {
         val localVariableConfig = deleteMailReplyAutomationRequestConfig(teamId = teamId, automationId = automationId)
 
         return request<Unit, MailDeleteReplyAutomationsByAutomationIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailReplyAutomationAsyncWithHttpInfo(teamId: kotlin.String, automationId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteReplyAutomationsByAutomationIdResponse200?> {
+        val localVariableConfig = deleteMailReplyAutomationRequestConfig(teamId = teamId, automationId = automationId)
+
+        return requestAsync<Unit, MailDeleteReplyAutomationsByAutomationIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -1997,8 +2642,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteMailTrackingDomain(teamId: kotlin.String) : MailDeleteTrackingDomainResponse200 {
-        val localVarResponse = deleteMailTrackingDomainWithHttpInfo(teamId = teamId)
+    fun deleteMailTrackingDomain(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteTrackingDomainResponse200 {
+        val localVarResponse = deleteMailTrackingDomainWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteTrackingDomainResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailTrackingDomainAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteTrackingDomainResponse200 {
+        val localVarResponse = deleteMailTrackingDomainAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteTrackingDomainResponse200
@@ -2026,11 +2690,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteMailTrackingDomainWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailDeleteTrackingDomainResponse200?> {
+    fun deleteMailTrackingDomainWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteTrackingDomainResponse200?> {
         val localVariableConfig = deleteMailTrackingDomainRequestConfig(teamId = teamId)
 
         return request<Unit, MailDeleteTrackingDomainResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailTrackingDomainAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteTrackingDomainResponse200?> {
+        val localVariableConfig = deleteMailTrackingDomainRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailDeleteTrackingDomainResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2071,8 +2744,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String) : MailDeleteWebhooksBySubscriptionIdResponse200 {
-        val localVarResponse = deleteMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId)
+    fun deleteMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteWebhooksBySubscriptionIdResponse200 {
+        val localVarResponse = deleteMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteWebhooksBySubscriptionIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailWebhookAsync(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteWebhooksBySubscriptionIdResponse200 {
+        val localVarResponse = deleteMailWebhookAsyncWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteWebhooksBySubscriptionIdResponse200
@@ -2101,11 +2793,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String) : ApiResponse<MailDeleteWebhooksBySubscriptionIdResponse200?> {
+    fun deleteMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteWebhooksBySubscriptionIdResponse200?> {
         val localVariableConfig = deleteMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
 
         return request<Unit, MailDeleteWebhooksBySubscriptionIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteMailWebhookAsyncWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteWebhooksBySubscriptionIdResponse200?> {
+        val localVariableConfig = deleteMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
+
+        return requestAsync<Unit, MailDeleteWebhooksBySubscriptionIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2147,8 +2848,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun disconnectMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String) : MailDeleteMailboxesByMailboxIdResponse200 {
-        val localVarResponse = disconnectMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId)
+    fun disconnectMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteMailboxesByMailboxIdResponse200 {
+        val localVarResponse = disconnectMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteMailboxesByMailboxIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun disconnectMailMailboxAsync(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteMailboxesByMailboxIdResponse200 {
+        val localVarResponse = disconnectMailMailboxAsyncWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteMailboxesByMailboxIdResponse200
@@ -2177,11 +2897,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun disconnectMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String) : ApiResponse<MailDeleteMailboxesByMailboxIdResponse200?> {
+    fun disconnectMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteMailboxesByMailboxIdResponse200?> {
         val localVariableConfig = disconnectMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId)
 
         return request<Unit, MailDeleteMailboxesByMailboxIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun disconnectMailMailboxAsyncWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteMailboxesByMailboxIdResponse200?> {
+        val localVariableConfig = disconnectMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId)
+
+        return requestAsync<Unit, MailDeleteMailboxesByMailboxIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2223,8 +2952,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun duplicateMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String) : MailPostCampaignsByCampaignIdDuplicateResponse201 {
-        val localVarResponse = duplicateMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId)
+    fun duplicateMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdDuplicateResponse201 {
+        val localVarResponse = duplicateMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdDuplicateResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun duplicateMailCampaignDraftAsync(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdDuplicateResponse201 {
+        val localVarResponse = duplicateMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdDuplicateResponse201
@@ -2253,11 +3001,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun duplicateMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String) : ApiResponse<MailPostCampaignsByCampaignIdDuplicateResponse201?> {
+    fun duplicateMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdDuplicateResponse201?> {
         val localVariableConfig = duplicateMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId)
 
         return request<Unit, MailPostCampaignsByCampaignIdDuplicateResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun duplicateMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdDuplicateResponse201?> {
+        val localVariableConfig = duplicateMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId)
+
+        return requestAsync<Unit, MailPostCampaignsByCampaignIdDuplicateResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2299,8 +3056,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun enqueueMailMessage(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest) : MailPostMessagesResponse201 {
-        val localVarResponse = enqueueMailMessageWithHttpInfo(teamId = teamId, mailPostMessagesRequest = mailPostMessagesRequest)
+    fun enqueueMailMessage(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesResponse201 {
+        val localVarResponse = enqueueMailMessageWithHttpInfo(teamId = teamId, mailPostMessagesRequest = mailPostMessagesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesResponse201
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun enqueueMailMessageAsync(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesResponse201 {
+        val localVarResponse = enqueueMailMessageAsyncWithHttpInfo(teamId = teamId, mailPostMessagesRequest = mailPostMessagesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesResponse201
@@ -2329,11 +3105,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun enqueueMailMessageWithHttpInfo(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest) : ApiResponse<MailPostMessagesResponse201?> {
+    fun enqueueMailMessageWithHttpInfo(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesResponse201?> {
         val localVariableConfig = enqueueMailMessageRequestConfig(teamId = teamId, mailPostMessagesRequest = mailPostMessagesRequest)
 
         return request<MailPostMessagesRequest, MailPostMessagesResponse201>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun enqueueMailMessageAsyncWithHttpInfo(teamId: kotlin.String, mailPostMessagesRequest: MailPostMessagesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesResponse201?> {
+        val localVariableConfig = enqueueMailMessageRequestConfig(teamId = teamId, mailPostMessagesRequest = mailPostMessagesRequest)
+
+        return requestAsync<MailPostMessagesRequest, MailPostMessagesResponse201>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2376,8 +3161,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun enrollMailCadence(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest) : MailPostCadenceRunsResponse200 {
-        val localVarResponse = enrollMailCadenceWithHttpInfo(teamId = teamId, mailPostCadenceRunsRequest = mailPostCadenceRunsRequest)
+    fun enrollMailCadence(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsResponse200 {
+        val localVarResponse = enrollMailCadenceWithHttpInfo(teamId = teamId, mailPostCadenceRunsRequest = mailPostCadenceRunsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun enrollMailCadenceAsync(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsResponse200 {
+        val localVarResponse = enrollMailCadenceAsyncWithHttpInfo(teamId = teamId, mailPostCadenceRunsRequest = mailPostCadenceRunsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsResponse200
@@ -2406,11 +3210,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun enrollMailCadenceWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest) : ApiResponse<MailPostCadenceRunsResponse200?> {
+    fun enrollMailCadenceWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsResponse200?> {
         val localVariableConfig = enrollMailCadenceRequestConfig(teamId = teamId, mailPostCadenceRunsRequest = mailPostCadenceRunsRequest)
 
         return request<MailPostCadenceRunsRequest, MailPostCadenceRunsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun enrollMailCadenceAsyncWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsRequest: MailPostCadenceRunsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsResponse200?> {
+        val localVariableConfig = enrollMailCadenceRequestConfig(teamId = teamId, mailPostCadenceRunsRequest = mailPostCadenceRunsRequest)
+
+        return requestAsync<MailPostCadenceRunsRequest, MailPostCadenceRunsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2453,8 +3266,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun exportMailAnalytics(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest) : MailPostAnalyticsExportResponse200 {
-        val localVarResponse = exportMailAnalyticsWithHttpInfo(teamId = teamId, mailPostAnalyticsExportRequest = mailPostAnalyticsExportRequest)
+    fun exportMailAnalytics(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostAnalyticsExportResponse200 {
+        val localVarResponse = exportMailAnalyticsWithHttpInfo(teamId = teamId, mailPostAnalyticsExportRequest = mailPostAnalyticsExportRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostAnalyticsExportResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportMailAnalyticsAsync(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostAnalyticsExportResponse200 {
+        val localVarResponse = exportMailAnalyticsAsyncWithHttpInfo(teamId = teamId, mailPostAnalyticsExportRequest = mailPostAnalyticsExportRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostAnalyticsExportResponse200
@@ -2483,11 +3315,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun exportMailAnalyticsWithHttpInfo(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest) : ApiResponse<MailPostAnalyticsExportResponse200?> {
+    fun exportMailAnalyticsWithHttpInfo(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostAnalyticsExportResponse200?> {
         val localVariableConfig = exportMailAnalyticsRequestConfig(teamId = teamId, mailPostAnalyticsExportRequest = mailPostAnalyticsExportRequest)
 
         return request<MailPostAnalyticsExportRequest, MailPostAnalyticsExportResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportMailAnalyticsAsyncWithHttpInfo(teamId: kotlin.String, mailPostAnalyticsExportRequest: MailPostAnalyticsExportRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostAnalyticsExportResponse200?> {
+        val localVariableConfig = exportMailAnalyticsRequestConfig(teamId = teamId, mailPostAnalyticsExportRequest = mailPostAnalyticsExportRequest)
+
+        return requestAsync<MailPostAnalyticsExportRequest, MailPostAnalyticsExportResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2531,8 +3372,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun exportMailPortfolio(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null) : MailPostPortfolioExportResponse200 {
-        val localVarResponse = exportMailPortfolioWithHttpInfo(teamId = teamId, from = from, to = to)
+    fun exportMailPortfolio(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioExportResponse200 {
+        val localVarResponse = exportMailPortfolioWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioExportResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportMailPortfolioAsync(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailPostPortfolioExportResponse200 {
+        val localVarResponse = exportMailPortfolioAsyncWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostPortfolioExportResponse200
@@ -2562,11 +3422,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun exportMailPortfolioWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?) : ApiResponse<MailPostPortfolioExportResponse200?> {
+    fun exportMailPortfolioWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioExportResponse200?> {
         val localVariableConfig = exportMailPortfolioRequestConfig(teamId = teamId, from = from, to = to)
 
         return request<Unit, MailPostPortfolioExportResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun exportMailPortfolioAsyncWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostPortfolioExportResponse200?> {
+        val localVariableConfig = exportMailPortfolioRequestConfig(teamId = teamId, from = from, to = to)
+
+        return requestAsync<Unit, MailPostPortfolioExportResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2618,8 +3487,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailAnalytics(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null) : MailGetAnalyticsResponse200 {
-        val localVarResponse = getMailAnalyticsWithHttpInfo(teamId = teamId, from = from, to = to)
+    fun getMailAnalytics(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetAnalyticsResponse200 {
+        val localVarResponse = getMailAnalyticsWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetAnalyticsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailAnalyticsAsync(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetAnalyticsResponse200 {
+        val localVarResponse = getMailAnalyticsAsyncWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetAnalyticsResponse200
@@ -2649,11 +3537,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailAnalyticsWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?) : ApiResponse<MailGetAnalyticsResponse200?> {
+    fun getMailAnalyticsWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetAnalyticsResponse200?> {
         val localVariableConfig = getMailAnalyticsRequestConfig(teamId = teamId, from = from, to = to)
 
         return request<Unit, MailGetAnalyticsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailAnalyticsAsyncWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetAnalyticsResponse200?> {
+        val localVariableConfig = getMailAnalyticsRequestConfig(teamId = teamId, from = from, to = to)
+
+        return requestAsync<Unit, MailGetAnalyticsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2704,8 +3601,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String) : MailGetCampaignsByCampaignIdResponse200 {
-        val localVarResponse = getMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId)
+    fun getMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignsByCampaignIdResponse200 {
+        val localVarResponse = getMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignsByCampaignIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailCampaignDraftAsync(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignsByCampaignIdResponse200 {
+        val localVarResponse = getMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignsByCampaignIdResponse200
@@ -2734,11 +3650,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String) : ApiResponse<MailGetCampaignsByCampaignIdResponse200?> {
+    fun getMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignsByCampaignIdResponse200?> {
         val localVariableConfig = getMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId)
 
         return request<Unit, MailGetCampaignsByCampaignIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignsByCampaignIdResponse200?> {
+        val localVariableConfig = getMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId)
+
+        return requestAsync<Unit, MailGetCampaignsByCampaignIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2779,8 +3704,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailCampaignProgress(teamId: kotlin.String) : MailGetCampaignProgressResponse200 {
-        val localVarResponse = getMailCampaignProgressWithHttpInfo(teamId = teamId)
+    fun getMailCampaignProgress(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignProgressResponse200 {
+        val localVarResponse = getMailCampaignProgressWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignProgressResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailCampaignProgressAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignProgressResponse200 {
+        val localVarResponse = getMailCampaignProgressAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignProgressResponse200
@@ -2808,11 +3752,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailCampaignProgressWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCampaignProgressResponse200?> {
+    fun getMailCampaignProgressWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignProgressResponse200?> {
         val localVariableConfig = getMailCampaignProgressRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCampaignProgressResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailCampaignProgressAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignProgressResponse200?> {
+        val localVariableConfig = getMailCampaignProgressRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCampaignProgressResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2852,8 +3805,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailChannels(teamId: kotlin.String) : MailGetChannelsResponse200 {
-        val localVarResponse = getMailChannelsWithHttpInfo(teamId = teamId)
+    fun getMailChannels(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetChannelsResponse200 {
+        val localVarResponse = getMailChannelsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetChannelsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailChannelsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetChannelsResponse200 {
+        val localVarResponse = getMailChannelsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetChannelsResponse200
@@ -2881,11 +3853,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailChannelsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetChannelsResponse200?> {
+    fun getMailChannelsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetChannelsResponse200?> {
         val localVariableConfig = getMailChannelsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetChannelsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailChannelsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetChannelsResponse200?> {
+        val localVariableConfig = getMailChannelsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetChannelsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -2926,8 +3907,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailContactStates(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest) : MailPostCrmStatesBatchResponse200 {
-        val localVarResponse = getMailContactStatesWithHttpInfo(teamId = teamId, mailPostCrmStatesBatchRequest = mailPostCrmStatesBatchRequest)
+    fun getMailContactStates(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmStatesBatchResponse200 {
+        val localVarResponse = getMailContactStatesWithHttpInfo(teamId = teamId, mailPostCrmStatesBatchRequest = mailPostCrmStatesBatchRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmStatesBatchResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailContactStatesAsync(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmStatesBatchResponse200 {
+        val localVarResponse = getMailContactStatesAsyncWithHttpInfo(teamId = teamId, mailPostCrmStatesBatchRequest = mailPostCrmStatesBatchRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmStatesBatchResponse200
@@ -2956,11 +3956,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailContactStatesWithHttpInfo(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest) : ApiResponse<MailPostCrmStatesBatchResponse200?> {
+    fun getMailContactStatesWithHttpInfo(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmStatesBatchResponse200?> {
         val localVariableConfig = getMailContactStatesRequestConfig(teamId = teamId, mailPostCrmStatesBatchRequest = mailPostCrmStatesBatchRequest)
 
         return request<MailPostCrmStatesBatchRequest, MailPostCrmStatesBatchResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailContactStatesAsyncWithHttpInfo(teamId: kotlin.String, mailPostCrmStatesBatchRequest: MailPostCrmStatesBatchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmStatesBatchResponse200?> {
+        val localVariableConfig = getMailContactStatesRequestConfig(teamId = teamId, mailPostCrmStatesBatchRequest = mailPostCrmStatesBatchRequest)
+
+        return requestAsync<MailPostCrmStatesBatchRequest, MailPostCrmStatesBatchResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3003,8 +4012,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailContacts(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest) : MailPostCrmContactsBatchResponse200 {
-        val localVarResponse = getMailContactsWithHttpInfo(teamId = teamId, mailPostCrmContactsBatchRequest = mailPostCrmContactsBatchRequest)
+    fun getMailContacts(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmContactsBatchResponse200 {
+        val localVarResponse = getMailContactsWithHttpInfo(teamId = teamId, mailPostCrmContactsBatchRequest = mailPostCrmContactsBatchRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmContactsBatchResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailContactsAsync(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCrmContactsBatchResponse200 {
+        val localVarResponse = getMailContactsAsyncWithHttpInfo(teamId = teamId, mailPostCrmContactsBatchRequest = mailPostCrmContactsBatchRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCrmContactsBatchResponse200
@@ -3033,11 +4061,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailContactsWithHttpInfo(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest) : ApiResponse<MailPostCrmContactsBatchResponse200?> {
+    fun getMailContactsWithHttpInfo(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmContactsBatchResponse200?> {
         val localVariableConfig = getMailContactsRequestConfig(teamId = teamId, mailPostCrmContactsBatchRequest = mailPostCrmContactsBatchRequest)
 
         return request<MailPostCrmContactsBatchRequest, MailPostCrmContactsBatchResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailContactsAsyncWithHttpInfo(teamId: kotlin.String, mailPostCrmContactsBatchRequest: MailPostCrmContactsBatchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCrmContactsBatchResponse200?> {
+        val localVariableConfig = getMailContactsRequestConfig(teamId = teamId, mailPostCrmContactsBatchRequest = mailPostCrmContactsBatchRequest)
+
+        return requestAsync<MailPostCrmContactsBatchRequest, MailPostCrmContactsBatchResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3079,8 +4116,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailDeliverability(teamId: kotlin.String) : MailGetDeliverabilityResponse200 {
-        val localVarResponse = getMailDeliverabilityWithHttpInfo(teamId = teamId)
+    fun getMailDeliverability(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetDeliverabilityResponse200 {
+        val localVarResponse = getMailDeliverabilityWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetDeliverabilityResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailDeliverabilityAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetDeliverabilityResponse200 {
+        val localVarResponse = getMailDeliverabilityAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetDeliverabilityResponse200
@@ -3108,11 +4164,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailDeliverabilityWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetDeliverabilityResponse200?> {
+    fun getMailDeliverabilityWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetDeliverabilityResponse200?> {
         val localVariableConfig = getMailDeliverabilityRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetDeliverabilityResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailDeliverabilityAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetDeliverabilityResponse200?> {
+        val localVariableConfig = getMailDeliverabilityRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetDeliverabilityResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3155,8 +4220,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailExperimentReport(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String? = null) : MailGetExperimentsByExperimentKeyReportResponse200 {
-        val localVarResponse = getMailExperimentReportWithHttpInfo(teamId = teamId, experimentKey = experimentKey, revision = revision, at = at)
+    fun getMailExperimentReport(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsByExperimentKeyReportResponse200 {
+        val localVarResponse = getMailExperimentReportWithHttpInfo(teamId = teamId, experimentKey = experimentKey, revision = revision, at = at, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsByExperimentKeyReportResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailExperimentReportAsync(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsByExperimentKeyReportResponse200 {
+        val localVarResponse = getMailExperimentReportAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, revision = revision, at = at, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsByExperimentKeyReportResponse200
@@ -3187,11 +4271,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailExperimentReportWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String?) : ApiResponse<MailGetExperimentsByExperimentKeyReportResponse200?> {
+    fun getMailExperimentReportWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsByExperimentKeyReportResponse200?> {
         val localVariableConfig = getMailExperimentReportRequestConfig(teamId = teamId, experimentKey = experimentKey, revision = revision, at = at)
 
         return request<Unit, MailGetExperimentsByExperimentKeyReportResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailExperimentReportAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, revision: kotlin.Int, at: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsByExperimentKeyReportResponse200?> {
+        val localVariableConfig = getMailExperimentReportRequestConfig(teamId = teamId, experimentKey = experimentKey, revision = revision, at = at)
+
+        return requestAsync<Unit, MailGetExperimentsByExperimentKeyReportResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3240,8 +4333,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailExperimentsOverview(teamId: kotlin.String) : MailGetExperimentsOverviewResponse200 {
-        val localVarResponse = getMailExperimentsOverviewWithHttpInfo(teamId = teamId)
+    fun getMailExperimentsOverview(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsOverviewResponse200 {
+        val localVarResponse = getMailExperimentsOverviewWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsOverviewResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailExperimentsOverviewAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsOverviewResponse200 {
+        val localVarResponse = getMailExperimentsOverviewAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsOverviewResponse200
@@ -3269,11 +4381,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailExperimentsOverviewWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetExperimentsOverviewResponse200?> {
+    fun getMailExperimentsOverviewWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsOverviewResponse200?> {
         val localVariableConfig = getMailExperimentsOverviewRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetExperimentsOverviewResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailExperimentsOverviewAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsOverviewResponse200?> {
+        val localVariableConfig = getMailExperimentsOverviewRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetExperimentsOverviewResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3315,8 +4436,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailOverview(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null) : MailGetOverviewResponse200 {
-        val localVarResponse = getMailOverviewWithHttpInfo(teamId = teamId, from = from, to = to)
+    fun getMailOverview(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetOverviewResponse200 {
+        val localVarResponse = getMailOverviewWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetOverviewResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailOverviewAsync(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetOverviewResponse200 {
+        val localVarResponse = getMailOverviewAsyncWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetOverviewResponse200
@@ -3346,11 +4486,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailOverviewWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?) : ApiResponse<MailGetOverviewResponse200?> {
+    fun getMailOverviewWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetOverviewResponse200?> {
         val localVariableConfig = getMailOverviewRequestConfig(teamId = teamId, from = from, to = to)
 
         return request<Unit, MailGetOverviewResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailOverviewAsyncWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetOverviewResponse200?> {
+        val localVariableConfig = getMailOverviewRequestConfig(teamId = teamId, from = from, to = to)
+
+        return requestAsync<Unit, MailGetOverviewResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3400,8 +4549,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailPortfolio(teamId: kotlin.String) : MailGetPortfolioResponse200 {
-        val localVarResponse = getMailPortfolioWithHttpInfo(teamId = teamId)
+    fun getMailPortfolio(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetPortfolioResponse200 {
+        val localVarResponse = getMailPortfolioWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetPortfolioResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailPortfolioAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetPortfolioResponse200 {
+        val localVarResponse = getMailPortfolioAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetPortfolioResponse200
@@ -3429,11 +4597,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailPortfolioWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetPortfolioResponse200?> {
+    fun getMailPortfolioWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetPortfolioResponse200?> {
         val localVariableConfig = getMailPortfolioRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetPortfolioResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailPortfolioAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetPortfolioResponse200?> {
+        val localVariableConfig = getMailPortfolioRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetPortfolioResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3475,8 +4652,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailPortfolioOverview(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null) : MailGetPortfolioOverviewResponse200 {
-        val localVarResponse = getMailPortfolioOverviewWithHttpInfo(teamId = teamId, from = from, to = to)
+    fun getMailPortfolioOverview(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetPortfolioOverviewResponse200 {
+        val localVarResponse = getMailPortfolioOverviewWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetPortfolioOverviewResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailPortfolioOverviewAsync(teamId: kotlin.String, from: kotlin.String? = null, to: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetPortfolioOverviewResponse200 {
+        val localVarResponse = getMailPortfolioOverviewAsyncWithHttpInfo(teamId = teamId, from = from, to = to, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetPortfolioOverviewResponse200
@@ -3506,11 +4702,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailPortfolioOverviewWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?) : ApiResponse<MailGetPortfolioOverviewResponse200?> {
+    fun getMailPortfolioOverviewWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetPortfolioOverviewResponse200?> {
         val localVariableConfig = getMailPortfolioOverviewRequestConfig(teamId = teamId, from = from, to = to)
 
         return request<Unit, MailGetPortfolioOverviewResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailPortfolioOverviewAsyncWithHttpInfo(teamId: kotlin.String, from: kotlin.String?, to: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetPortfolioOverviewResponse200?> {
+        val localVariableConfig = getMailPortfolioOverviewRequestConfig(teamId = teamId, from = from, to = to)
+
+        return requestAsync<Unit, MailGetPortfolioOverviewResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3560,8 +4765,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailQueue(teamId: kotlin.String) : MailGetQueueResponse200 {
-        val localVarResponse = getMailQueueWithHttpInfo(teamId = teamId)
+    fun getMailQueue(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetQueueResponse200 {
+        val localVarResponse = getMailQueueWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetQueueResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailQueueAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetQueueResponse200 {
+        val localVarResponse = getMailQueueAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetQueueResponse200
@@ -3589,11 +4813,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailQueueWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetQueueResponse200?> {
+    fun getMailQueueWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetQueueResponse200?> {
         val localVariableConfig = getMailQueueRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetQueueResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailQueueAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetQueueResponse200?> {
+        val localVariableConfig = getMailQueueRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetQueueResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3633,8 +4866,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getMailTrackingDomain(teamId: kotlin.String) : MailGetTrackingDomainResponse200 {
-        val localVarResponse = getMailTrackingDomainWithHttpInfo(teamId = teamId)
+    fun getMailTrackingDomain(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetTrackingDomainResponse200 {
+        val localVarResponse = getMailTrackingDomainWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetTrackingDomainResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailTrackingDomainAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetTrackingDomainResponse200 {
+        val localVarResponse = getMailTrackingDomainAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetTrackingDomainResponse200
@@ -3662,11 +4914,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getMailTrackingDomainWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetTrackingDomainResponse200?> {
+    fun getMailTrackingDomainWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetTrackingDomainResponse200?> {
         val localVariableConfig = getMailTrackingDomainRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetTrackingDomainResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getMailTrackingDomainAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetTrackingDomainResponse200?> {
+        val localVariableConfig = getMailTrackingDomainRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetTrackingDomainResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3707,8 +4968,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun inspectMailDomainHealth(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest) : MailPostDeliverabilityDomainHealthResponse200 {
-        val localVarResponse = inspectMailDomainHealthWithHttpInfo(teamId = teamId, mailPostDeliverabilityDomainHealthRequest = mailPostDeliverabilityDomainHealthRequest)
+    fun inspectMailDomainHealth(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityDomainHealthResponse200 {
+        val localVarResponse = inspectMailDomainHealthWithHttpInfo(teamId = teamId, mailPostDeliverabilityDomainHealthRequest = mailPostDeliverabilityDomainHealthRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityDomainHealthResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectMailDomainHealthAsync(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityDomainHealthResponse200 {
+        val localVarResponse = inspectMailDomainHealthAsyncWithHttpInfo(teamId = teamId, mailPostDeliverabilityDomainHealthRequest = mailPostDeliverabilityDomainHealthRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityDomainHealthResponse200
@@ -3737,11 +5017,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun inspectMailDomainHealthWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest) : ApiResponse<MailPostDeliverabilityDomainHealthResponse200?> {
+    fun inspectMailDomainHealthWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityDomainHealthResponse200?> {
         val localVariableConfig = inspectMailDomainHealthRequestConfig(teamId = teamId, mailPostDeliverabilityDomainHealthRequest = mailPostDeliverabilityDomainHealthRequest)
 
         return request<MailPostDeliverabilityDomainHealthRequest, MailPostDeliverabilityDomainHealthResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun inspectMailDomainHealthAsyncWithHttpInfo(teamId: kotlin.String, mailPostDeliverabilityDomainHealthRequest: MailPostDeliverabilityDomainHealthRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityDomainHealthResponse200?> {
+        val localVariableConfig = inspectMailDomainHealthRequestConfig(teamId = teamId, mailPostDeliverabilityDomainHealthRequest = mailPostDeliverabilityDomainHealthRequest)
+
+        return requestAsync<MailPostDeliverabilityDomainHealthRequest, MailPostDeliverabilityDomainHealthResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3784,8 +5073,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun launchMailCadenceCampaign(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest) : MailPostCadenceCampaignsResponse202 {
-        val localVarResponse = launchMailCadenceCampaignWithHttpInfo(teamId = teamId, mailPostCadenceCampaignsRequest = mailPostCadenceCampaignsRequest)
+    fun launchMailCadenceCampaign(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceCampaignsResponse202 {
+        val localVarResponse = launchMailCadenceCampaignWithHttpInfo(teamId = teamId, mailPostCadenceCampaignsRequest = mailPostCadenceCampaignsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceCampaignsResponse202
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun launchMailCadenceCampaignAsync(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceCampaignsResponse202 {
+        val localVarResponse = launchMailCadenceCampaignAsyncWithHttpInfo(teamId = teamId, mailPostCadenceCampaignsRequest = mailPostCadenceCampaignsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceCampaignsResponse202
@@ -3814,11 +5122,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun launchMailCadenceCampaignWithHttpInfo(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest) : ApiResponse<MailPostCadenceCampaignsResponse202?> {
+    fun launchMailCadenceCampaignWithHttpInfo(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceCampaignsResponse202?> {
         val localVariableConfig = launchMailCadenceCampaignRequestConfig(teamId = teamId, mailPostCadenceCampaignsRequest = mailPostCadenceCampaignsRequest)
 
         return request<MailPostCadenceCampaignsRequest, MailPostCadenceCampaignsResponse202>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun launchMailCadenceCampaignAsyncWithHttpInfo(teamId: kotlin.String, mailPostCadenceCampaignsRequest: MailPostCadenceCampaignsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceCampaignsResponse202?> {
+        val localVariableConfig = launchMailCadenceCampaignRequestConfig(teamId = teamId, mailPostCadenceCampaignsRequest = mailPostCadenceCampaignsRequest)
+
+        return requestAsync<MailPostCadenceCampaignsRequest, MailPostCadenceCampaignsResponse202>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3862,8 +5179,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun launchMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest) : MailPostCampaignsByCampaignIdLaunchResponse200 {
-        val localVarResponse = launchMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdLaunchRequest = mailPostCampaignsByCampaignIdLaunchRequest)
+    fun launchMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdLaunchResponse200 {
+        val localVarResponse = launchMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdLaunchRequest = mailPostCampaignsByCampaignIdLaunchRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdLaunchResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun launchMailCampaignDraftAsync(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCampaignsByCampaignIdLaunchResponse200 {
+        val localVarResponse = launchMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdLaunchRequest = mailPostCampaignsByCampaignIdLaunchRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCampaignsByCampaignIdLaunchResponse200
@@ -3893,11 +5229,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun launchMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest) : ApiResponse<MailPostCampaignsByCampaignIdLaunchResponse200?> {
+    fun launchMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdLaunchResponse200?> {
         val localVariableConfig = launchMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdLaunchRequest = mailPostCampaignsByCampaignIdLaunchRequest)
 
         return request<MailPostCampaignsByCampaignIdLaunchRequest, MailPostCampaignsByCampaignIdLaunchResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun launchMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPostCampaignsByCampaignIdLaunchRequest: MailPostCampaignsByCampaignIdLaunchRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCampaignsByCampaignIdLaunchResponse200?> {
+        val localVariableConfig = launchMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailPostCampaignsByCampaignIdLaunchRequest = mailPostCampaignsByCampaignIdLaunchRequest)
+
+        return requestAsync<MailPostCampaignsByCampaignIdLaunchRequest, MailPostCampaignsByCampaignIdLaunchResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -3940,8 +5285,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailAudienceLists(teamId: kotlin.String) : MailGetAudienceListsResponse200 {
-        val localVarResponse = listMailAudienceListsWithHttpInfo(teamId = teamId)
+    fun listMailAudienceLists(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetAudienceListsResponse200 {
+        val localVarResponse = listMailAudienceListsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetAudienceListsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailAudienceListsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetAudienceListsResponse200 {
+        val localVarResponse = listMailAudienceListsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetAudienceListsResponse200
@@ -3969,11 +5333,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailAudienceListsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetAudienceListsResponse200?> {
+    fun listMailAudienceListsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetAudienceListsResponse200?> {
         val localVariableConfig = listMailAudienceListsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetAudienceListsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailAudienceListsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetAudienceListsResponse200?> {
+        val localVariableConfig = listMailAudienceListsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetAudienceListsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4013,8 +5386,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCadenceCampaigns(teamId: kotlin.String) : MailGetCadenceCampaignsResponse200 {
-        val localVarResponse = listMailCadenceCampaignsWithHttpInfo(teamId = teamId)
+    fun listMailCadenceCampaigns(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadenceCampaignsResponse200 {
+        val localVarResponse = listMailCadenceCampaignsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadenceCampaignsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadenceCampaignsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadenceCampaignsResponse200 {
+        val localVarResponse = listMailCadenceCampaignsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadenceCampaignsResponse200
@@ -4042,11 +5434,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCadenceCampaignsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCadenceCampaignsResponse200?> {
+    fun listMailCadenceCampaignsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadenceCampaignsResponse200?> {
         val localVariableConfig = listMailCadenceCampaignsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCadenceCampaignsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadenceCampaignsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadenceCampaignsResponse200?> {
+        val localVariableConfig = listMailCadenceCampaignsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCadenceCampaignsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4086,8 +5487,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCadenceRuns(teamId: kotlin.String) : MailGetCadenceRunsResponse200 {
-        val localVarResponse = listMailCadenceRunsWithHttpInfo(teamId = teamId)
+    fun listMailCadenceRuns(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadenceRunsResponse200 {
+        val localVarResponse = listMailCadenceRunsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadenceRunsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadenceRunsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadenceRunsResponse200 {
+        val localVarResponse = listMailCadenceRunsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadenceRunsResponse200
@@ -4115,11 +5535,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCadenceRunsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCadenceRunsResponse200?> {
+    fun listMailCadenceRunsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadenceRunsResponse200?> {
         val localVariableConfig = listMailCadenceRunsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCadenceRunsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadenceRunsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadenceRunsResponse200?> {
+        val localVariableConfig = listMailCadenceRunsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCadenceRunsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4159,8 +5588,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCadences(teamId: kotlin.String) : MailGetCadencesResponse200 {
-        val localVarResponse = listMailCadencesWithHttpInfo(teamId = teamId)
+    fun listMailCadences(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadencesResponse200 {
+        val localVarResponse = listMailCadencesWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadencesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadencesAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCadencesResponse200 {
+        val localVarResponse = listMailCadencesAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCadencesResponse200
@@ -4188,11 +5636,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCadencesWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCadencesResponse200?> {
+    fun listMailCadencesWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadencesResponse200?> {
         val localVariableConfig = listMailCadencesRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCadencesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCadencesAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCadencesResponse200?> {
+        val localVariableConfig = listMailCadencesRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCadencesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4232,8 +5689,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCampaignDrafts(teamId: kotlin.String) : MailGetCampaignsResponse200 {
-        val localVarResponse = listMailCampaignDraftsWithHttpInfo(teamId = teamId)
+    fun listMailCampaignDrafts(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignsResponse200 {
+        val localVarResponse = listMailCampaignDraftsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCampaignDraftsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCampaignsResponse200 {
+        val localVarResponse = listMailCampaignDraftsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCampaignsResponse200
@@ -4261,11 +5737,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCampaignDraftsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCampaignsResponse200?> {
+    fun listMailCampaignDraftsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignsResponse200?> {
         val localVariableConfig = listMailCampaignDraftsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCampaignsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCampaignDraftsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCampaignsResponse200?> {
+        val localVariableConfig = listMailCampaignDraftsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCampaignsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4305,8 +5790,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailContactStates(teamId: kotlin.String) : MailGetCrmStatesResponse200 {
-        val localVarResponse = listMailContactStatesWithHttpInfo(teamId = teamId)
+    fun listMailContactStates(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmStatesResponse200 {
+        val localVarResponse = listMailContactStatesWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmStatesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailContactStatesAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmStatesResponse200 {
+        val localVarResponse = listMailContactStatesAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmStatesResponse200
@@ -4334,11 +5838,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailContactStatesWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetCrmStatesResponse200?> {
+    fun listMailContactStatesWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmStatesResponse200?> {
         val localVariableConfig = listMailContactStatesRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetCrmStatesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailContactStatesAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmStatesResponse200?> {
+        val localVariableConfig = listMailContactStatesRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetCrmStatesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4398,8 +5911,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCrmTasks(teamId: kotlin.String, status: StatusListMailCrmTasks? = null, limit: kotlin.Int? = null) : MailGetCrmTasksResponse200 {
-        val localVarResponse = listMailCrmTasksWithHttpInfo(teamId = teamId, status = status, limit = limit)
+    fun listMailCrmTasks(teamId: kotlin.String, status: StatusListMailCrmTasks? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmTasksResponse200 {
+        val localVarResponse = listMailCrmTasksWithHttpInfo(teamId = teamId, status = status, limit = limit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmTasksResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCrmTasksAsync(teamId: kotlin.String, status: StatusListMailCrmTasks? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmTasksResponse200 {
+        val localVarResponse = listMailCrmTasksAsyncWithHttpInfo(teamId = teamId, status = status, limit = limit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmTasksResponse200
@@ -4429,11 +5961,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCrmTasksWithHttpInfo(teamId: kotlin.String, status: StatusListMailCrmTasks?, limit: kotlin.Int?) : ApiResponse<MailGetCrmTasksResponse200?> {
+    fun listMailCrmTasksWithHttpInfo(teamId: kotlin.String, status: StatusListMailCrmTasks?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmTasksResponse200?> {
         val localVariableConfig = listMailCrmTasksRequestConfig(teamId = teamId, status = status, limit = limit)
 
         return request<Unit, MailGetCrmTasksResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCrmTasksAsyncWithHttpInfo(teamId: kotlin.String, status: StatusListMailCrmTasks?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmTasksResponse200?> {
+        val localVariableConfig = listMailCrmTasksRequestConfig(teamId = teamId, status = status, limit = limit)
+
+        return requestAsync<Unit, MailGetCrmTasksResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4485,8 +6026,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailCrmTimeline(teamId: kotlin.String, contactId: kotlin.String? = null, limit: kotlin.Int? = null) : MailGetCrmTimelineResponse200 {
-        val localVarResponse = listMailCrmTimelineWithHttpInfo(teamId = teamId, contactId = contactId, limit = limit)
+    fun listMailCrmTimeline(teamId: kotlin.String, contactId: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmTimelineResponse200 {
+        val localVarResponse = listMailCrmTimelineWithHttpInfo(teamId = teamId, contactId = contactId, limit = limit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmTimelineResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCrmTimelineAsync(teamId: kotlin.String, contactId: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetCrmTimelineResponse200 {
+        val localVarResponse = listMailCrmTimelineAsyncWithHttpInfo(teamId = teamId, contactId = contactId, limit = limit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetCrmTimelineResponse200
@@ -4516,11 +6076,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailCrmTimelineWithHttpInfo(teamId: kotlin.String, contactId: kotlin.String?, limit: kotlin.Int?) : ApiResponse<MailGetCrmTimelineResponse200?> {
+    fun listMailCrmTimelineWithHttpInfo(teamId: kotlin.String, contactId: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmTimelineResponse200?> {
         val localVariableConfig = listMailCrmTimelineRequestConfig(teamId = teamId, contactId = contactId, limit = limit)
 
         return request<Unit, MailGetCrmTimelineResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailCrmTimelineAsyncWithHttpInfo(teamId: kotlin.String, contactId: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetCrmTimelineResponse200?> {
+        val localVariableConfig = listMailCrmTimelineRequestConfig(teamId = teamId, contactId = contactId, limit = limit)
+
+        return requestAsync<Unit, MailGetCrmTimelineResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4570,8 +6139,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailExperiments(teamId: kotlin.String) : MailGetExperimentsResponse200 {
-        val localVarResponse = listMailExperimentsWithHttpInfo(teamId = teamId)
+    fun listMailExperiments(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsResponse200 {
+        val localVarResponse = listMailExperimentsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailExperimentsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetExperimentsResponse200 {
+        val localVarResponse = listMailExperimentsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetExperimentsResponse200
@@ -4599,11 +6187,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailExperimentsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetExperimentsResponse200?> {
+    fun listMailExperimentsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsResponse200?> {
         val localVariableConfig = listMailExperimentsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetExperimentsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailExperimentsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetExperimentsResponse200?> {
+        val localVariableConfig = listMailExperimentsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetExperimentsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4665,8 +6262,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailInbox(teamId: kotlin.String, status: StatusListMailInbox? = null, label: kotlin.String? = null, query: kotlin.String? = null, limit: kotlin.Int? = null) : MailGetInboxResponse200 {
-        val localVarResponse = listMailInboxWithHttpInfo(teamId = teamId, status = status, label = label, query = query, limit = limit)
+    fun listMailInbox(teamId: kotlin.String, status: StatusListMailInbox? = null, label: kotlin.String? = null, query: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetInboxResponse200 {
+        val localVarResponse = listMailInboxWithHttpInfo(teamId = teamId, status = status, label = label, query = query, limit = limit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetInboxResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailInboxAsync(teamId: kotlin.String, status: StatusListMailInbox? = null, label: kotlin.String? = null, query: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetInboxResponse200 {
+        val localVarResponse = listMailInboxAsyncWithHttpInfo(teamId = teamId, status = status, label = label, query = query, limit = limit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetInboxResponse200
@@ -4698,11 +6314,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailInboxWithHttpInfo(teamId: kotlin.String, status: StatusListMailInbox?, label: kotlin.String?, query: kotlin.String?, limit: kotlin.Int?) : ApiResponse<MailGetInboxResponse200?> {
+    fun listMailInboxWithHttpInfo(teamId: kotlin.String, status: StatusListMailInbox?, label: kotlin.String?, query: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetInboxResponse200?> {
         val localVariableConfig = listMailInboxRequestConfig(teamId = teamId, status = status, label = label, query = query, limit = limit)
 
         return request<Unit, MailGetInboxResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailInboxAsyncWithHttpInfo(teamId: kotlin.String, status: StatusListMailInbox?, label: kotlin.String?, query: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetInboxResponse200?> {
+        val localVariableConfig = listMailInboxRequestConfig(teamId = teamId, status = status, label = label, query = query, limit = limit)
+
+        return requestAsync<Unit, MailGetInboxResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4824,8 +6449,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailInboxThreads(teamId: kotlin.String, status: StatusListMailInboxThreads? = null, label: LabelListMailInboxThreads? = null, assignment: AssignmentListMailInboxThreads? = null, query: kotlin.String? = null, limit: kotlin.Int? = null) : MailGetInboxThreadsResponse200 {
-        val localVarResponse = listMailInboxThreadsWithHttpInfo(teamId = teamId, status = status, label = label, assignment = assignment, query = query, limit = limit)
+    fun listMailInboxThreads(teamId: kotlin.String, status: StatusListMailInboxThreads? = null, label: LabelListMailInboxThreads? = null, assignment: AssignmentListMailInboxThreads? = null, query: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetInboxThreadsResponse200 {
+        val localVarResponse = listMailInboxThreadsWithHttpInfo(teamId = teamId, status = status, label = label, assignment = assignment, query = query, limit = limit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetInboxThreadsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailInboxThreadsAsync(teamId: kotlin.String, status: StatusListMailInboxThreads? = null, label: LabelListMailInboxThreads? = null, assignment: AssignmentListMailInboxThreads? = null, query: kotlin.String? = null, limit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetInboxThreadsResponse200 {
+        val localVarResponse = listMailInboxThreadsAsyncWithHttpInfo(teamId = teamId, status = status, label = label, assignment = assignment, query = query, limit = limit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetInboxThreadsResponse200
@@ -4858,11 +6502,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailInboxThreadsWithHttpInfo(teamId: kotlin.String, status: StatusListMailInboxThreads?, label: LabelListMailInboxThreads?, assignment: AssignmentListMailInboxThreads?, query: kotlin.String?, limit: kotlin.Int?) : ApiResponse<MailGetInboxThreadsResponse200?> {
+    fun listMailInboxThreadsWithHttpInfo(teamId: kotlin.String, status: StatusListMailInboxThreads?, label: LabelListMailInboxThreads?, assignment: AssignmentListMailInboxThreads?, query: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetInboxThreadsResponse200?> {
         val localVariableConfig = listMailInboxThreadsRequestConfig(teamId = teamId, status = status, label = label, assignment = assignment, query = query, limit = limit)
 
         return request<Unit, MailGetInboxThreadsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailInboxThreadsAsyncWithHttpInfo(teamId: kotlin.String, status: StatusListMailInboxThreads?, label: LabelListMailInboxThreads?, assignment: AssignmentListMailInboxThreads?, query: kotlin.String?, limit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetInboxThreadsResponse200?> {
+        val localVariableConfig = listMailInboxThreadsRequestConfig(teamId = teamId, status = status, label = label, assignment = assignment, query = query, limit = limit)
+
+        return requestAsync<Unit, MailGetInboxThreadsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4924,8 +6577,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailMailboxes(teamId: kotlin.String) : MailGetMailboxesResponse200 {
-        val localVarResponse = listMailMailboxesWithHttpInfo(teamId = teamId)
+    fun listMailMailboxes(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetMailboxesResponse200 {
+        val localVarResponse = listMailMailboxesWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetMailboxesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailMailboxesAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetMailboxesResponse200 {
+        val localVarResponse = listMailMailboxesAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetMailboxesResponse200
@@ -4953,11 +6625,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailMailboxesWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetMailboxesResponse200?> {
+    fun listMailMailboxesWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetMailboxesResponse200?> {
         val localVariableConfig = listMailMailboxesRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetMailboxesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailMailboxesAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetMailboxesResponse200?> {
+        val localVariableConfig = listMailMailboxesRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetMailboxesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -4984,12 +6665,43 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
     }
 
     /**
+     * enum for parameter status
+     */
+     enum class StatusListMailMessages(val value: kotlin.String) {
+         @JsonProperty(value = "queued") QUEUED("queued"),
+         @JsonProperty(value = "retry_scheduled") RETRY_SCHEDULED("retry_scheduled"),
+         @JsonProperty(value = "sending") SENDING("sending"),
+         @JsonProperty(value = "provider_accepted") PROVIDER_ACCEPTED("provider_accepted"),
+         @JsonProperty(value = "delivered") DELIVERED("delivered"),
+         @JsonProperty(value = "replied") REPLIED("replied"),
+         @JsonProperty(value = "auto_replied") AUTO_REPLIED("auto_replied"),
+         @JsonProperty(value = "bounced") BOUNCED("bounced"),
+         @JsonProperty(value = "unsubscribed") UNSUBSCRIBED("unsubscribed"),
+         @JsonProperty(value = "complained") COMPLAINED("complained"),
+         @JsonProperty(value = "suppressed") SUPPRESSED("suppressed"),
+         @JsonProperty(value = "cancelled") CANCELLED("cancelled"),
+         @JsonProperty(value = "failed") FAILED("failed");
+
+        /**
+         * Override [toString()] to avoid using the enum variable name as the value, and instead use
+         * the actual value defined in the API spec file.
+         *
+         * This solves a problem when the variable name and its value are different, and ensures that
+         * the client sends the correct enum values to the server always.
+         */
+        override fun toString(): kotlin.String = "$value"
+     }
+
+    /**
      * GET /v1/teams/{teamId}/mail/messages
      * List mail delivery activity
      * Returns a cursor page of outbound messages. limit defaults to 100 and must be an integer from 1 to 500. nextCursor is omitted when exhausted. Requires authenticated team membership.
      * @param teamId 
      * @param limit  (optional, default to 100)
      * @param cursor  (optional)
+     * @param query  (optional)
+     * @param status  (optional)
+     * @param sequenceId  (optional)
      * @return MailGetMessagesResponse200
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -4999,8 +6711,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailMessages(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null) : MailGetMessagesResponse200 {
-        val localVarResponse = listMailMessagesWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor)
+    fun listMailMessages(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, query: kotlin.String? = null, status: StatusListMailMessages? = null, sequenceId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetMessagesResponse200 {
+        val localVarResponse = listMailMessagesWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor, query = query, status = status, sequenceId = sequenceId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetMessagesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailMessagesAsync(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, query: kotlin.String? = null, status: StatusListMailMessages? = null, sequenceId: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetMessagesResponse200 {
+        val localVarResponse = listMailMessagesAsyncWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor, query = query, status = status, sequenceId = sequenceId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetMessagesResponse200
@@ -5024,17 +6755,29 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      * @param teamId 
      * @param limit  (optional, default to 100)
      * @param cursor  (optional)
+     * @param query  (optional)
+     * @param status  (optional)
+     * @param sequenceId  (optional)
      * @return ApiResponse<MailGetMessagesResponse200?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailMessagesWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?) : ApiResponse<MailGetMessagesResponse200?> {
-        val localVariableConfig = listMailMessagesRequestConfig(teamId = teamId, limit = limit, cursor = cursor)
+    fun listMailMessagesWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, query: kotlin.String?, status: StatusListMailMessages?, sequenceId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetMessagesResponse200?> {
+        val localVariableConfig = listMailMessagesRequestConfig(teamId = teamId, limit = limit, cursor = cursor, query = query, status = status, sequenceId = sequenceId)
 
         return request<Unit, MailGetMessagesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailMessagesAsyncWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, query: kotlin.String?, status: StatusListMailMessages?, sequenceId: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetMessagesResponse200?> {
+        val localVariableConfig = listMailMessagesRequestConfig(teamId = teamId, limit = limit, cursor = cursor, query = query, status = status, sequenceId = sequenceId)
+
+        return requestAsync<Unit, MailGetMessagesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5044,9 +6787,12 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      * @param teamId 
      * @param limit  (optional, default to 100)
      * @param cursor  (optional)
+     * @param query  (optional)
+     * @param status  (optional)
+     * @param sequenceId  (optional)
      * @return RequestConfig
      */
-    fun listMailMessagesRequestConfig(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?) : RequestConfig<Unit> {
+    fun listMailMessagesRequestConfig(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, query: kotlin.String?, status: StatusListMailMessages?, sequenceId: kotlin.String?) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -5055,6 +6801,15 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
                 }
                 if (cursor != null) {
                     put("cursor", listOf(cursor.toString()))
+                }
+                if (query != null) {
+                    put("query", listOf(query.toString()))
+                }
+                if (status != null) {
+                    put("status", listOf(status.value))
+                }
+                if (sequenceId != null) {
+                    put("sequenceId", listOf(sequenceId.toString()))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -5084,8 +6839,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailReplyAutomations(teamId: kotlin.String) : MailGetReplyAutomationsResponse200 {
-        val localVarResponse = listMailReplyAutomationsWithHttpInfo(teamId = teamId)
+    fun listMailReplyAutomations(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetReplyAutomationsResponse200 {
+        val localVarResponse = listMailReplyAutomationsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetReplyAutomationsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailReplyAutomationsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetReplyAutomationsResponse200 {
+        val localVarResponse = listMailReplyAutomationsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetReplyAutomationsResponse200
@@ -5113,11 +6887,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailReplyAutomationsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetReplyAutomationsResponse200?> {
+    fun listMailReplyAutomationsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetReplyAutomationsResponse200?> {
         val localVariableConfig = listMailReplyAutomationsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetReplyAutomationsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailReplyAutomationsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetReplyAutomationsResponse200?> {
+        val localVariableConfig = listMailReplyAutomationsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetReplyAutomationsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5159,8 +6942,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailSignatures(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null) : MailGetSignaturesResponse200 {
-        val localVarResponse = listMailSignaturesWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor)
+    fun listMailSignatures(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetSignaturesResponse200 {
+        val localVarResponse = listMailSignaturesWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetSignaturesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailSignaturesAsync(teamId: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : MailGetSignaturesResponse200 {
+        val localVarResponse = listMailSignaturesAsyncWithHttpInfo(teamId = teamId, limit = limit, cursor = cursor, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetSignaturesResponse200
@@ -5190,11 +6992,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailSignaturesWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?) : ApiResponse<MailGetSignaturesResponse200?> {
+    fun listMailSignaturesWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetSignaturesResponse200?> {
         val localVariableConfig = listMailSignaturesRequestConfig(teamId = teamId, limit = limit, cursor = cursor)
 
         return request<Unit, MailGetSignaturesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailSignaturesAsyncWithHttpInfo(teamId: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetSignaturesResponse200?> {
+        val localVariableConfig = listMailSignaturesRequestConfig(teamId = teamId, limit = limit, cursor = cursor)
+
+        return requestAsync<Unit, MailGetSignaturesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5244,8 +7055,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailSuppressions(teamId: kotlin.String) : MailGetSuppressionsResponse200 {
-        val localVarResponse = listMailSuppressionsWithHttpInfo(teamId = teamId)
+    fun listMailSuppressions(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetSuppressionsResponse200 {
+        val localVarResponse = listMailSuppressionsWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetSuppressionsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailSuppressionsAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetSuppressionsResponse200 {
+        val localVarResponse = listMailSuppressionsAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetSuppressionsResponse200
@@ -5273,11 +7103,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailSuppressionsWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetSuppressionsResponse200?> {
+    fun listMailSuppressionsWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetSuppressionsResponse200?> {
         val localVariableConfig = listMailSuppressionsRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetSuppressionsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailSuppressionsAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetSuppressionsResponse200?> {
+        val localVariableConfig = listMailSuppressionsRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetSuppressionsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5317,8 +7156,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailTemplates(teamId: kotlin.String) : MailGetTemplatesResponse200 {
-        val localVarResponse = listMailTemplatesWithHttpInfo(teamId = teamId)
+    fun listMailTemplates(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetTemplatesResponse200 {
+        val localVarResponse = listMailTemplatesWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetTemplatesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailTemplatesAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetTemplatesResponse200 {
+        val localVarResponse = listMailTemplatesAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetTemplatesResponse200
@@ -5346,11 +7204,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailTemplatesWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetTemplatesResponse200?> {
+    fun listMailTemplatesWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetTemplatesResponse200?> {
         val localVariableConfig = listMailTemplatesRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetTemplatesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailTemplatesAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetTemplatesResponse200?> {
+        val localVariableConfig = listMailTemplatesRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetTemplatesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5390,8 +7257,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listMailWebhooks(teamId: kotlin.String) : MailGetWebhooksResponse200 {
-        val localVarResponse = listMailWebhooksWithHttpInfo(teamId = teamId)
+    fun listMailWebhooks(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetWebhooksResponse200 {
+        val localVarResponse = listMailWebhooksWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetWebhooksResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailWebhooksAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailGetWebhooksResponse200 {
+        val localVarResponse = listMailWebhooksAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailGetWebhooksResponse200
@@ -5419,11 +7305,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listMailWebhooksWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailGetWebhooksResponse200?> {
+    fun listMailWebhooksWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetWebhooksResponse200?> {
         val localVariableConfig = listMailWebhooksRequestConfig(teamId = teamId)
 
         return request<Unit, MailGetWebhooksResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listMailWebhooksAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailGetWebhooksResponse200?> {
+        val localVariableConfig = listMailWebhooksRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailGetWebhooksResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5464,8 +7359,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun pauseMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String) : MailPostExperimentsByExperimentKeyPauseResponse200 {
-        val localVarResponse = pauseMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey)
+    fun pauseMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyPauseResponse200 {
+        val localVarResponse = pauseMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyPauseResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun pauseMailExperimentAsync(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyPauseResponse200 {
+        val localVarResponse = pauseMailExperimentAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyPauseResponse200
@@ -5494,11 +7408,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun pauseMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String) : ApiResponse<MailPostExperimentsByExperimentKeyPauseResponse200?> {
+    fun pauseMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyPauseResponse200?> {
         val localVariableConfig = pauseMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
 
         return request<Unit, MailPostExperimentsByExperimentKeyPauseResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun pauseMailExperimentAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyPauseResponse200?> {
+        val localVariableConfig = pauseMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
+
+        return requestAsync<Unit, MailPostExperimentsByExperimentKeyPauseResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5541,8 +7464,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun pauseMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest) : MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200 {
-        val localVarResponse = pauseMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest = mailPostDeliverabilityMailboxesByMailboxIdPauseRequest)
+    fun pauseMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200 {
+        val localVarResponse = pauseMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest = mailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun pauseMailMailboxAsync(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200 {
+        val localVarResponse = pauseMailMailboxAsyncWithHttpInfo(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest = mailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200
@@ -5572,11 +7514,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun pauseMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200?> {
+    fun pauseMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200?> {
         val localVariableConfig = pauseMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest = mailPostDeliverabilityMailboxesByMailboxIdPauseRequest)
 
         return request<MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun pauseMailMailboxAsyncWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest: MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200?> {
+        val localVariableConfig = pauseMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId, mailPostDeliverabilityMailboxesByMailboxIdPauseRequest = mailPostDeliverabilityMailboxesByMailboxIdPauseRequest)
+
+        return requestAsync<MailPostDeliverabilityMailboxesByMailboxIdPauseRequest, MailPostDeliverabilityMailboxesByMailboxIdPauseResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5620,8 +7571,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun preflightMailCadenceEnrollment(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest) : MailPostCadenceRunsPreflightResponse200 {
-        val localVarResponse = preflightMailCadenceEnrollmentWithHttpInfo(teamId = teamId, mailPostCadenceRunsPreflightRequest = mailPostCadenceRunsPreflightRequest)
+    fun preflightMailCadenceEnrollment(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsPreflightResponse200 {
+        val localVarResponse = preflightMailCadenceEnrollmentWithHttpInfo(teamId = teamId, mailPostCadenceRunsPreflightRequest = mailPostCadenceRunsPreflightRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsPreflightResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun preflightMailCadenceEnrollmentAsync(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadenceRunsPreflightResponse200 {
+        val localVarResponse = preflightMailCadenceEnrollmentAsyncWithHttpInfo(teamId = teamId, mailPostCadenceRunsPreflightRequest = mailPostCadenceRunsPreflightRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadenceRunsPreflightResponse200
@@ -5650,11 +7620,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun preflightMailCadenceEnrollmentWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest) : ApiResponse<MailPostCadenceRunsPreflightResponse200?> {
+    fun preflightMailCadenceEnrollmentWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsPreflightResponse200?> {
         val localVariableConfig = preflightMailCadenceEnrollmentRequestConfig(teamId = teamId, mailPostCadenceRunsPreflightRequest = mailPostCadenceRunsPreflightRequest)
 
         return request<MailPostCadenceRunsPreflightRequest, MailPostCadenceRunsPreflightResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun preflightMailCadenceEnrollmentAsyncWithHttpInfo(teamId: kotlin.String, mailPostCadenceRunsPreflightRequest: MailPostCadenceRunsPreflightRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadenceRunsPreflightResponse200?> {
+        val localVariableConfig = preflightMailCadenceEnrollmentRequestConfig(teamId = teamId, mailPostCadenceRunsPreflightRequest = mailPostCadenceRunsPreflightRequest)
+
+        return requestAsync<MailPostCadenceRunsPreflightRequest, MailPostCadenceRunsPreflightResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5697,8 +7676,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun provisionMailMailbox(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest) : MailPostMailboxesManualResponse200 {
-        val localVarResponse = provisionMailMailboxWithHttpInfo(teamId = teamId, mailPostMailboxesManualRequest = mailPostMailboxesManualRequest)
+    fun provisionMailMailbox(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostMailboxesManualResponse200 {
+        val localVarResponse = provisionMailMailboxWithHttpInfo(teamId = teamId, mailPostMailboxesManualRequest = mailPostMailboxesManualRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMailboxesManualResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun provisionMailMailboxAsync(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostMailboxesManualResponse200 {
+        val localVarResponse = provisionMailMailboxAsyncWithHttpInfo(teamId = teamId, mailPostMailboxesManualRequest = mailPostMailboxesManualRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMailboxesManualResponse200
@@ -5727,11 +7725,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun provisionMailMailboxWithHttpInfo(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest) : ApiResponse<MailPostMailboxesManualResponse200?> {
+    fun provisionMailMailboxWithHttpInfo(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMailboxesManualResponse200?> {
         val localVariableConfig = provisionMailMailboxRequestConfig(teamId = teamId, mailPostMailboxesManualRequest = mailPostMailboxesManualRequest)
 
         return request<MailPostMailboxesManualRequest, MailPostMailboxesManualResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun provisionMailMailboxAsyncWithHttpInfo(teamId: kotlin.String, mailPostMailboxesManualRequest: MailPostMailboxesManualRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMailboxesManualResponse200?> {
+        val localVariableConfig = provisionMailMailboxRequestConfig(teamId = teamId, mailPostMailboxesManualRequest = mailPostMailboxesManualRequest)
+
+        return requestAsync<MailPostMailboxesManualRequest, MailPostMailboxesManualResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5774,8 +7781,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun reconcileMailMailboxHealth(teamId: kotlin.String, mailboxId: kotlin.String) : MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200 {
-        val localVarResponse = reconcileMailMailboxHealthWithHttpInfo(teamId = teamId, mailboxId = mailboxId)
+    fun reconcileMailMailboxHealth(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200 {
+        val localVarResponse = reconcileMailMailboxHealthWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun reconcileMailMailboxHealthAsync(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200 {
+        val localVarResponse = reconcileMailMailboxHealthAsyncWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200
@@ -5804,11 +7830,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun reconcileMailMailboxHealthWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200?> {
+    fun reconcileMailMailboxHealthWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200?> {
         val localVariableConfig = reconcileMailMailboxHealthRequestConfig(teamId = teamId, mailboxId = mailboxId)
 
         return request<Unit, MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun reconcileMailMailboxHealthAsyncWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200?> {
+        val localVariableConfig = reconcileMailMailboxHealthRequestConfig(teamId = teamId, mailboxId = mailboxId)
+
+        return requestAsync<Unit, MailPostDeliverabilityMailboxesByMailboxIdReconcileResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5850,8 +7885,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun reconcileMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String) : MailPostWebhooksBySubscriptionIdReconcileResponse200 {
-        val localVarResponse = reconcileMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId)
+    fun reconcileMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdReconcileResponse200 {
+        val localVarResponse = reconcileMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdReconcileResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun reconcileMailWebhookAsync(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdReconcileResponse200 {
+        val localVarResponse = reconcileMailWebhookAsyncWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdReconcileResponse200
@@ -5880,11 +7934,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun reconcileMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String) : ApiResponse<MailPostWebhooksBySubscriptionIdReconcileResponse200?> {
+    fun reconcileMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdReconcileResponse200?> {
         val localVariableConfig = reconcileMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
 
         return request<Unit, MailPostWebhooksBySubscriptionIdReconcileResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun reconcileMailWebhookAsyncWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdReconcileResponse200?> {
+        val localVariableConfig = reconcileMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
+
+        return requestAsync<Unit, MailPostWebhooksBySubscriptionIdReconcileResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -5927,8 +7990,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun recordMailExperimentConversion(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest) : MailPostExperimentsByExperimentKeyConversionsResponse200 {
-        val localVarResponse = recordMailExperimentConversionWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyConversionsRequest = mailPostExperimentsByExperimentKeyConversionsRequest)
+    fun recordMailExperimentConversion(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyConversionsResponse200 {
+        val localVarResponse = recordMailExperimentConversionWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyConversionsRequest = mailPostExperimentsByExperimentKeyConversionsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyConversionsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun recordMailExperimentConversionAsync(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyConversionsResponse200 {
+        val localVarResponse = recordMailExperimentConversionAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyConversionsRequest = mailPostExperimentsByExperimentKeyConversionsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyConversionsResponse200
@@ -5958,11 +8040,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun recordMailExperimentConversionWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest) : ApiResponse<MailPostExperimentsByExperimentKeyConversionsResponse200?> {
+    fun recordMailExperimentConversionWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyConversionsResponse200?> {
         val localVariableConfig = recordMailExperimentConversionRequestConfig(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyConversionsRequest = mailPostExperimentsByExperimentKeyConversionsRequest)
 
         return request<MailPostExperimentsByExperimentKeyConversionsRequest, MailPostExperimentsByExperimentKeyConversionsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun recordMailExperimentConversionAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, mailPostExperimentsByExperimentKeyConversionsRequest: MailPostExperimentsByExperimentKeyConversionsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyConversionsResponse200?> {
+        val localVariableConfig = recordMailExperimentConversionRequestConfig(teamId = teamId, experimentKey = experimentKey, mailPostExperimentsByExperimentKeyConversionsRequest = mailPostExperimentsByExperimentKeyConversionsRequest)
+
+        return requestAsync<MailPostExperimentsByExperimentKeyConversionsRequest, MailPostExperimentsByExperimentKeyConversionsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6007,8 +8098,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun removeMailMailboxPoolMember(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String) : MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
-        val localVarResponse = removeMailMailboxPoolMemberWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId)
+    fun removeMailMailboxPoolMember(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
+        val localVarResponse = removeMailMailboxPoolMemberWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun removeMailMailboxPoolMemberAsync(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
+        val localVarResponse = removeMailMailboxPoolMemberAsyncWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200
@@ -6038,11 +8148,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun removeMailMailboxPoolMemberWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String) : ApiResponse<MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
+    fun removeMailMailboxPoolMemberWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
         val localVariableConfig = removeMailMailboxPoolMemberRequestConfig(teamId = teamId, poolId = poolId, mailboxId = mailboxId)
 
         return request<Unit, MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun removeMailMailboxPoolMemberAsyncWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
+        val localVariableConfig = removeMailMailboxPoolMemberRequestConfig(teamId = teamId, poolId = poolId, mailboxId = mailboxId)
+
+        return requestAsync<Unit, MailDeleteDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6085,8 +8204,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun removeMailPortfolioTeam(teamId: kotlin.String, memberTeamId: kotlin.String) : MailDeletePortfolioTeamsByMemberTeamIdResponse200 {
-        val localVarResponse = removeMailPortfolioTeamWithHttpInfo(teamId = teamId, memberTeamId = memberTeamId)
+    fun removeMailPortfolioTeam(teamId: kotlin.String, memberTeamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeletePortfolioTeamsByMemberTeamIdResponse200 {
+        val localVarResponse = removeMailPortfolioTeamWithHttpInfo(teamId = teamId, memberTeamId = memberTeamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeletePortfolioTeamsByMemberTeamIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun removeMailPortfolioTeamAsync(teamId: kotlin.String, memberTeamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailDeletePortfolioTeamsByMemberTeamIdResponse200 {
+        val localVarResponse = removeMailPortfolioTeamAsyncWithHttpInfo(teamId = teamId, memberTeamId = memberTeamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailDeletePortfolioTeamsByMemberTeamIdResponse200
@@ -6115,11 +8253,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun removeMailPortfolioTeamWithHttpInfo(teamId: kotlin.String, memberTeamId: kotlin.String) : ApiResponse<MailDeletePortfolioTeamsByMemberTeamIdResponse200?> {
+    fun removeMailPortfolioTeamWithHttpInfo(teamId: kotlin.String, memberTeamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeletePortfolioTeamsByMemberTeamIdResponse200?> {
         val localVariableConfig = removeMailPortfolioTeamRequestConfig(teamId = teamId, memberTeamId = memberTeamId)
 
         return request<Unit, MailDeletePortfolioTeamsByMemberTeamIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun removeMailPortfolioTeamAsyncWithHttpInfo(teamId: kotlin.String, memberTeamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailDeletePortfolioTeamsByMemberTeamIdResponse200?> {
+        val localVariableConfig = removeMailPortfolioTeamRequestConfig(teamId = teamId, memberTeamId = memberTeamId)
+
+        return requestAsync<Unit, MailDeletePortfolioTeamsByMemberTeamIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6161,8 +8308,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun replayMailWebhookDelivery(teamId: kotlin.String, deliveryId: kotlin.String) : MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200 {
-        val localVarResponse = replayMailWebhookDeliveryWithHttpInfo(teamId = teamId, deliveryId = deliveryId)
+    fun replayMailWebhookDelivery(teamId: kotlin.String, deliveryId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200 {
+        val localVarResponse = replayMailWebhookDeliveryWithHttpInfo(teamId = teamId, deliveryId = deliveryId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun replayMailWebhookDeliveryAsync(teamId: kotlin.String, deliveryId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200 {
+        val localVarResponse = replayMailWebhookDeliveryAsyncWithHttpInfo(teamId = teamId, deliveryId = deliveryId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200
@@ -6191,11 +8357,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun replayMailWebhookDeliveryWithHttpInfo(teamId: kotlin.String, deliveryId: kotlin.String) : ApiResponse<MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200?> {
+    fun replayMailWebhookDeliveryWithHttpInfo(teamId: kotlin.String, deliveryId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200?> {
         val localVariableConfig = replayMailWebhookDeliveryRequestConfig(teamId = teamId, deliveryId = deliveryId)
 
         return request<Unit, MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun replayMailWebhookDeliveryAsyncWithHttpInfo(teamId: kotlin.String, deliveryId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200?> {
+        val localVariableConfig = replayMailWebhookDeliveryRequestConfig(teamId = teamId, deliveryId = deliveryId)
+
+        return requestAsync<Unit, MailPostWebhooksDeliveriesByDeliveryIdReplayResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6238,8 +8413,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun replyToMailInboxMessage(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest) : MailPostInboxByMessageIdReplyResponse200 {
-        val localVarResponse = replyToMailInboxMessageWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdReplyRequest = mailPostInboxByMessageIdReplyRequest)
+    fun replyToMailInboxMessage(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostInboxByMessageIdReplyResponse200 {
+        val localVarResponse = replyToMailInboxMessageWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdReplyRequest = mailPostInboxByMessageIdReplyRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostInboxByMessageIdReplyResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun replyToMailInboxMessageAsync(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostInboxByMessageIdReplyResponse200 {
+        val localVarResponse = replyToMailInboxMessageAsyncWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdReplyRequest = mailPostInboxByMessageIdReplyRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostInboxByMessageIdReplyResponse200
@@ -6269,11 +8463,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun replyToMailInboxMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest) : ApiResponse<MailPostInboxByMessageIdReplyResponse200?> {
+    fun replyToMailInboxMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostInboxByMessageIdReplyResponse200?> {
         val localVariableConfig = replyToMailInboxMessageRequestConfig(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdReplyRequest = mailPostInboxByMessageIdReplyRequest)
 
         return request<MailPostInboxByMessageIdReplyRequest, MailPostInboxByMessageIdReplyResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun replyToMailInboxMessageAsyncWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdReplyRequest: MailPostInboxByMessageIdReplyRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostInboxByMessageIdReplyResponse200?> {
+        val localVariableConfig = replyToMailInboxMessageRequestConfig(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdReplyRequest = mailPostInboxByMessageIdReplyRequest)
+
+        return requestAsync<MailPostInboxByMessageIdReplyRequest, MailPostInboxByMessageIdReplyResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6317,8 +8520,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun resumeMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String) : MailPostExperimentsByExperimentKeyResumeResponse200 {
-        val localVarResponse = resumeMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey)
+    fun resumeMailExperiment(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyResumeResponse200 {
+        val localVarResponse = resumeMailExperimentWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyResumeResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun resumeMailExperimentAsync(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostExperimentsByExperimentKeyResumeResponse200 {
+        val localVarResponse = resumeMailExperimentAsyncWithHttpInfo(teamId = teamId, experimentKey = experimentKey, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostExperimentsByExperimentKeyResumeResponse200
@@ -6347,11 +8569,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun resumeMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String) : ApiResponse<MailPostExperimentsByExperimentKeyResumeResponse200?> {
+    fun resumeMailExperimentWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyResumeResponse200?> {
         val localVariableConfig = resumeMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
 
         return request<Unit, MailPostExperimentsByExperimentKeyResumeResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun resumeMailExperimentAsyncWithHttpInfo(teamId: kotlin.String, experimentKey: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostExperimentsByExperimentKeyResumeResponse200?> {
+        val localVariableConfig = resumeMailExperimentRequestConfig(teamId = teamId, experimentKey = experimentKey)
+
+        return requestAsync<Unit, MailPostExperimentsByExperimentKeyResumeResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6393,8 +8624,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun resumeMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String) : MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200 {
-        val localVarResponse = resumeMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId)
+    fun resumeMailMailbox(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200 {
+        val localVarResponse = resumeMailMailboxWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun resumeMailMailboxAsync(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200 {
+        val localVarResponse = resumeMailMailboxAsyncWithHttpInfo(teamId = teamId, mailboxId = mailboxId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200
@@ -6423,11 +8673,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun resumeMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200?> {
+    fun resumeMailMailboxWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200?> {
         val localVariableConfig = resumeMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId)
 
         return request<Unit, MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun resumeMailMailboxAsyncWithHttpInfo(teamId: kotlin.String, mailboxId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200?> {
+        val localVariableConfig = resumeMailMailboxRequestConfig(teamId = teamId, mailboxId = mailboxId)
+
+        return requestAsync<Unit, MailPostDeliverabilityMailboxesByMailboxIdResumeResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6469,8 +8728,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun retryMailMessage(teamId: kotlin.String, messageId: kotlin.String) : MailPostMessagesByMessageIdRetryResponse200 {
-        val localVarResponse = retryMailMessageWithHttpInfo(teamId = teamId, messageId = messageId)
+    fun retryMailMessage(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesByMessageIdRetryResponse200 {
+        val localVarResponse = retryMailMessageWithHttpInfo(teamId = teamId, messageId = messageId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesByMessageIdRetryResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun retryMailMessageAsync(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostMessagesByMessageIdRetryResponse200 {
+        val localVarResponse = retryMailMessageAsyncWithHttpInfo(teamId = teamId, messageId = messageId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostMessagesByMessageIdRetryResponse200
@@ -6499,11 +8777,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun retryMailMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String) : ApiResponse<MailPostMessagesByMessageIdRetryResponse200?> {
+    fun retryMailMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesByMessageIdRetryResponse200?> {
         val localVariableConfig = retryMailMessageRequestConfig(teamId = teamId, messageId = messageId)
 
         return request<Unit, MailPostMessagesByMessageIdRetryResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun retryMailMessageAsyncWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostMessagesByMessageIdRetryResponse200?> {
+        val localVariableConfig = retryMailMessageRequestConfig(teamId = teamId, messageId = messageId)
+
+        return requestAsync<Unit, MailPostMessagesByMessageIdRetryResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6545,8 +8832,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun rotateMailWebhookSecret(teamId: kotlin.String, subscriptionId: kotlin.String) : MailPostWebhooksBySubscriptionIdRotateSecretResponse200 {
-        val localVarResponse = rotateMailWebhookSecretWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId)
+    fun rotateMailWebhookSecret(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdRotateSecretResponse200 {
+        val localVarResponse = rotateMailWebhookSecretWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdRotateSecretResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateMailWebhookSecretAsync(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdRotateSecretResponse200 {
+        val localVarResponse = rotateMailWebhookSecretAsyncWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdRotateSecretResponse200
@@ -6575,11 +8881,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun rotateMailWebhookSecretWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String) : ApiResponse<MailPostWebhooksBySubscriptionIdRotateSecretResponse200?> {
+    fun rotateMailWebhookSecretWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdRotateSecretResponse200?> {
         val localVariableConfig = rotateMailWebhookSecretRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
 
         return request<Unit, MailPostWebhooksBySubscriptionIdRotateSecretResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun rotateMailWebhookSecretAsyncWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdRotateSecretResponse200?> {
+        val localVariableConfig = rotateMailWebhookSecretRequestConfig(teamId = teamId, subscriptionId = subscriptionId)
+
+        return requestAsync<Unit, MailPostWebhooksBySubscriptionIdRotateSecretResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6621,8 +8936,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun saveMailCadence(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest) : MailPostCadencesResponse200 {
-        val localVarResponse = saveMailCadenceWithHttpInfo(teamId = teamId, mailPostCadencesRequest = mailPostCadencesRequest)
+    fun saveMailCadence(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadencesResponse200 {
+        val localVarResponse = saveMailCadenceWithHttpInfo(teamId = teamId, mailPostCadencesRequest = mailPostCadencesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadencesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailCadenceAsync(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostCadencesResponse200 {
+        val localVarResponse = saveMailCadenceAsyncWithHttpInfo(teamId = teamId, mailPostCadencesRequest = mailPostCadencesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostCadencesResponse200
@@ -6651,11 +8985,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun saveMailCadenceWithHttpInfo(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest) : ApiResponse<MailPostCadencesResponse200?> {
+    fun saveMailCadenceWithHttpInfo(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadencesResponse200?> {
         val localVariableConfig = saveMailCadenceRequestConfig(teamId = teamId, mailPostCadencesRequest = mailPostCadencesRequest)
 
         return request<MailPostCadencesRequest, MailPostCadencesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailCadenceAsyncWithHttpInfo(teamId: kotlin.String, mailPostCadencesRequest: MailPostCadencesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostCadencesResponse200?> {
+        val localVariableConfig = saveMailCadenceRequestConfig(teamId = teamId, mailPostCadencesRequest = mailPostCadencesRequest)
+
+        return requestAsync<MailPostCadencesRequest, MailPostCadencesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6698,8 +9041,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun saveMailReplyAutomation(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest) : MailPostReplyAutomationsResponse200 {
-        val localVarResponse = saveMailReplyAutomationWithHttpInfo(teamId = teamId, mailPostReplyAutomationsRequest = mailPostReplyAutomationsRequest)
+    fun saveMailReplyAutomation(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostReplyAutomationsResponse200 {
+        val localVarResponse = saveMailReplyAutomationWithHttpInfo(teamId = teamId, mailPostReplyAutomationsRequest = mailPostReplyAutomationsRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostReplyAutomationsResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailReplyAutomationAsync(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostReplyAutomationsResponse200 {
+        val localVarResponse = saveMailReplyAutomationAsyncWithHttpInfo(teamId = teamId, mailPostReplyAutomationsRequest = mailPostReplyAutomationsRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostReplyAutomationsResponse200
@@ -6728,11 +9090,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun saveMailReplyAutomationWithHttpInfo(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest) : ApiResponse<MailPostReplyAutomationsResponse200?> {
+    fun saveMailReplyAutomationWithHttpInfo(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostReplyAutomationsResponse200?> {
         val localVariableConfig = saveMailReplyAutomationRequestConfig(teamId = teamId, mailPostReplyAutomationsRequest = mailPostReplyAutomationsRequest)
 
         return request<MailPostReplyAutomationsRequest, MailPostReplyAutomationsResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailReplyAutomationAsyncWithHttpInfo(teamId: kotlin.String, mailPostReplyAutomationsRequest: MailPostReplyAutomationsRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostReplyAutomationsResponse200?> {
+        val localVariableConfig = saveMailReplyAutomationRequestConfig(teamId = teamId, mailPostReplyAutomationsRequest = mailPostReplyAutomationsRequest)
+
+        return requestAsync<MailPostReplyAutomationsRequest, MailPostReplyAutomationsResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6775,8 +9146,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun saveMailTemplate(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest) : MailPostTemplatesResponse200 {
-        val localVarResponse = saveMailTemplateWithHttpInfo(teamId = teamId, mailPostTemplatesRequest = mailPostTemplatesRequest)
+    fun saveMailTemplate(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTemplatesResponse200 {
+        val localVarResponse = saveMailTemplateWithHttpInfo(teamId = teamId, mailPostTemplatesRequest = mailPostTemplatesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTemplatesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailTemplateAsync(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostTemplatesResponse200 {
+        val localVarResponse = saveMailTemplateAsyncWithHttpInfo(teamId = teamId, mailPostTemplatesRequest = mailPostTemplatesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTemplatesResponse200
@@ -6805,11 +9195,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun saveMailTemplateWithHttpInfo(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest) : ApiResponse<MailPostTemplatesResponse200?> {
+    fun saveMailTemplateWithHttpInfo(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTemplatesResponse200?> {
         val localVariableConfig = saveMailTemplateRequestConfig(teamId = teamId, mailPostTemplatesRequest = mailPostTemplatesRequest)
 
         return request<MailPostTemplatesRequest, MailPostTemplatesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun saveMailTemplateAsyncWithHttpInfo(teamId: kotlin.String, mailPostTemplatesRequest: MailPostTemplatesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTemplatesResponse200?> {
+        val localVariableConfig = saveMailTemplateRequestConfig(teamId = teamId, mailPostTemplatesRequest = mailPostTemplatesRequest)
+
+        return requestAsync<MailPostTemplatesRequest, MailPostTemplatesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6852,8 +9251,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setMailContactState(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest) : MailPutCrmStatesResponse200 {
-        val localVarResponse = setMailContactStateWithHttpInfo(teamId = teamId, mailPutCrmStatesRequest = mailPutCrmStatesRequest)
+    fun setMailContactState(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPutCrmStatesResponse200 {
+        val localVarResponse = setMailContactStateWithHttpInfo(teamId = teamId, mailPutCrmStatesRequest = mailPutCrmStatesRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPutCrmStatesResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailContactStateAsync(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest, requestOptions: RequestOptions = RequestOptions()) : MailPutCrmStatesResponse200 {
+        val localVarResponse = setMailContactStateAsyncWithHttpInfo(teamId = teamId, mailPutCrmStatesRequest = mailPutCrmStatesRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPutCrmStatesResponse200
@@ -6882,11 +9300,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setMailContactStateWithHttpInfo(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest) : ApiResponse<MailPutCrmStatesResponse200?> {
+    fun setMailContactStateWithHttpInfo(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPutCrmStatesResponse200?> {
         val localVariableConfig = setMailContactStateRequestConfig(teamId = teamId, mailPutCrmStatesRequest = mailPutCrmStatesRequest)
 
         return request<MailPutCrmStatesRequest, MailPutCrmStatesResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailContactStateAsyncWithHttpInfo(teamId: kotlin.String, mailPutCrmStatesRequest: MailPutCrmStatesRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPutCrmStatesResponse200?> {
+        val localVariableConfig = setMailContactStateRequestConfig(teamId = teamId, mailPutCrmStatesRequest = mailPutCrmStatesRequest)
+
+        return requestAsync<MailPutCrmStatesRequest, MailPutCrmStatesResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -6931,8 +9358,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setMailMailboxPoolMember(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest) : MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
-        val localVarResponse = setMailMailboxPoolMemberWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest = mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest)
+    fun setMailMailboxPoolMember(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
+        val localVarResponse = setMailMailboxPoolMemberWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest = mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailMailboxPoolMemberAsync(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200 {
+        val localVarResponse = setMailMailboxPoolMemberAsyncWithHttpInfo(teamId = teamId, poolId = poolId, mailboxId = mailboxId, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest = mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200
@@ -6963,11 +9409,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setMailMailboxPoolMemberWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest) : ApiResponse<MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
+    fun setMailMailboxPoolMemberWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
         val localVariableConfig = setMailMailboxPoolMemberRequestConfig(teamId = teamId, poolId = poolId, mailboxId = mailboxId, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest = mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest)
 
         return request<MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailMailboxPoolMemberAsyncWithHttpInfo(teamId: kotlin.String, poolId: kotlin.String, mailboxId: kotlin.String, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest: MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200?> {
+        val localVariableConfig = setMailMailboxPoolMemberRequestConfig(teamId = teamId, poolId = poolId, mailboxId = mailboxId, mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest = mailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest)
+
+        return requestAsync<MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdRequest, MailPutDeliverabilityPoolsByPoolIdMembersByMailboxIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7013,8 +9468,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun setMailWebhookStatus(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest) : MailPostWebhooksBySubscriptionIdStatusResponse200 {
-        val localVarResponse = setMailWebhookStatusWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPostWebhooksBySubscriptionIdStatusRequest = mailPostWebhooksBySubscriptionIdStatusRequest)
+    fun setMailWebhookStatus(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdStatusResponse200 {
+        val localVarResponse = setMailWebhookStatusWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPostWebhooksBySubscriptionIdStatusRequest = mailPostWebhooksBySubscriptionIdStatusRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdStatusResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailWebhookStatusAsync(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostWebhooksBySubscriptionIdStatusResponse200 {
+        val localVarResponse = setMailWebhookStatusAsyncWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPostWebhooksBySubscriptionIdStatusRequest = mailPostWebhooksBySubscriptionIdStatusRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostWebhooksBySubscriptionIdStatusResponse200
@@ -7044,11 +9518,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun setMailWebhookStatusWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest) : ApiResponse<MailPostWebhooksBySubscriptionIdStatusResponse200?> {
+    fun setMailWebhookStatusWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdStatusResponse200?> {
         val localVariableConfig = setMailWebhookStatusRequestConfig(teamId = teamId, subscriptionId = subscriptionId, mailPostWebhooksBySubscriptionIdStatusRequest = mailPostWebhooksBySubscriptionIdStatusRequest)
 
         return request<MailPostWebhooksBySubscriptionIdStatusRequest, MailPostWebhooksBySubscriptionIdStatusResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun setMailWebhookStatusAsyncWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPostWebhooksBySubscriptionIdStatusRequest: MailPostWebhooksBySubscriptionIdStatusRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostWebhooksBySubscriptionIdStatusResponse200?> {
+        val localVariableConfig = setMailWebhookStatusRequestConfig(teamId = teamId, subscriptionId = subscriptionId, mailPostWebhooksBySubscriptionIdStatusRequest = mailPostWebhooksBySubscriptionIdStatusRequest)
+
+        return requestAsync<MailPostWebhooksBySubscriptionIdStatusRequest, MailPostWebhooksBySubscriptionIdStatusResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7092,8 +9575,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun startMailOAuth(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest) : MailPostOauthBeginResponse200 {
-        val localVarResponse = startMailOAuthWithHttpInfo(teamId = teamId, mailPostOauthBeginRequest = mailPostOauthBeginRequest)
+    fun startMailOAuth(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostOauthBeginResponse200 {
+        val localVarResponse = startMailOAuthWithHttpInfo(teamId = teamId, mailPostOauthBeginRequest = mailPostOauthBeginRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostOauthBeginResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startMailOAuthAsync(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostOauthBeginResponse200 {
+        val localVarResponse = startMailOAuthAsyncWithHttpInfo(teamId = teamId, mailPostOauthBeginRequest = mailPostOauthBeginRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostOauthBeginResponse200
@@ -7122,11 +9624,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun startMailOAuthWithHttpInfo(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest) : ApiResponse<MailPostOauthBeginResponse200?> {
+    fun startMailOAuthWithHttpInfo(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostOauthBeginResponse200?> {
         val localVariableConfig = startMailOAuthRequestConfig(teamId = teamId, mailPostOauthBeginRequest = mailPostOauthBeginRequest)
 
         return request<MailPostOauthBeginRequest, MailPostOauthBeginResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun startMailOAuthAsyncWithHttpInfo(teamId: kotlin.String, mailPostOauthBeginRequest: MailPostOauthBeginRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostOauthBeginResponse200?> {
+        val localVariableConfig = startMailOAuthRequestConfig(teamId = teamId, mailPostOauthBeginRequest = mailPostOauthBeginRequest)
+
+        return requestAsync<MailPostOauthBeginRequest, MailPostOauthBeginResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7170,8 +9681,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest) : MailPatchCampaignsByCampaignIdResponse200 {
-        val localVarResponse = updateMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPatchCampaignsByCampaignIdRequest = mailPatchCampaignsByCampaignIdRequest)
+    fun updateMailCampaignDraft(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPatchCampaignsByCampaignIdResponse200 {
+        val localVarResponse = updateMailCampaignDraftWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPatchCampaignsByCampaignIdRequest = mailPatchCampaignsByCampaignIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPatchCampaignsByCampaignIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailCampaignDraftAsync(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPatchCampaignsByCampaignIdResponse200 {
+        val localVarResponse = updateMailCampaignDraftAsyncWithHttpInfo(teamId = teamId, campaignId = campaignId, mailPatchCampaignsByCampaignIdRequest = mailPatchCampaignsByCampaignIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPatchCampaignsByCampaignIdResponse200
@@ -7201,11 +9731,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest) : ApiResponse<MailPatchCampaignsByCampaignIdResponse200?> {
+    fun updateMailCampaignDraftWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPatchCampaignsByCampaignIdResponse200?> {
         val localVariableConfig = updateMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailPatchCampaignsByCampaignIdRequest = mailPatchCampaignsByCampaignIdRequest)
 
         return request<MailPatchCampaignsByCampaignIdRequest, MailPatchCampaignsByCampaignIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailCampaignDraftAsyncWithHttpInfo(teamId: kotlin.String, campaignId: kotlin.String, mailPatchCampaignsByCampaignIdRequest: MailPatchCampaignsByCampaignIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPatchCampaignsByCampaignIdResponse200?> {
+        val localVariableConfig = updateMailCampaignDraftRequestConfig(teamId = teamId, campaignId = campaignId, mailPatchCampaignsByCampaignIdRequest = mailPatchCampaignsByCampaignIdRequest)
+
+        return requestAsync<MailPatchCampaignsByCampaignIdRequest, MailPatchCampaignsByCampaignIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7250,8 +9789,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateMailInboxMessage(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest) : MailPostInboxByMessageIdResponse200 {
-        val localVarResponse = updateMailInboxMessageWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdRequest = mailPostInboxByMessageIdRequest)
+    fun updateMailInboxMessage(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostInboxByMessageIdResponse200 {
+        val localVarResponse = updateMailInboxMessageWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdRequest = mailPostInboxByMessageIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostInboxByMessageIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailInboxMessageAsync(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPostInboxByMessageIdResponse200 {
+        val localVarResponse = updateMailInboxMessageAsyncWithHttpInfo(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdRequest = mailPostInboxByMessageIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostInboxByMessageIdResponse200
@@ -7281,11 +9839,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateMailInboxMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest) : ApiResponse<MailPostInboxByMessageIdResponse200?> {
+    fun updateMailInboxMessageWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostInboxByMessageIdResponse200?> {
         val localVariableConfig = updateMailInboxMessageRequestConfig(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdRequest = mailPostInboxByMessageIdRequest)
 
         return request<MailPostInboxByMessageIdRequest, MailPostInboxByMessageIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailInboxMessageAsyncWithHttpInfo(teamId: kotlin.String, messageId: kotlin.String, mailPostInboxByMessageIdRequest: MailPostInboxByMessageIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostInboxByMessageIdResponse200?> {
+        val localVariableConfig = updateMailInboxMessageRequestConfig(teamId = teamId, messageId = messageId, mailPostInboxByMessageIdRequest = mailPostInboxByMessageIdRequest)
+
+        return requestAsync<MailPostInboxByMessageIdRequest, MailPostInboxByMessageIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7330,8 +9897,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updateMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest) : MailPatchWebhooksBySubscriptionIdResponse200 {
-        val localVarResponse = updateMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPatchWebhooksBySubscriptionIdRequest = mailPatchWebhooksBySubscriptionIdRequest)
+    fun updateMailWebhook(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPatchWebhooksBySubscriptionIdResponse200 {
+        val localVarResponse = updateMailWebhookWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPatchWebhooksBySubscriptionIdRequest = mailPatchWebhooksBySubscriptionIdRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPatchWebhooksBySubscriptionIdResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailWebhookAsync(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest, requestOptions: RequestOptions = RequestOptions()) : MailPatchWebhooksBySubscriptionIdResponse200 {
+        val localVarResponse = updateMailWebhookAsyncWithHttpInfo(teamId = teamId, subscriptionId = subscriptionId, mailPatchWebhooksBySubscriptionIdRequest = mailPatchWebhooksBySubscriptionIdRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPatchWebhooksBySubscriptionIdResponse200
@@ -7361,11 +9947,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun updateMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest) : ApiResponse<MailPatchWebhooksBySubscriptionIdResponse200?> {
+    fun updateMailWebhookWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPatchWebhooksBySubscriptionIdResponse200?> {
         val localVariableConfig = updateMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId, mailPatchWebhooksBySubscriptionIdRequest = mailPatchWebhooksBySubscriptionIdRequest)
 
         return request<MailPatchWebhooksBySubscriptionIdRequest, MailPatchWebhooksBySubscriptionIdResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun updateMailWebhookAsyncWithHttpInfo(teamId: kotlin.String, subscriptionId: kotlin.String, mailPatchWebhooksBySubscriptionIdRequest: MailPatchWebhooksBySubscriptionIdRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPatchWebhooksBySubscriptionIdResponse200?> {
+        val localVariableConfig = updateMailWebhookRequestConfig(teamId = teamId, subscriptionId = subscriptionId, mailPatchWebhooksBySubscriptionIdRequest = mailPatchWebhooksBySubscriptionIdRequest)
+
+        return requestAsync<MailPatchWebhooksBySubscriptionIdRequest, MailPatchWebhooksBySubscriptionIdResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -7408,8 +10003,27 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun verifyMailTrackingDomain(teamId: kotlin.String) : MailPostTrackingDomainVerifyResponse200 {
-        val localVarResponse = verifyMailTrackingDomainWithHttpInfo(teamId = teamId)
+    fun verifyMailTrackingDomain(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostTrackingDomainVerifyResponse200 {
+        val localVarResponse = verifyMailTrackingDomainWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTrackingDomainVerifyResponse200
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyMailTrackingDomainAsync(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : MailPostTrackingDomainVerifyResponse200 {
+        val localVarResponse = verifyMailTrackingDomainAsyncWithHttpInfo(teamId = teamId, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as MailPostTrackingDomainVerifyResponse200
@@ -7437,11 +10051,20 @@ open class MailApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(c
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun verifyMailTrackingDomainWithHttpInfo(teamId: kotlin.String) : ApiResponse<MailPostTrackingDomainVerifyResponse200?> {
+    fun verifyMailTrackingDomainWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTrackingDomainVerifyResponse200?> {
         val localVariableConfig = verifyMailTrackingDomainRequestConfig(teamId = teamId)
 
         return request<Unit, MailPostTrackingDomainVerifyResponse200>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyMailTrackingDomainAsyncWithHttpInfo(teamId: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<MailPostTrackingDomainVerifyResponse200?> {
+        val localVariableConfig = verifyMailTrackingDomainRequestConfig(teamId = teamId)
+
+        return requestAsync<Unit, MailPostTrackingDomainVerifyResponse200>(
+            localVariableConfig, requestOptions
         )
     }
 

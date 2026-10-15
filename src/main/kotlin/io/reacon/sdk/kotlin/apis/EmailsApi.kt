@@ -36,6 +36,7 @@ import io.reacon.sdk.kotlin.models.EmailRevealResponse
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -50,7 +51,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class EmailsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -72,8 +73,27 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deleteEmail(email: kotlin.String) : DeleteEmailResponse {
-        val localVarResponse = deleteEmailWithHttpInfo(email = email)
+    fun deleteEmail(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DeleteEmailResponse {
+        val localVarResponse = deleteEmailWithHttpInfo(email = email, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteEmailResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteEmailAsync(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DeleteEmailResponse {
+        val localVarResponse = deleteEmailAsyncWithHttpInfo(email = email, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DeleteEmailResponse
@@ -101,11 +121,20 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun deleteEmailWithHttpInfo(email: kotlin.String) : ApiResponse<DeleteEmailResponse?> {
+    fun deleteEmailWithHttpInfo(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DeleteEmailResponse?> {
         val localVariableConfig = deleteEmailRequestConfig(email = email)
 
         return request<Unit, DeleteEmailResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun deleteEmailAsyncWithHttpInfo(email: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DeleteEmailResponse?> {
+        val localVariableConfig = deleteEmailRequestConfig(email = email)
+
+        return requestAsync<Unit, DeleteEmailResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -149,8 +178,27 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listEmailMentions(email: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null, xLrCursor: kotlin.String? = null) : EmailMentionsPage {
-        val localVarResponse = listEmailMentionsWithHttpInfo(email = email, limit = limit, cursor = cursor, xLrLimit = xLrLimit, xLrCursor = xLrCursor)
+    fun listEmailMentions(email: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null, xLrCursor: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : EmailMentionsPage {
+        val localVarResponse = listEmailMentionsWithHttpInfo(email = email, limit = limit, cursor = cursor, xLrLimit = xLrLimit, xLrCursor = xLrCursor, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EmailMentionsPage
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listEmailMentionsAsync(email: kotlin.String, limit: kotlin.Int? = null, cursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null, xLrCursor: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : EmailMentionsPage {
+        val localVarResponse = listEmailMentionsAsyncWithHttpInfo(email = email, limit = limit, cursor = cursor, xLrLimit = xLrLimit, xLrCursor = xLrCursor, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EmailMentionsPage
@@ -182,11 +230,20 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listEmailMentionsWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, xLrLimit: kotlin.Int?, xLrCursor: kotlin.String?) : ApiResponse<EmailMentionsPage?> {
+    fun listEmailMentionsWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, xLrLimit: kotlin.Int?, xLrCursor: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailMentionsPage?> {
         val localVariableConfig = listEmailMentionsRequestConfig(email = email, limit = limit, cursor = cursor, xLrLimit = xLrLimit, xLrCursor = xLrCursor)
 
         return request<Unit, EmailMentionsPage>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listEmailMentionsAsyncWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, cursor: kotlin.String?, xLrLimit: kotlin.Int?, xLrCursor: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailMentionsPage?> {
+        val localVariableConfig = listEmailMentionsRequestConfig(email = email, limit = limit, cursor = cursor, xLrLimit = xLrLimit, xLrCursor = xLrCursor)
+
+        return requestAsync<Unit, EmailMentionsPage>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -264,8 +321,27 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listEmails(domain: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, sourcesLimit: kotlin.Int? = null, onlyIfFree: OnlyIfFreeListEmails? = null, xLrCursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null) : EmailPage {
-        val localVarResponse = listEmailsWithHttpInfo(domain = domain, limit = limit, offset = offset, cursor = cursor, sourcesLimit = sourcesLimit, onlyIfFree = onlyIfFree, xLrCursor = xLrCursor, xLrLimit = xLrLimit)
+    fun listEmails(domain: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, sourcesLimit: kotlin.Int? = null, onlyIfFree: OnlyIfFreeListEmails? = null, xLrCursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailPage {
+        val localVarResponse = listEmailsWithHttpInfo(domain = domain, limit = limit, offset = offset, cursor = cursor, sourcesLimit = sourcesLimit, onlyIfFree = onlyIfFree, xLrCursor = xLrCursor, xLrLimit = xLrLimit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EmailPage
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listEmailsAsync(domain: kotlin.String, limit: kotlin.Int? = null, offset: kotlin.Int? = null, cursor: kotlin.String? = null, sourcesLimit: kotlin.Int? = null, onlyIfFree: OnlyIfFreeListEmails? = null, xLrCursor: kotlin.String? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailPage {
+        val localVarResponse = listEmailsAsyncWithHttpInfo(domain = domain, limit = limit, offset = offset, cursor = cursor, sourcesLimit = sourcesLimit, onlyIfFree = onlyIfFree, xLrCursor = xLrCursor, xLrLimit = xLrLimit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EmailPage
@@ -300,11 +376,20 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listEmailsWithHttpInfo(domain: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, sourcesLimit: kotlin.Int?, onlyIfFree: OnlyIfFreeListEmails?, xLrCursor: kotlin.String?, xLrLimit: kotlin.Int?) : ApiResponse<EmailPage?> {
+    fun listEmailsWithHttpInfo(domain: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, sourcesLimit: kotlin.Int?, onlyIfFree: OnlyIfFreeListEmails?, xLrCursor: kotlin.String?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailPage?> {
         val localVariableConfig = listEmailsRequestConfig(domain = domain, limit = limit, offset = offset, cursor = cursor, sourcesLimit = sourcesLimit, onlyIfFree = onlyIfFree, xLrCursor = xLrCursor, xLrLimit = xLrLimit)
 
         return request<Unit, EmailPage>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listEmailsAsyncWithHttpInfo(domain: kotlin.String, limit: kotlin.Int?, offset: kotlin.Int?, cursor: kotlin.String?, sourcesLimit: kotlin.Int?, onlyIfFree: OnlyIfFreeListEmails?, xLrCursor: kotlin.String?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailPage?> {
+        val localVariableConfig = listEmailsRequestConfig(domain = domain, limit = limit, offset = offset, cursor = cursor, sourcesLimit = sourcesLimit, onlyIfFree = onlyIfFree, xLrCursor = xLrCursor, xLrLimit = xLrLimit)
+
+        return requestAsync<Unit, EmailPage>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -373,8 +458,27 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun revealEmail(email: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null) : EmailRevealResponse {
-        val localVarResponse = revealEmailWithHttpInfo(email = email, limit = limit, xLrLimit = xLrLimit)
+    fun revealEmail(email: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailRevealResponse {
+        val localVarResponse = revealEmailWithHttpInfo(email = email, limit = limit, xLrLimit = xLrLimit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EmailRevealResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun revealEmailAsync(email: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailRevealResponse {
+        val localVarResponse = revealEmailAsyncWithHttpInfo(email = email, limit = limit, xLrLimit = xLrLimit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EmailRevealResponse
@@ -404,11 +508,20 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun revealEmailWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?) : ApiResponse<EmailRevealResponse?> {
+    fun revealEmailWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailRevealResponse?> {
         val localVariableConfig = revealEmailRequestConfig(email = email, limit = limit, xLrLimit = xLrLimit)
 
         return request<Unit, EmailRevealResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun revealEmailAsyncWithHttpInfo(email: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailRevealResponse?> {
+        val localVariableConfig = revealEmailRequestConfig(email = email, limit = limit, xLrLimit = xLrLimit)
+
+        return requestAsync<Unit, EmailRevealResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -458,8 +571,27 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun revealEmailById(id: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null) : EmailRevealResponse {
-        val localVarResponse = revealEmailByIdWithHttpInfo(id = id, limit = limit, xLrLimit = xLrLimit)
+    fun revealEmailById(id: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailRevealResponse {
+        val localVarResponse = revealEmailByIdWithHttpInfo(id = id, limit = limit, xLrLimit = xLrLimit, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as EmailRevealResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun revealEmailByIdAsync(id: kotlin.String, limit: kotlin.Int? = null, xLrLimit: kotlin.Int? = null, requestOptions: RequestOptions = RequestOptions()) : EmailRevealResponse {
+        val localVarResponse = revealEmailByIdAsyncWithHttpInfo(id = id, limit = limit, xLrLimit = xLrLimit, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as EmailRevealResponse
@@ -489,11 +621,20 @@ open class EmailsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun revealEmailByIdWithHttpInfo(id: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?) : ApiResponse<EmailRevealResponse?> {
+    fun revealEmailByIdWithHttpInfo(id: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailRevealResponse?> {
         val localVariableConfig = revealEmailByIdRequestConfig(id = id, limit = limit, xLrLimit = xLrLimit)
 
         return request<Unit, EmailRevealResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun revealEmailByIdAsyncWithHttpInfo(id: kotlin.String, limit: kotlin.Int?, xLrLimit: kotlin.Int?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<EmailRevealResponse?> {
+        val localVariableConfig = revealEmailByIdRequestConfig(id = id, limit = limit, xLrLimit = xLrLimit)
+
+        return requestAsync<Unit, EmailRevealResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

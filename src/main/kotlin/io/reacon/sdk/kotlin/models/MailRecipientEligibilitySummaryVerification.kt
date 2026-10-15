@@ -29,34 +29,34 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param id 
- * @param name 
- * @param status 
+ * @param freshValid 
+ * @param invalid 
+ * @param unknownOrStale 
  */
 
 
-data class ProductSequenceStartOutput (
+data class MailRecipientEligibilitySummaryVerification (
 
-    @param:JsonProperty(value = "id", required = true)
-    @get:JsonProperty("id")
-    val id: java.util.UUID,
+    @param:JsonProperty(value = "freshValid", required = true)
+    @get:JsonProperty("freshValid")
+    val freshValid: java.math.BigDecimal,
 
-    @param:JsonProperty(value = "name", required = true)
-    @get:JsonProperty("name")
-    val name: kotlin.String,
+    @param:JsonProperty(value = "invalid", required = true)
+    @get:JsonProperty("invalid")
+    val invalid: java.math.BigDecimal,
 
-    @param:JsonProperty(value = "status", required = true)
-    @get:JsonProperty("status")
-    val status: kotlin.String,
+    @param:JsonProperty(value = "unknownOrStale", required = true)
+    @get:JsonProperty("unknownOrStale")
+    val unknownOrStale: java.math.BigDecimal,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("id", "name", "status"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("freshValid", "invalid", "unknownOrStale"),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("id", "name", "status")
+    override val reaconKnownFields: Set<String> get() = setOf("freshValid", "invalid", "unknownOrStale")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconRequiredFields: Set<String> get() = setOf("id", "name", "status")
+    override val reaconRequiredFields: Set<String> get() = setOf("freshValid", "invalid", "unknownOrStale")
     override fun reaconNullFields(): Set<String> = setOfNotNull()
 
 

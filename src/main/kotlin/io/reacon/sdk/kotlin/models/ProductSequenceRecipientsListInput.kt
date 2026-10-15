@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * 
  *
  * @param sequenceId 
+ * @param limit 
+ * @param offset 
  */
 
 
@@ -37,17 +39,25 @@ data class ProductSequenceRecipientsListInput (
 
     @param:JsonProperty(value = "sequenceId", required = true)
     @get:JsonProperty("sequenceId")
-    val sequenceId: java.util.UUID,
+    val sequenceId: kotlin.String,
+
+    @param:JsonProperty("limit")
+    @get:JsonProperty("limit")
+    val limit: kotlin.Int? = null,
+
+    @param:JsonProperty("offset")
+    @get:JsonProperty("offset")
+    val offset: kotlin.Int? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("sequenceId"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("sequenceId", if (limit != null) "limit" else null, if (offset != null) "offset" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("sequenceId")
+    override val reaconKnownFields: Set<String> get() = setOf("sequenceId", "limit", "offset")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("sequenceId")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (limit == null) "limit" else null, if (offset == null) "offset" else null)
 
 
 

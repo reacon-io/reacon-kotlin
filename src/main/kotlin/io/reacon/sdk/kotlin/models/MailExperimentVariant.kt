@@ -24,7 +24,7 @@ sealed class MailExperimentVariant {
     class Deserializer : JsonDeserializer<MailExperimentVariant>() {
         override fun getNullValue(context: DeserializationContext): MailExperimentVariant = throw JsonMappingException.from(context.parser, "MailExperimentVariant must be an object")
         override fun deserialize(parser: JsonParser, context: DeserializationContext): MailExperimentVariant {
-            val tree = parser.codec.readTree<JsonNode>(parser)
+            val tree: JsonNode = context.readTree(parser)
             if (!tree.isObject) throw JsonMappingException.from(parser, "MailExperimentVariant must be an object")
             val keys = tree.fieldNames().asSequence().toSet()
             var lastFailure: Exception? = null

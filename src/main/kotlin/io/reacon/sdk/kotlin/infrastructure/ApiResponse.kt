@@ -32,12 +32,20 @@ class ClientError<T>(
     val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,
-    override val headers: Map<String, List<String>> = mapOf()
-) : ApiResponse<T>(ResponseType.ClientError)
+    override val headers: Map<String, List<String>> = mapOf(),
+    rawBody: ByteArray? = null
+) : ApiResponse<T>(ResponseType.ClientError) {
+    private val originalBytes = rawBody?.clone()
+    val bodyBytes: ByteArray get() = originalBytes?.clone() ?: body?.toString()?.toByteArray(Charsets.UTF_8) ?: byteArrayOf()
+}
 
 class ServerError<T>(
     val message: String? = null,
     val body: Any? = null,
     override val statusCode: Int = -1,
-    override val headers: Map<String, List<String>> = mapOf()
-): ApiResponse<T>(ResponseType.ServerError)
+    override val headers: Map<String, List<String>> = mapOf(),
+    rawBody: ByteArray? = null
+) : ApiResponse<T>(ResponseType.ServerError) {
+    private val originalBytes = rawBody?.clone()
+    val bodyBytes: ByteArray get() = originalBytes?.clone() ?: body?.toString()?.toByteArray(Charsets.UTF_8) ?: byteArrayOf()
+}

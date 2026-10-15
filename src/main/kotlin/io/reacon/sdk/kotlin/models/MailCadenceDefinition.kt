@@ -25,6 +25,8 @@ package io.reacon.sdk.kotlin.models
 
 import io.reacon.sdk.kotlin.models.MailCadenceNode
 import io.reacon.sdk.kotlin.models.MailCadenceStopConditions
+import io.reacon.sdk.kotlin.models.MailEmailSequenceDeliverySettings
+import io.reacon.sdk.kotlin.models.MailEmailSequenceRecipientOverride
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
@@ -39,6 +41,11 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param status 
  * @param tenantId 
  * @param version 
+ * @param authoringRevision 
+ * @param emailDelivery 
+ * @param emailExcludedContactIds 
+ * @param emailRecipientOverrides 
+ * @param emailRenderSeed 
  * @param stopConditions 
  */
 
@@ -77,19 +84,39 @@ data class MailCadenceDefinition (
     @get:JsonProperty("version")
     val version: java.math.BigDecimal,
 
+    @param:JsonProperty("authoringRevision")
+    @get:JsonProperty("authoringRevision")
+    val authoringRevision: java.math.BigDecimal? = null,
+
+    @param:JsonProperty("emailDelivery")
+    @get:JsonProperty("emailDelivery")
+    val emailDelivery: MailEmailSequenceDeliverySettings? = null,
+
+    @param:JsonProperty("emailExcludedContactIds")
+    @get:JsonProperty("emailExcludedContactIds")
+    val emailExcludedContactIds: kotlin.collections.List<kotlin.String>? = null,
+
+    @param:JsonProperty("emailRecipientOverrides")
+    @get:JsonProperty("emailRecipientOverrides")
+    val emailRecipientOverrides: kotlin.collections.List<MailEmailSequenceRecipientOverride>? = null,
+
+    @param:JsonProperty("emailRenderSeed")
+    @get:JsonProperty("emailRenderSeed")
+    val emailRenderSeed: kotlin.String? = null,
+
     @param:JsonProperty("stopConditions")
     @get:JsonProperty("stopConditions")
     val stopConditions: MailCadenceStopConditions? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("createdAt", "createdByActorId", "id", "name", "nodes", "status", "tenantId", "version", if (stopConditions != null) "stopConditions" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("createdAt", "createdByActorId", "id", "name", "nodes", "status", "tenantId", "version", if (authoringRevision != null) "authoringRevision" else null, if (emailDelivery != null) "emailDelivery" else null, if (emailExcludedContactIds != null) "emailExcludedContactIds" else null, if (emailRecipientOverrides != null) "emailRecipientOverrides" else null, if (emailRenderSeed != null) "emailRenderSeed" else null, if (stopConditions != null) "stopConditions" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("createdAt", "createdByActorId", "id", "name", "nodes", "status", "tenantId", "version", "stopConditions")
+    override val reaconKnownFields: Set<String> get() = setOf("createdAt", "createdByActorId", "id", "name", "nodes", "status", "tenantId", "version", "authoringRevision", "emailDelivery", "emailExcludedContactIds", "emailRecipientOverrides", "emailRenderSeed", "stopConditions")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("createdAt", "createdByActorId", "id", "name", "nodes", "status", "tenantId", "version")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (stopConditions == null) "stopConditions" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (authoringRevision == null) "authoringRevision" else null, if (emailDelivery == null) "emailDelivery" else null, if (emailExcludedContactIds == null) "emailExcludedContactIds" else null, if (emailRecipientOverrides == null) "emailRecipientOverrides" else null, if (emailRenderSeed == null) "emailRenderSeed" else null, if (stopConditions == null) "stopConditions" else null)
 
 
 

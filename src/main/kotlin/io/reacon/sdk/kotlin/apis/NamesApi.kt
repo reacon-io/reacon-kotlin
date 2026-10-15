@@ -33,6 +33,7 @@ import io.reacon.sdk.kotlin.models.NameVerificationResponse
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -47,7 +48,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class NamesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class NamesApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -71,8 +72,27 @@ open class NamesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun listNamePatterns(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null) : NamePatternsResponse {
-        val localVarResponse = listNamePatternsWithHttpInfo(domain = domain, first = first, last = last)
+    fun listNamePatterns(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : NamePatternsResponse {
+        val localVarResponse = listNamePatternsWithHttpInfo(domain = domain, first = first, last = last, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as NamePatternsResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listNamePatternsAsync(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null, requestOptions: RequestOptions = RequestOptions()) : NamePatternsResponse {
+        val localVarResponse = listNamePatternsAsyncWithHttpInfo(domain = domain, first = first, last = last, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NamePatternsResponse
@@ -102,11 +122,20 @@ open class NamesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun listNamePatternsWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?) : ApiResponse<NamePatternsResponse?> {
+    fun listNamePatternsWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<NamePatternsResponse?> {
         val localVariableConfig = listNamePatternsRequestConfig(domain = domain, first = first, last = last)
 
         return request<Unit, NamePatternsResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun listNamePatternsAsyncWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<NamePatternsResponse?> {
+        val localVariableConfig = listNamePatternsRequestConfig(domain = domain, first = first, last = last)
+
+        return requestAsync<Unit, NamePatternsResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -197,8 +226,27 @@ open class NamesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun verifyName(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null, cacheMaxAge: CacheMaxAgeVerifyName? = null, onlyIfFree: OnlyIfFreeVerifyName? = null) : NameVerificationResponse {
-        val localVarResponse = verifyNameWithHttpInfo(domain = domain, first = first, last = last, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
+    fun verifyName(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null, cacheMaxAge: CacheMaxAgeVerifyName? = null, onlyIfFree: OnlyIfFreeVerifyName? = null, requestOptions: RequestOptions = RequestOptions()) : NameVerificationResponse {
+        val localVarResponse = verifyNameWithHttpInfo(domain = domain, first = first, last = last, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as NameVerificationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyNameAsync(domain: kotlin.String, first: kotlin.String? = null, last: kotlin.String? = null, cacheMaxAge: CacheMaxAgeVerifyName? = null, onlyIfFree: OnlyIfFreeVerifyName? = null, requestOptions: RequestOptions = RequestOptions()) : NameVerificationResponse {
+        val localVarResponse = verifyNameAsyncWithHttpInfo(domain = domain, first = first, last = last, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as NameVerificationResponse
@@ -230,11 +278,20 @@ open class NamesApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun verifyNameWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?, cacheMaxAge: CacheMaxAgeVerifyName?, onlyIfFree: OnlyIfFreeVerifyName?) : ApiResponse<NameVerificationResponse?> {
+    fun verifyNameWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?, cacheMaxAge: CacheMaxAgeVerifyName?, onlyIfFree: OnlyIfFreeVerifyName?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<NameVerificationResponse?> {
         val localVariableConfig = verifyNameRequestConfig(domain = domain, first = first, last = last, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
 
         return request<Unit, NameVerificationResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyNameAsyncWithHttpInfo(domain: kotlin.String, first: kotlin.String?, last: kotlin.String?, cacheMaxAge: CacheMaxAgeVerifyName?, onlyIfFree: OnlyIfFreeVerifyName?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<NameVerificationResponse?> {
+        val localVariableConfig = verifyNameRequestConfig(domain = domain, first = first, last = last, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
+
+        return requestAsync<Unit, NameVerificationResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

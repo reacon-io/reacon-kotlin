@@ -32,6 +32,7 @@ import io.reacon.sdk.kotlin.models.ApiKeyIdentity
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -46,7 +47,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class IdentityApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class IdentityApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -67,8 +68,27 @@ open class IdentityApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getApiKeyIdentity() : ApiKeyIdentity {
-        val localVarResponse = getApiKeyIdentityWithHttpInfo()
+    fun getApiKeyIdentity(requestOptions: RequestOptions = RequestOptions()) : ApiKeyIdentity {
+        val localVarResponse = getApiKeyIdentityWithHttpInfo(requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ApiKeyIdentity
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getApiKeyIdentityAsync(requestOptions: RequestOptions = RequestOptions()) : ApiKeyIdentity {
+        val localVarResponse = getApiKeyIdentityAsyncWithHttpInfo(requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as ApiKeyIdentity
@@ -95,11 +115,20 @@ open class IdentityApi(client: Call.Factory = ApiClient.defaultClient) : ApiClie
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getApiKeyIdentityWithHttpInfo() : ApiResponse<ApiKeyIdentity?> {
+    fun getApiKeyIdentityWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ApiKeyIdentity?> {
         val localVariableConfig = getApiKeyIdentityRequestConfig()
 
         return request<Unit, ApiKeyIdentity>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getApiKeyIdentityAsyncWithHttpInfo(requestOptions: RequestOptions = RequestOptions()) : ApiResponse<ApiKeyIdentity?> {
+        val localVariableConfig = getApiKeyIdentityRequestConfig()
+
+        return requestAsync<Unit, ApiKeyIdentity>(
+            localVariableConfig, requestOptions
         )
     }
 

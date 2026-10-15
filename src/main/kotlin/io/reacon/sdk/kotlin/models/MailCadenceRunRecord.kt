@@ -53,6 +53,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param lastError 
  * @param leaseExpiresAt 
  * @param leaseOwner 
+ * @param messageEditRevision 
  * @param outcome 
  * @param pendingMessageId 
  * @param pendingNextNodeId 
@@ -154,6 +155,10 @@ data class MailCadenceRunRecord (
     @get:JsonProperty("leaseOwner")
     val leaseOwner: kotlin.String? = null,
 
+    @param:JsonProperty("messageEditRevision")
+    @get:JsonProperty("messageEditRevision")
+    val messageEditRevision: java.math.BigDecimal? = null,
+
     @param:JsonProperty("outcome")
     @get:JsonProperty("outcome")
     val outcome: kotlin.String? = null,
@@ -171,14 +176,14 @@ data class MailCadenceRunRecord (
     val taskId: kotlin.String? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("actorId", "attemptCount", "cadenceId", "cadenceVersion", "contactId", "createdAt", "currentNodeId", "dueAt", "id", "idempotencyKey", "mailboxId", "status", "tenantId", "updatedAt", "version", if (audienceListId != null) "audienceListId" else null, if (campaignId != null) "campaignId" else null, if (campaignName != null) "campaignName" else null, if (experimentContexts != null) "experimentContexts" else null, if (lastAcceptedMessageId != null) "lastAcceptedMessageId" else null, if (lastError != null) "lastError" else null, if (leaseExpiresAt != null) "leaseExpiresAt" else null, if (leaseOwner != null) "leaseOwner" else null, if (outcome != null) "outcome" else null, if (pendingMessageId != null) "pendingMessageId" else null, if (pendingNextNodeId != null) "pendingNextNodeId" else null, if (taskId != null) "taskId" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("actorId", "attemptCount", "cadenceId", "cadenceVersion", "contactId", "createdAt", "currentNodeId", "dueAt", "id", "idempotencyKey", "mailboxId", "status", "tenantId", "updatedAt", "version", if (audienceListId != null) "audienceListId" else null, if (campaignId != null) "campaignId" else null, if (campaignName != null) "campaignName" else null, if (experimentContexts != null) "experimentContexts" else null, if (lastAcceptedMessageId != null) "lastAcceptedMessageId" else null, if (lastError != null) "lastError" else null, if (leaseExpiresAt != null) "leaseExpiresAt" else null, if (leaseOwner != null) "leaseOwner" else null, if (messageEditRevision != null) "messageEditRevision" else null, if (outcome != null) "outcome" else null, if (pendingMessageId != null) "pendingMessageId" else null, if (pendingNextNodeId != null) "pendingNextNodeId" else null, if (taskId != null) "taskId" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("actorId", "attemptCount", "cadenceId", "cadenceVersion", "contactId", "createdAt", "currentNodeId", "dueAt", "id", "idempotencyKey", "mailboxId", "status", "tenantId", "updatedAt", "version", "audienceListId", "campaignId", "campaignName", "experimentContexts", "lastAcceptedMessageId", "lastError", "leaseExpiresAt", "leaseOwner", "outcome", "pendingMessageId", "pendingNextNodeId", "taskId")
+    override val reaconKnownFields: Set<String> get() = setOf("actorId", "attemptCount", "cadenceId", "cadenceVersion", "contactId", "createdAt", "currentNodeId", "dueAt", "id", "idempotencyKey", "mailboxId", "status", "tenantId", "updatedAt", "version", "audienceListId", "campaignId", "campaignName", "experimentContexts", "lastAcceptedMessageId", "lastError", "leaseExpiresAt", "leaseOwner", "messageEditRevision", "outcome", "pendingMessageId", "pendingNextNodeId", "taskId")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("actorId", "attemptCount", "cadenceId", "cadenceVersion", "contactId", "createdAt", "currentNodeId", "dueAt", "id", "idempotencyKey", "mailboxId", "status", "tenantId", "updatedAt", "version")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (audienceListId == null) "audienceListId" else null, if (campaignId == null) "campaignId" else null, if (campaignName == null) "campaignName" else null, if (experimentContexts == null) "experimentContexts" else null, if (lastAcceptedMessageId == null) "lastAcceptedMessageId" else null, if (lastError == null) "lastError" else null, if (leaseExpiresAt == null) "leaseExpiresAt" else null, if (leaseOwner == null) "leaseOwner" else null, if (outcome == null) "outcome" else null, if (pendingMessageId == null) "pendingMessageId" else null, if (pendingNextNodeId == null) "pendingNextNodeId" else null, if (taskId == null) "taskId" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (audienceListId == null) "audienceListId" else null, if (campaignId == null) "campaignId" else null, if (campaignName == null) "campaignName" else null, if (experimentContexts == null) "experimentContexts" else null, if (lastAcceptedMessageId == null) "lastAcceptedMessageId" else null, if (lastError == null) "lastError" else null, if (leaseExpiresAt == null) "leaseExpiresAt" else null, if (leaseOwner == null) "leaseOwner" else null, if (messageEditRevision == null) "messageEditRevision" else null, if (outcome == null) "outcome" else null, if (pendingMessageId == null) "pendingMessageId" else null, if (pendingNextNodeId == null) "pendingNextNodeId" else null, if (taskId == null) "taskId" else null)
 
 
 

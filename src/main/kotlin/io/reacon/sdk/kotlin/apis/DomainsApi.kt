@@ -34,6 +34,7 @@ import io.reacon.sdk.kotlin.models.DomainCounts
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -48,7 +49,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class DomainsApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -70,8 +71,27 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDomainCatchAll(domain: kotlin.String) : DomainCatchAll {
-        val localVarResponse = getDomainCatchAllWithHttpInfo(domain = domain)
+    fun getDomainCatchAll(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCatchAll {
+        val localVarResponse = getDomainCatchAllWithHttpInfo(domain = domain, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCatchAll
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCatchAllAsync(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCatchAll {
+        val localVarResponse = getDomainCatchAllAsyncWithHttpInfo(domain = domain, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCatchAll
@@ -99,11 +119,20 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDomainCatchAllWithHttpInfo(domain: kotlin.String) : ApiResponse<DomainCatchAll?> {
+    fun getDomainCatchAllWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCatchAll?> {
         val localVariableConfig = getDomainCatchAllRequestConfig(domain = domain)
 
         return request<Unit, DomainCatchAll>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCatchAllAsyncWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCatchAll?> {
+        val localVariableConfig = getDomainCatchAllRequestConfig(domain = domain)
+
+        return requestAsync<Unit, DomainCatchAll>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -143,8 +172,27 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDomainCompanyContext(domain: kotlin.String) : DomainCompanyContext {
-        val localVarResponse = getDomainCompanyContextWithHttpInfo(domain = domain)
+    fun getDomainCompanyContext(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCompanyContext {
+        val localVarResponse = getDomainCompanyContextWithHttpInfo(domain = domain, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCompanyContext
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCompanyContextAsync(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCompanyContext {
+        val localVarResponse = getDomainCompanyContextAsyncWithHttpInfo(domain = domain, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCompanyContext
@@ -172,11 +220,20 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDomainCompanyContextWithHttpInfo(domain: kotlin.String) : ApiResponse<DomainCompanyContext?> {
+    fun getDomainCompanyContextWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCompanyContext?> {
         val localVariableConfig = getDomainCompanyContextRequestConfig(domain = domain)
 
         return request<Unit, DomainCompanyContext>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCompanyContextAsyncWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCompanyContext?> {
+        val localVariableConfig = getDomainCompanyContextRequestConfig(domain = domain)
+
+        return requestAsync<Unit, DomainCompanyContext>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -216,8 +273,27 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun getDomainCounts(domain: kotlin.String) : DomainCounts {
-        val localVarResponse = getDomainCountsWithHttpInfo(domain = domain)
+    fun getDomainCounts(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCounts {
+        val localVarResponse = getDomainCountsWithHttpInfo(domain = domain, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCounts
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCountsAsync(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : DomainCounts {
+        val localVarResponse = getDomainCountsAsyncWithHttpInfo(domain = domain, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as DomainCounts
@@ -245,11 +321,20 @@ open class DomainsApi(client: Call.Factory = ApiClient.defaultClient) : ApiClien
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun getDomainCountsWithHttpInfo(domain: kotlin.String) : ApiResponse<DomainCounts?> {
+    fun getDomainCountsWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCounts?> {
         val localVariableConfig = getDomainCountsRequestConfig(domain = domain)
 
         return request<Unit, DomainCounts>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun getDomainCountsAsyncWithHttpInfo(domain: kotlin.String, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<DomainCounts?> {
+        val localVariableConfig = getDomainCountsRequestConfig(domain = domain)
+
+        return requestAsync<Unit, DomainCounts>(
+            localVariableConfig, requestOptions
         )
     }
 

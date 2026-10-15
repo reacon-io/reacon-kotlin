@@ -34,6 +34,7 @@ import io.reacon.sdk.kotlin.models.VerificationResponse
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
+import io.reacon.sdk.kotlin.infrastructure.RequestOptions
 import io.reacon.sdk.kotlin.infrastructure.ApiClient
 import io.reacon.sdk.kotlin.infrastructure.ApiResponse
 import io.reacon.sdk.kotlin.infrastructure.ClientException
@@ -48,7 +49,7 @@ import io.reacon.sdk.kotlin.infrastructure.ResponseType
 import io.reacon.sdk.kotlin.infrastructure.Success
 import io.reacon.sdk.kotlin.infrastructure.toMultiValue
 
-open class VerificationApi(client: Call.Factory = ApiClient.defaultClient) : ApiClient(client) {
+open class VerificationApi(client: Call.Factory? = null, requestTimeout: java.time.Duration = java.time.Duration.ofSeconds(30)) : ApiClient(client, requestTimeout) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -70,8 +71,27 @@ open class VerificationApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun verifyBatch(batchVerificationRequest: BatchVerificationRequest) : BatchVerificationResponse {
-        val localVarResponse = verifyBatchWithHttpInfo(batchVerificationRequest = batchVerificationRequest)
+    fun verifyBatch(batchVerificationRequest: BatchVerificationRequest, requestOptions: RequestOptions = RequestOptions()) : BatchVerificationResponse {
+        val localVarResponse = verifyBatchWithHttpInfo(batchVerificationRequest = batchVerificationRequest, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as BatchVerificationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyBatchAsync(batchVerificationRequest: BatchVerificationRequest, requestOptions: RequestOptions = RequestOptions()) : BatchVerificationResponse {
+        val localVarResponse = verifyBatchAsyncWithHttpInfo(batchVerificationRequest = batchVerificationRequest, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as BatchVerificationResponse
@@ -99,11 +119,20 @@ open class VerificationApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun verifyBatchWithHttpInfo(batchVerificationRequest: BatchVerificationRequest) : ApiResponse<BatchVerificationResponse?> {
+    fun verifyBatchWithHttpInfo(batchVerificationRequest: BatchVerificationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<BatchVerificationResponse?> {
         val localVariableConfig = verifyBatchRequestConfig(batchVerificationRequest = batchVerificationRequest)
 
         return request<BatchVerificationRequest, BatchVerificationResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyBatchAsyncWithHttpInfo(batchVerificationRequest: BatchVerificationRequest, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<BatchVerificationResponse?> {
+        val localVariableConfig = verifyBatchRequestConfig(batchVerificationRequest = batchVerificationRequest)
+
+        return requestAsync<BatchVerificationRequest, BatchVerificationResponse>(
+            localVariableConfig, requestOptions
         )
     }
 
@@ -182,8 +211,27 @@ open class VerificationApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun verifyEmail(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail? = null, onlyIfFree: OnlyIfFreeVerifyEmail? = null) : VerificationResponse {
-        val localVarResponse = verifyEmailWithHttpInfo(email = email, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
+    fun verifyEmail(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail? = null, onlyIfFree: OnlyIfFreeVerifyEmail? = null, requestOptions: RequestOptions = RequestOptions()) : VerificationResponse {
+        val localVarResponse = verifyEmailWithHttpInfo(email = email, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree, requestOptions = requestOptions)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as VerificationResponse
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyEmailAsync(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail? = null, onlyIfFree: OnlyIfFreeVerifyEmail? = null, requestOptions: RequestOptions = RequestOptions()) : VerificationResponse {
+        val localVarResponse = verifyEmailAsyncWithHttpInfo(email = email, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree, requestOptions = requestOptions)
 
         return when (localVarResponse.responseType) {
             ResponseType.Success -> (localVarResponse as Success<*>).data as VerificationResponse
@@ -213,11 +261,20 @@ open class VerificationApi(client: Call.Factory = ApiClient.defaultClient) : Api
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun verifyEmailWithHttpInfo(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail?, onlyIfFree: OnlyIfFreeVerifyEmail?) : ApiResponse<VerificationResponse?> {
+    fun verifyEmailWithHttpInfo(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail?, onlyIfFree: OnlyIfFreeVerifyEmail?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<VerificationResponse?> {
         val localVariableConfig = verifyEmailRequestConfig(email = email, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
 
         return request<Unit, VerificationResponse>(
-            localVariableConfig
+            localVariableConfig, requestOptions
+        )
+    }
+
+    /** Cancellable coroutine counterpart; shares the blocking method's wire contract. */
+    suspend fun verifyEmailAsyncWithHttpInfo(email: kotlin.String, cacheMaxAge: CacheMaxAgeVerifyEmail?, onlyIfFree: OnlyIfFreeVerifyEmail?, requestOptions: RequestOptions = RequestOptions()) : ApiResponse<VerificationResponse?> {
+        val localVariableConfig = verifyEmailRequestConfig(email = email, cacheMaxAge = cacheMaxAge, onlyIfFree = onlyIfFree)
+
+        return requestAsync<Unit, VerificationResponse>(
+            localVariableConfig, requestOptions
         )
     }
 

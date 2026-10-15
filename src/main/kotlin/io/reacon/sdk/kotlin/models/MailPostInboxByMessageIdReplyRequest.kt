@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  *
  * @param clientRequestId 
  * @param text 
+ * @param draftRevision 
  */
 
 
@@ -44,15 +45,19 @@ data class MailPostInboxByMessageIdReplyRequest (
     @get:JsonProperty("text")
     val text: kotlin.String,
 
+    @param:JsonProperty("draftRevision")
+    @get:JsonProperty("draftRevision")
+    val draftRevision: kotlin.Int? = null,
+
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("clientRequestId", "text"),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("clientRequestId", "text", if (draftRevision != null) "draftRevision" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("clientRequestId", "text")
+    override val reaconKnownFields: Set<String> get() = setOf("clientRequestId", "text", "draftRevision")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("clientRequestId", "text")
-    override fun reaconNullFields(): Set<String> = setOfNotNull()
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (draftRevision == null) "draftRevision" else null)
 
 
 

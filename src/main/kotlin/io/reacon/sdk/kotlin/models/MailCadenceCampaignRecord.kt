@@ -52,6 +52,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @param validatedCount 
  * @param version 
  * @param activatedAt 
+ * @param archivedAt 
  * @param completedAt 
  * @param lastError 
  * @param leaseExpiresAt 
@@ -155,6 +156,10 @@ data class MailCadenceCampaignRecord (
     @get:JsonProperty("activatedAt")
     val activatedAt: kotlin.String? = null,
 
+    @param:JsonProperty("archivedAt")
+    @get:JsonProperty("archivedAt")
+    val archivedAt: kotlin.String? = null,
+
     @param:JsonProperty("completedAt")
     @get:JsonProperty("completedAt")
     val completedAt: kotlin.String? = null,
@@ -180,14 +185,14 @@ data class MailCadenceCampaignRecord (
     val mailboxPoolId: kotlin.String? = null,
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override var reaconFieldPresence: Set<String> = setOfNotNull("actorId", "attemptCount", "audienceCount", "audienceListId", "cadenceId", "cadenceVersion", "createdAt", "enrolledCount", "enrollmentMode", "failedCount", "id", "idempotencyKey", "invalidCount", "name", "nextAttemptAt", "scheduledAt", "skippedCount", "status", "tenantId", "updatedAt", "validatedCount", "version", if (activatedAt != null) "activatedAt" else null, if (completedAt != null) "completedAt" else null, if (lastError != null) "lastError" else null, if (leaseExpiresAt != null) "leaseExpiresAt" else null, if (leaseOwner != null) "leaseOwner" else null, if (mailboxId != null) "mailboxId" else null, if (mailboxPoolId != null) "mailboxPoolId" else null),
+    override var reaconFieldPresence: Set<String> = setOfNotNull("actorId", "attemptCount", "audienceCount", "audienceListId", "cadenceId", "cadenceVersion", "createdAt", "enrolledCount", "enrollmentMode", "failedCount", "id", "idempotencyKey", "invalidCount", "name", "nextAttemptAt", "scheduledAt", "skippedCount", "status", "tenantId", "updatedAt", "validatedCount", "version", if (activatedAt != null) "activatedAt" else null, if (archivedAt != null) "archivedAt" else null, if (completedAt != null) "completedAt" else null, if (lastError != null) "lastError" else null, if (leaseExpiresAt != null) "leaseExpiresAt" else null, if (leaseOwner != null) "leaseOwner" else null, if (mailboxId != null) "mailboxId" else null, if (mailboxPoolId != null) "mailboxPoolId" else null),
 ) : io.reacon.sdk.kotlin.infrastructure.FieldPresence {
 
     @get:com.fasterxml.jackson.annotation.JsonIgnore
-    override val reaconKnownFields: Set<String> get() = setOf("actorId", "attemptCount", "audienceCount", "audienceListId", "cadenceId", "cadenceVersion", "createdAt", "enrolledCount", "enrollmentMode", "failedCount", "id", "idempotencyKey", "invalidCount", "name", "nextAttemptAt", "scheduledAt", "skippedCount", "status", "tenantId", "updatedAt", "validatedCount", "version", "activatedAt", "completedAt", "lastError", "leaseExpiresAt", "leaseOwner", "mailboxId", "mailboxPoolId")
+    override val reaconKnownFields: Set<String> get() = setOf("actorId", "attemptCount", "audienceCount", "audienceListId", "cadenceId", "cadenceVersion", "createdAt", "enrolledCount", "enrollmentMode", "failedCount", "id", "idempotencyKey", "invalidCount", "name", "nextAttemptAt", "scheduledAt", "skippedCount", "status", "tenantId", "updatedAt", "validatedCount", "version", "activatedAt", "archivedAt", "completedAt", "lastError", "leaseExpiresAt", "leaseOwner", "mailboxId", "mailboxPoolId")
     @get:com.fasterxml.jackson.annotation.JsonIgnore
     override val reaconRequiredFields: Set<String> get() = setOf("actorId", "attemptCount", "audienceCount", "audienceListId", "cadenceId", "cadenceVersion", "createdAt", "enrolledCount", "enrollmentMode", "failedCount", "id", "idempotencyKey", "invalidCount", "name", "nextAttemptAt", "scheduledAt", "skippedCount", "status", "tenantId", "updatedAt", "validatedCount", "version")
-    override fun reaconNullFields(): Set<String> = setOfNotNull(if (activatedAt == null) "activatedAt" else null, if (completedAt == null) "completedAt" else null, if (lastError == null) "lastError" else null, if (leaseExpiresAt == null) "leaseExpiresAt" else null, if (leaseOwner == null) "leaseOwner" else null, if (mailboxId == null) "mailboxId" else null, if (mailboxPoolId == null) "mailboxPoolId" else null)
+    override fun reaconNullFields(): Set<String> = setOfNotNull(if (activatedAt == null) "activatedAt" else null, if (archivedAt == null) "archivedAt" else null, if (completedAt == null) "completedAt" else null, if (lastError == null) "lastError" else null, if (leaseExpiresAt == null) "leaseExpiresAt" else null, if (leaseOwner == null) "leaseOwner" else null, if (mailboxId == null) "mailboxId" else null, if (mailboxPoolId == null) "mailboxPoolId" else null)
 
 
 

@@ -39,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 
-data class MailSignatureCandidateFieldsPhonesInner (
+data class MailGetSignaturesResponse200CandidatesInnerFieldsPhonesInner (
 
     @param:JsonProperty(value = "confidence", required = true)
     @get:JsonProperty("confidence")

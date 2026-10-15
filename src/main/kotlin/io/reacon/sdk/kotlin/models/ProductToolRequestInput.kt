@@ -38,6 +38,14 @@ sealed class ProductToolRequestInput {
     data class ProductSequenceRecipientAddInput(val value: io.reacon.sdk.kotlin.models.ProductSequenceRecipientAddInput) : ProductToolRequestInput()
     data class ProductSequenceRecipientCancelInput(val value: io.reacon.sdk.kotlin.models.ProductSequenceRecipientCancelInput) : ProductToolRequestInput()
     data class ProductSequenceStartInput(val value: io.reacon.sdk.kotlin.models.ProductSequenceStartInput) : ProductToolRequestInput()
+    data class ProductMailSequenceDraftSaveInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceDraftSaveInput) : ProductToolRequestInput()
+    data class ProductMailSequenceAddAudienceInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceAddAudienceInput) : ProductToolRequestInput()
+    data class ProductMailSequenceReadinessInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceReadinessInput) : ProductToolRequestInput()
+    data class ProductMailSequencePublishInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequencePublishInput) : ProductToolRequestInput()
+    data class ProductMailSequenceRecipientsListInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceRecipientsListInput) : ProductToolRequestInput()
+    data class ProductMailSequenceAddAbInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceAddAbInput) : ProductToolRequestInput()
+    data class ProductMailSequenceStateInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceStateInput) : ProductToolRequestInput()
+    data class ProductMailSequenceResultsInput(val value: io.reacon.sdk.kotlin.models.ProductMailSequenceResultsInput) : ProductToolRequestInput()
     data class ProductConnectedAppPushInput(val value: io.reacon.sdk.kotlin.models.ProductConnectedAppPushInput) : ProductToolRequestInput()
 
     class Serializer : JsonSerializer<ProductToolRequestInput>() {
@@ -71,6 +79,14 @@ sealed class ProductToolRequestInput {
                 is ProductSequenceRecipientAddInput -> provider.defaultSerializeValue(value.value, generator)
                 is ProductSequenceRecipientCancelInput -> provider.defaultSerializeValue(value.value, generator)
                 is ProductSequenceStartInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceDraftSaveInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceAddAudienceInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceReadinessInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequencePublishInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceRecipientsListInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceAddAbInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceStateInput -> provider.defaultSerializeValue(value.value, generator)
+                is ProductMailSequenceResultsInput -> provider.defaultSerializeValue(value.value, generator)
                 is ProductConnectedAppPushInput -> provider.defaultSerializeValue(value.value, generator)
             }
         }
@@ -78,7 +94,7 @@ sealed class ProductToolRequestInput {
     class Deserializer : JsonDeserializer<ProductToolRequestInput>() {
         override fun getNullValue(context: DeserializationContext): ProductToolRequestInput = throw JsonMappingException.from(context.parser, "ProductToolRequestInput must be an object")
         override fun deserialize(parser: JsonParser, context: DeserializationContext): ProductToolRequestInput {
-            val tree = parser.codec.readTree<JsonNode>(parser)
+            val tree: JsonNode = context.readTree(parser)
             if (!tree.isObject) throw JsonMappingException.from(parser, "ProductToolRequestInput must be an object")
             val keys = tree.fieldNames().asSequence().toSet()
             var lastFailure: Exception? = null
@@ -151,7 +167,7 @@ sealed class ProductToolRequestInput {
             if (keys.all { it in setOf<String>("companyId", "idempotencyKey", "listId") } && setOf<String>("listId", "companyId", "idempotencyKey").all { it in keys }) {
                 try { return ProductCompanyListAddInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductCompanyListAddInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
             }
-            if (keys.all { it in setOf<String>("sequenceId") } && setOf<String>("sequenceId").all { it in keys }) {
+            if (keys.all { it in setOf<String>("limit", "offset", "sequenceId") } && setOf<String>("sequenceId").all { it in keys }) {
                 try { return ProductSequenceRecipientsListInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductSequenceRecipientsListInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
             }
             if (keys.all { it in setOf<String>("idempotencyKey", "recipients", "sequenceId") } && setOf<String>("sequenceId", "recipients", "idempotencyKey").all { it in keys }) {
@@ -163,8 +179,32 @@ sealed class ProductToolRequestInput {
             if (keys.all { it in setOf<String>("idempotencyKey", "recipientId") } && setOf<String>("recipientId", "idempotencyKey").all { it in keys }) {
                 try { return ProductSequenceRecipientCancelInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductSequenceRecipientCancelInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
             }
-            if (keys.all { it in setOf<String>("idempotencyKey", "sequenceId") } && setOf<String>("sequenceId", "idempotencyKey").all { it in keys }) {
+            if (keys.all { it in setOf<String>("audienceListId", "cadenceId", "cadenceVersion", "enrollmentMode", "idempotencyKey", "mailboxId", "mailboxPoolId", "name", "scheduledAt") } && setOf<String>("name", "cadenceId", "cadenceVersion", "audienceListId", "idempotencyKey").all { it in keys }) {
                 try { return ProductSequenceStartInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductSequenceStartInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("content", "expectedRevision", "id", "idempotencyKey", "status") } && setOf<String>("id", "expectedRevision", "status", "content", "idempotencyKey").all { it in keys } && tree.get("status")?.toString() == "\"draft\"") {
+                try { return ProductMailSequenceDraftSaveInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceDraftSaveInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("audienceListId", "campaignId", "expectedVersion", "idempotencyKey") } && setOf<String>("campaignId", "expectedVersion", "audienceListId", "idempotencyKey").all { it in keys }) {
+                try { return ProductMailSequenceAddAudienceInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceAddAudienceInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("draftId", "expectedRevision") } && setOf<String>("draftId", "expectedRevision").all { it in keys }) {
+                try { return ProductMailSequenceReadinessInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceReadinessInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("draftId", "expectedRevision", "idempotencyKey") } && setOf<String>("draftId", "expectedRevision", "idempotencyKey").all { it in keys }) {
+                try { return ProductMailSequencePublishInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequencePublishInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("campaignId", "limit", "offset") } && setOf<String>("campaignId").all { it in keys }) {
+                try { return ProductMailSequenceRecipientsListInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceRecipientsListInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("aWeight", "campaignId", "expectedVersion", "idempotencyKey", "stepId", "variantB") } && setOf<String>("campaignId", "expectedVersion", "stepId", "variantB", "aWeight", "idempotencyKey").all { it in keys }) {
+                try { return ProductMailSequenceAddAbInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceAddAbInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("action", "campaignId", "expectedVersion", "idempotencyKey") } && setOf<String>("campaignId", "expectedVersion", "action", "idempotencyKey").all { it in keys }) {
+                try { return ProductMailSequenceStateInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceStateInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
+            }
+            if (keys.all { it in setOf<String>("campaignId") } && setOf<String>("campaignId").all { it in keys }) {
+                try { return ProductMailSequenceResultsInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductMailSequenceResultsInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
             }
             if (keys.all { it in setOf<String>("connectionId", "idempotencyKey", "leadIds") } && setOf<String>("connectionId", "leadIds", "idempotencyKey").all { it in keys }) {
                 try { return ProductConnectedAppPushInput(parser.codec.treeToValue(tree, io.reacon.sdk.kotlin.models.ProductConnectedAppPushInput::class.java)) } catch (error: com.fasterxml.jackson.core.JacksonException) { lastFailure = error }
