@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "family": "kotlin",
-  "packageVersion": "6.0.1-beta.1",
-  "canonicalVersion": "6.0.1-beta.1",
+  "packageVersion": "6.0.2-beta.1",
+  "canonicalVersion": "6.0.2-beta.1",
   "image": "gradle@sha256:fa192d8429108392649083b819ace29e681911dfed35ec3899dd3a652fa75e1e",
   "contractSha256": "d126f8da770677fa40353a20ca3aa7aca820873fb11fb8e53022b6f6c691b266",
   "recordingIndexSha256": "063ea925b10d8c658ad6438e472ac62d1ffa0519b848cfa00f1a13e2d2906279",
